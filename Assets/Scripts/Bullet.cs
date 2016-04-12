@@ -17,13 +17,8 @@ public class Bullet : MonoBehaviour {
 		target = char_ref.transform.position;
 		Vector2 distance = char_ref.transform.position - transform.position;
 
-<<<<<<< HEAD
 		rb.AddForce (distance.normalized * 250);	
-=======
-		rb.AddForce (distance.normalized * 200);	
 
-		clock = 0.0f;
->>>>>>> origin/master
 	}
 	
 	// Update is called once per frame

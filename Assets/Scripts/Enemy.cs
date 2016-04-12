@@ -58,11 +58,8 @@ public class Enemy : MonoBehaviour {
 
 		time += Time.deltaTime;
 
-<<<<<<< HEAD
 		if (time > 0.5f && dead==false) {
-=======
-		if (time > .5f) {
->>>>>>> origin/master
+
 			Instantiate (bullet_ref, this.transform.position, transform.rotation);
 		
 			time = 0.0f;
