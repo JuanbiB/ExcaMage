@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		char_ref = GameObject.Find ("Character");
+		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		rb = GetComponent<Rigidbody2D> ();
 		target = char_ref.transform.position;
 		Vector2 distance = char_ref.transform.position - transform.position;

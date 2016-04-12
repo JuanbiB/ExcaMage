@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class BoardCreator : MonoBehaviour
 {
+	void Update()
+	{
+		Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+		Vector3 cameraPos = new Vector3 (playerPos.x, playerPos.y, -8);
+		Camera.main.transform.position = cameraPos;
+	}
+
 	// The type of tile that will be laid in a specific position.
 	public enum TileType
 	{
-		Wall, Floor, Hole
+		Wall, Floor, Hole, Enemy
 	}
 
 
@@ -20,6 +27,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] wallTiles;                            // An array of wall tile prefabs.
 	public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
 	public GameObject[] holeTiles;    
+	public GameObject[] Baddies;
 	public GameObject player;
 
 	private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
@@ -80,8 +88,9 @@ public class BoardCreator : MonoBehaviour
 	
 		Vector3 playerPos = new Vector3 (rooms[0].xPos, rooms[0].yPos, -3);
 		Instantiate(player, playerPos, Quaternion.identity);
-		
 
+		Vector3 cameraPos = new Vector3 (playerPos.x, playerPos.y, -8);
+		Camera.main.transform.position = cameraPos;
 		for (int i = 1; i < rooms.Length; i++)
 		{
 			// Create a room.
@@ -125,8 +134,11 @@ public class BoardCreator : MonoBehaviour
 
 					// The coordinates in the jagged array are based on the room's position and it's width and height.
 					int rand = UnityEngine.Random.Range(0, 10);
+					int rand1 = UnityEngine.Random.Range(0, 25);
 					if (rand == 5) {
 						tiles [xCoord] [yCoord] = TileType.Hole;
+					} else if (rand1 == 4) {
+						tiles [xCoord] [yCoord] = TileType.Enemy;
 					} else {
 						tiles [xCoord] [yCoord] = TileType.Floor;
 					}
@@ -198,6 +210,12 @@ public class BoardCreator : MonoBehaviour
 					InstantiateFromArray (holeTiles, i, j);
 				}
 
+				if (tiles[i][j] == TileType.Enemy)
+				{
+					// ... instantiate a hole over the top.
+					InstantiateFromArray (Baddies, i, j);
+				}
+
 			}
 		}
 	}
@@ -263,7 +281,7 @@ public class BoardCreator : MonoBehaviour
 
 		// Create an instance of the prefab from the random index of the array.
 		GameObject tileInstance = Instantiate(prefabs[randomIndex], position, Quaternion.identity) as GameObject;
-		if (prefabs == wallTiles || prefabs == holeTiles) {
+		if (prefabs == wallTiles || prefabs == holeTiles || prefabs == Baddies) {
 			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -1);
 			tileInstance.transform.position = pos;
 		}

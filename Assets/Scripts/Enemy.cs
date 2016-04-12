@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour {
 
 		move_speed = 2f;
 
-		char_ref = GameObject.Find ("Character");
+		char_ref = GameObject.FindGameObjectWithTag ("Player");
 
 
 		time = 0.0f;

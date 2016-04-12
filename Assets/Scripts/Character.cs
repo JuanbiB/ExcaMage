@@ -149,7 +149,7 @@ public class Character : MonoBehaviour {
         else
         {
             // Starting small, then increasing in size, simulating "pushing".
-            while (magnet_wave.transform.localScale.x < 8)
+            while (magnet_wave.transform.localScale.x < 3)
             {
                 magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 20;
                 yield return null;
