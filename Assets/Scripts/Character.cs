@@ -6,8 +6,11 @@ public class Character : MonoBehaviour {
     Rigidbody2D body;
     Rigidbody2D enemybody;
     GameObject[] go;
-    GameObject magnet_wave;
-    SpriteRenderer sp_render;
+	SpriteRenderer sp_render;
+
+	// Prefabs 
+    public GameObject magnet_wave_prefab;
+	GameObject magnet_wave;
     public GameObject broken_tile;
 
     int character_speed;
@@ -34,7 +37,8 @@ public class Character : MonoBehaviour {
         go = GameObject.FindGameObjectsWithTag("Enemy");
 
         // The sprite that represents the "magnet wave". Pure aesthetics.
-        magnet_wave = GameObject.Find("Magnet-Wave");
+		Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
+		magnet_wave = GameObject.Find ("Magnet-Wave(Clone)");
 
         // How fast toon moves.
         character_speed = 4;
@@ -142,17 +146,21 @@ public class Character : MonoBehaviour {
             }
         }
     }
+
+	void fixConstants(){
+		// Put in place to prevent enemies from transmitting velocity to character if they hit him. 
+		body.velocity = Vector3.zero;
+		// This keeps the magnet sprite always at characters position, and "invisible" so it's ready to be used when we push or pull.
+		magnet_wave.transform.position = this.transform.position;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-        // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
-        body.velocity = Vector3.zero;
-        // This keeps the magnet sprite always at characters position, and "invisible" so it's ready to be used when we push or pull.
-        magnet_wave.transform.position = this.transform.position;
 
+		fixConstants ();
         handleInput();
-
         check_drag();
+
 	}
 
     public IEnumerator magnet_animation(int type)
