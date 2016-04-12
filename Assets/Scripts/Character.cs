@@ -13,8 +13,10 @@ public class Character : MonoBehaviour {
     int character_speed;
     float time;
     float counter;
+    int allowed_radius;
     bool hit;
     bool animation_happening;
+
 
     // Use this for initialization
     void Start () {
@@ -40,6 +42,9 @@ public class Character : MonoBehaviour {
         // Lock so that you don't push and pull and the same time.
         animation_happening = false;
 
+        //How far your magnet power should be able to reach
+        allowed_radius = 6;
+
 	}
 
     void applyEnemies(int porp)
@@ -56,12 +61,18 @@ public class Character : MonoBehaviour {
                 float force_size = 10.0f;
                 dir.Normalize();    // Makes the distance have a magnitude of 1.
 
-				if (porp == 1) {
-                    // Inverse linear force equation.
-                    enemybody.AddForce(dir * (force_size / distance) * 50);
+                float distance_check = Vector2.Distance(transform.position, go[i].transform.position);
+                if (distance_check < allowed_radius)
+                {
+                    if (porp == 1)
+                    {
+                        // Inverse linear force equation.
+                        enemybody.AddForce(dir * (force_size / distance) * 50);
 
-                } else {
-                    enemybody.AddForce(-dir * (force_size / distance) * 50);
+                    }
+                    else {
+                        enemybody.AddForce(-dir * (force_size / distance) * 50);
+                    }
                 }
 			}
         }

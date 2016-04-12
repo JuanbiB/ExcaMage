@@ -57,8 +57,10 @@ public class Enemy : MonoBehaviour {
 	void Update () {
 
 		time += Time.deltaTime;
+        float distance = Vector2.Distance(transform.position, char_ref.transform.position);
+        
 
-		if (time > 0.5f && dead==false) {
+		if (time > 0.5f && dead==false && distance < 6) {
 
 			Instantiate (bullet_ref, this.transform.position, transform.rotation);
 		
@@ -78,7 +80,7 @@ public class Enemy : MonoBehaviour {
 			Destroy (this.gameObject);
 		} else {
 			//Vector3 distance = new Vector3( Mathf.Clamp(this.transform.position.x, char_ref.transform.position.x
-			distance= (char_ref.transform.position - this.transform.position) ;
+			//distance= (char_ref.transform.position - this.transform.position) ;
 			//transform.position = Vector3.Lerp (this.transform.position, distance, move_speed*Time.deltaTime);
 
 		}
