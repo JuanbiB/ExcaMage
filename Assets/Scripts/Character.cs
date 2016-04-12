@@ -182,7 +182,7 @@ public class Character : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Enemy")
+		if (coll.gameObject.tag == "Enemy")
         {
             if (!hit)   // In place to prevent being damaged when you've already been recently damaged.
             {
@@ -190,5 +190,18 @@ public class Character : MonoBehaviour {
                 StartCoroutine(hit_animation());
             }
         }
+
     }
+
+	void OnTriggerEnter2D(Collider2D coll){
+		if (coll.gameObject.tag == "Bullet") {
+			if (!hit) {
+				print ("Shot");
+				StartCoroutine (hit_animation ());
+				Destroy (coll.gameObject);
+			} else {
+				Destroy (coll.gameObject);
+			}
+		}
+	}
 }
