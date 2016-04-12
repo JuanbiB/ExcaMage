@@ -190,12 +190,18 @@ public class Character : MonoBehaviour {
                 StartCoroutine(hit_animation());
             }
         }
+
+    }
+
+	void OnTriggerEnter2D(Collider2D coll){
 		if (coll.gameObject.tag == "Bullet") {
 			if (!hit) {
 				print ("Shot");
 				StartCoroutine (hit_animation ());
 				Destroy (coll.gameObject);
+			} else {
+				Destroy (coll.gameObject);
 			}
 		}
-    }
+	}
 }

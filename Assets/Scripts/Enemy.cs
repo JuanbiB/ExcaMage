@@ -20,12 +20,13 @@ public class Enemy : MonoBehaviour {
 
 	float time;
 
+
 	//TODO
 	//1. Create Enemy Movement that knows how to both
 	/// a) avoid pitfalls and spikes
 	/// b) Move towards the character
 	/// 
-	//2. Add shooting
+	//2. Add shooting -- DONE
 	/// </summary>
 
 
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour {
 
 		time = 0.0f;
 
+
 	}
 	
 	// Update is called once per frame
@@ -56,7 +58,7 @@ public class Enemy : MonoBehaviour {
 
 		time += Time.deltaTime;
 
-		if (time > 3) {
+		if (time > 0.5f && dead==false) {
 			Instantiate (bullet_ref, this.transform.position, transform.rotation);
 		
 			time = 0.0f;
@@ -84,6 +86,7 @@ public class Enemy : MonoBehaviour {
 	public IEnumerator fall_death(Vector2 pos){
 		body.constraints = RigidbodyConstraints2D.FreezeAll;
 		coll.isTrigger = true;
+		//dead = true;
 
 		float clock = 0.0f;
 		do
@@ -131,6 +134,7 @@ public class Enemy : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Pitfall")
         {
+			dead = true;
             StartCoroutine(fall_death(coll.gameObject.transform.position));
         }
         else if (coll.gameObject.tag == "Spike")
