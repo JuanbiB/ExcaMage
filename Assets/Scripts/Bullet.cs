@@ -14,15 +14,9 @@ public class Bullet : MonoBehaviour {
 		char_ref = GameObject.Find ("Character");
 		rb = GetComponent<Rigidbody2D> ();
 		target = char_ref.transform.position;
-		var angle = this.transform.position - char_ref.transform.position;
+		Vector2 distance = char_ref.transform.position - transform.position;
 
-		rb.AddForceAtPosition(target,transform.position) ;
-
-	
-
-
-		
-	
+		rb.AddForce (distance.normalized * 200);	
 	}
 	
 	// Update is called once per frame
