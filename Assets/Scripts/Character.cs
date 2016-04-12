@@ -77,16 +77,9 @@ public class Character : MonoBehaviour {
 			}
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
-        body.velocity = Vector3.zero;
-
-        // This keeps the magnet sprite always at characters position, and "invisible" so it's ready to be used when we push or pull.
-        magnet_wave.transform.position = this.transform.position;
-
+    void handleInput()
+    {
         //Movement
         if (Input.GetKey(KeyCode.W))
             transform.position += Vector3.up * Time.deltaTime * character_speed;
@@ -100,21 +93,7 @@ public class Character : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
             transform.position += -Vector3.right * Time.deltaTime * character_speed;
 
-        // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
-		for (int i = 0; i < go.Length; i++) {
-			if (go [i] != null) {
-
-				enemybody = go [i].GetComponent<Rigidbody2D> ();
-				enemybody.drag += Time.deltaTime * 3;
-
-                // When they reach a certain point the drag will make them stand still, so you want to reset it for the next time you AddForce.
-				if (enemybody.IsSleeping () || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K)) {
-					enemybody.drag = 0;
-					enemybody.velocity = Vector2.zero;
-				}
-			}
-		}
-
+        // Animation
         if (!animation_happening)
         {
             // Pull
@@ -135,11 +114,45 @@ public class Character : MonoBehaviour {
             }
         }
 
+        // Breaking of tile
         // Creates a broken tile to your right!
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(broken_tile, new Vector2(transform.position.x + 1, transform.position.y), transform.rotation);
         }
+    }
+
+    void check_drag()
+    {
+        // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
+        for (int i = 0; i < go.Length; i++)
+        {
+            if (go[i] != null)
+            {
+
+                enemybody = go[i].GetComponent<Rigidbody2D>();
+                enemybody.drag += Time.deltaTime * 3;
+
+                // When they reach a certain point the drag will make them stand still, so you want to reset it for the next time you AddForce.
+                if (enemybody.IsSleeping() || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K))
+                {
+                    enemybody.drag = 0;
+                    enemybody.velocity = Vector2.zero;
+                }
+            }
+        }
+    }
+	
+	// Update is called once per frame
+	void Update () {
+        // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
+        body.velocity = Vector3.zero;
+        // This keeps the magnet sprite always at characters position, and "invisible" so it's ready to be used when we push or pull.
+        magnet_wave.transform.position = this.transform.position;
+
+        handleInput();
+
+        check_drag();
 	}
 
     public IEnumerator magnet_animation(int type)
@@ -170,8 +183,6 @@ public class Character : MonoBehaviour {
         animation_happening = false;
     }
 
-    // This just reduces opacity and changes the color to red for 1.5f seconds. Ghost mechanic.
-    // TODO: Make it oscillate between low and high transparency, like most games when you get hit?
     public IEnumerator hit_animation()
     {
         hit = true;
@@ -201,7 +212,6 @@ public class Character : MonoBehaviour {
                 StartCoroutine(hit_animation());
             }
         }
-
     }
 
 	void OnTriggerEnter2D(Collider2D coll){
