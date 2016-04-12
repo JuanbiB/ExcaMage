@@ -5,10 +5,29 @@ public class Enemy : MonoBehaviour {
 
 	Rigidbody2D body;
 	BoxCollider2D coll;
+
 	int shrink_speed;
     bool dead;
-    Color enemy_color;
-    float fade;
+    
+	Color enemy_color;
+    
+	float fade;
+	float move_speed;
+
+	GameObject char_ref;
+	Vector3 distance;
+	public GameObject bullet_ref;
+
+	float time;
+
+	//TODO
+	//1. Create Enemy Movement that knows how to both
+	/// a) avoid pitfalls and spikes
+	/// b) Move towards the character
+	/// 
+	//2. Add shooting
+	/// </summary>
+
 
 	// Use this for initialization
 	void Start () {
@@ -22,10 +41,27 @@ public class Enemy : MonoBehaviour {
         fade = 1;
 
         shrink_speed = 2;
+
+		move_speed = 2f;
+
+		char_ref = GameObject.Find ("Character");
+
+
+		time = 0.0f;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		time += Time.deltaTime;
+
+		if (time > 3) {
+			Instantiate (bullet_ref, this.transform.position, transform.rotation);
+		
+			time = 0.0f;
+		}
+
 	    if (dead)
         {
             Color temp = enemy_color;
@@ -35,10 +71,14 @@ public class Enemy : MonoBehaviour {
             gameObject.GetComponent<SpriteRenderer>().color = temp;
         }
 
-        if (enemy_color.a < 0)
-        {
-            Destroy(this.gameObject);
-        }
+		if (enemy_color.a < 0) { //
+			Destroy (this.gameObject);
+		} else {
+			//Vector3 distance = new Vector3( Mathf.Clamp(this.transform.position.x, char_ref.transform.position.x
+			distance= (char_ref.transform.position - this.transform.position) ;
+			//transform.position = Vector3.Lerp (this.transform.position, distance, move_speed*Time.deltaTime);
+
+		}
 	}
 
 	public IEnumerator fall_death(Vector2 pos){
@@ -101,3 +141,4 @@ public class Enemy : MonoBehaviour {
 }
 
 
+	
