@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour {
 
 		time += Time.deltaTime;
 
-		if (time > 3) {
+		if (time > .5f) {
 			Instantiate (bullet_ref, this.transform.position, transform.rotation);
 		
 			time = 0.0f;
