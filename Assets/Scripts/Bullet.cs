@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
 	Vector3 target;
 	float speed;
 	Rigidbody2D rb;
+	float clock;
 
 
 	// Use this for initialization
@@ -16,12 +17,20 @@ public class Bullet : MonoBehaviour {
 		target = char_ref.transform.position;
 		Vector2 distance = char_ref.transform.position - transform.position;
 
+<<<<<<< HEAD
 		rb.AddForce (distance.normalized * 250);	
+=======
+		rb.AddForce (distance.normalized * 200);	
+
+		clock = 0.0f;
+>>>>>>> origin/master
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		clock += Time.deltaTime;
+
+		this.transform.eulerAngles = new Vector3(0,0,360*clock * 3);
 		//transform.position = Vector3.MoveTowards (transform.position, target, Time.deltaTime * 3);
 	
 	}
