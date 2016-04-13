@@ -1,24 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BigFireball.cs">
     <Files>
-      <File FileName="Assets/Scripts/Pitfall.cs" Line="25" Column="1" />
-      <File FileName="Assets/Scripts/Character.cs" Line="34" Column="70" />
-      <File FileName="Assets/Scripts/Enemy.cs" Line="37" Column="28" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="59" Column="6" />
+      <File FileName="Assets/Scripts/Character.cs" Line="188" Column="44" />
+      <File FileName="Assets/Scripts/Fireball.cs" Line="39" Column="6" />
+      <File FileName="Assets/Scripts/BigFireball.cs" Line="9" Column="19" />
+      <File FileName="Assets/test.cs" Line="34" Column="1" />
+      <File FileName="Assets/MapGen/BoardCreator.cs" Line="283" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="DotVelocity" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="Scripts" expanded="True">
-                <Node name="Enemy.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -13,7 +13,7 @@ public class BigFireball : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+				
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		rb = GetComponent<Rigidbody2D> ();
 
