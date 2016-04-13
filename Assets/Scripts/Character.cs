@@ -13,10 +13,11 @@ public class Character : MonoBehaviour {
 	GameObject magnet_wave;
     public GameObject broken_tile;
 
-    int character_speed;
+
     float time;
     float counter;
-    int allowed_radius;
+	int allowed_radius;
+	int character_speed;
     bool hit;
     bool animation_happening;
 
@@ -163,16 +164,26 @@ public class Character : MonoBehaviour {
 
 	}
 
+	// Strictly for the magnet wave animation
+	void decreaseOpacity(){
+		Color temp = magnet_wave.GetComponent<SpriteRenderer> ().color;
+		temp.a -= 0.04f;
+		magnet_wave.GetComponent<SpriteRenderer> ().color = temp;
+	}
+
     public IEnumerator magnet_animation(int type)
     {
         animation_happening = true;
+		Color original = magnet_wave.GetComponent<SpriteRenderer> ().color;
+
         // Pull animation
         if (type == 2)
         {
             // Want to start big, then diminish in size, so simulates "pulling".
-            magnet_wave.transform.localScale = new Vector3(6, 6, 1);
+            magnet_wave.transform.localScale = new Vector3(8, 8, 1);
             while (magnet_wave.transform.localScale.x > .01f)
             {
+				decreaseOpacity ();
                 magnet_wave.transform.localScale -= Vector3.one * Time.deltaTime * 20;
                 yield return null;
             }
@@ -181,13 +192,15 @@ public class Character : MonoBehaviour {
         else
         {
             // Starting small, then increasing in size, simulating "pushing".
-            while (magnet_wave.transform.localScale.x < 3)
+            while (magnet_wave.transform.localScale.x < 8)
             {
+				decreaseOpacity ();
                 magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 20;
                 yield return null;
             }
         }
         magnet_wave.transform.localScale = new Vector3(.01f, .01f, 1);
+		magnet_wave.GetComponent<SpriteRenderer> ().color = original;
         animation_happening = false;
     }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : MonoBehaviour {
+public class Fireball : MonoBehaviour {
 	GameObject char_ref;
     Rigidbody2D rb;
 
