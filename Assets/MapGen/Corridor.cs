@@ -10,11 +10,9 @@ public class Corridor
 {
 	public int startXPos;         // The x coordinate for the start of the corridor.
 	public int startYPos;         // The y coordinate for the start of the corridor.
-	public int corridorLength;            // How many units long the corridor is.
+	public int corridorLength;    // How many units long the corridor is.
 	public Direction direction;   // Which direction the corridor is heading from it's room.
 
-
-	// Get the end position of the corridor based on it's start position and which direction it's heading.
 	public int EndPositionX
 	{
 		get
@@ -26,7 +24,6 @@ public class Corridor
 			return startXPos - corridorLength + 1;
 		}
 	}
-
 
 	public int EndPositionY
 	{
@@ -40,12 +37,11 @@ public class Corridor
 		}
 	}
 
-
 	public void SetupCorridor (Room room, IntRange length, IntRange roomWidth, IntRange roomHeight, int columns, int rows, bool firstCorridor)
 	{
 		// Set a random direction (a random index from 0 to 3, cast to Direction).
-		//direction = (Direction)Random.Range(0, 4);
-		direction = (Direction)1;
+		direction = (Direction)Random.Range(0, 4);
+		//direction = (Direction)1;
 
 		// Find the direction opposite to the one entering the room this corridor is leaving from.
 		// Cast the previous corridor's direction to an int between 0 and 3 and add 2 (a number between 2 and 5).

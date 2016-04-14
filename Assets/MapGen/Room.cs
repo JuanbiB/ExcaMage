@@ -1,13 +1,29 @@
 ﻿using UnityEngine;
 
+// Enums to specify room types. Each level is a general difficulty, with sub-types for variety. 
+
+public enum Level1
+{
+	Standard, Bats, Turrets
+}
+
+public enum Level2
+{
+	TBD
+}
+
+public enum Level3
+{
+	TBD
+}
+
 public class Room
 {
 	public int xPos;                      // The x coordinate of the lower left tile of the room.
 	public int yPos;                      // The y coordinate of the lower left tile of the room.
-	public int roomWidth;                     // How many tiles wide the room is.
-	public int roomHeight;                    // How many tiles high the room is.
+	public int roomWidth;                 // How many tiles wide the room is.
+	public int roomHeight;                // How many tiles high the room is.
 	public Direction enteringCorridor;    // The direction of the corridor that is entering this room.
-
 
 	// This is used for the first room.  It does not have a Corridor parameter since there are no corridors yet.
 	public void SetupRoom (IntRange widthRange, IntRange heightRange, int columns, int rows)
@@ -20,8 +36,7 @@ public class Room
 		xPos = Mathf.RoundToInt(columns / 2f - roomWidth / 2f);
 		yPos = Mathf.RoundToInt(rows / 2f - roomHeight / 2f);
 	}
-
-
+		
 	// This is an overload of the SetupRoom function and has a corridor parameter that represents the corridor entering the room.
 	public void SetupRoom (IntRange widthRange, IntRange heightRange, int columns, int rows, Corridor corridor)
 	{
@@ -71,6 +86,16 @@ public class Room
 			yPos = Random.Range (corridor.EndPositionY - roomHeight + 1, corridor.EndPositionY);
 			yPos = Mathf.Clamp (yPos, 0, rows - roomHeight);
 			break;
+		}
+	}
+
+	// Third overload, this one places different tiles and baddies. 
+	public void SetupRoom (TileType[][] tiles, int roomNum)
+	{
+		for (int x = 0; x < this.roomWidth; x++) {
+			for (int y = 0; y < this.roomHeight; y++) {
+
+			}
 		}
 	}
 }

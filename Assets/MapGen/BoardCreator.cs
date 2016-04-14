@@ -1,6 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+// The type of tile that will be laid in a specific position. Floor is laid everywhere with others on top.
+public enum TileType
+{
+	Wall, Floor, Hole, Enemy
+}
+	
 public class BoardCreator : MonoBehaviour
 {
 	void Update()
@@ -9,64 +15,69 @@ public class BoardCreator : MonoBehaviour
 		Vector3 cameraPos = new Vector3 (playerPos.x, playerPos.y, -8);
 		Camera.main.transform.position = cameraPos;
 	}
-
-	// The type of tile that will be laid in a specific position.
-	public enum TileType
-	{
-		Wall, Floor, Hole, Enemy
-	}
-
-
+		
+	// Map size
 	public int columns = 100;                                 // The number of columns on the board (how wide it will be).
 	public int rows = 100;                                    // The number of rows on the board (how tall it will be).
+
+	// Room and Corridor dimentions 
 	public IntRange numRooms = new IntRange (15, 20);         // The range of the number of rooms there can be.
 	public IntRange roomWidth = new IntRange (3, 10);         // The range of widths rooms can have.
 	public IntRange roomHeight = new IntRange (3, 10);        // The range of heights rooms can have.
 	public IntRange corridorLength = new IntRange (6, 10);    // The range of lengths corridors between rooms can have.
+
+	// Prefabs
 	public GameObject[] floorTiles;                           // An array of floor tile prefabs.
 	public GameObject[] wallTiles;                            // An array of wall tile prefabs.
 	public GameObject[] outerWallTiles;                       // An array of outer wall tile prefabs.
-	public GameObject[] holeTiles;    
-	public GameObject[] Baddies;
-	public GameObject player;
+	public GameObject[] holeTiles;    						  // An array of hole prefabs.
+	public GameObject[] Baddies;						      // An array of enemies.
+	public GameObject player;								  // The player prefab.
 
+	// Where we hold things
 	private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
 	private Room[] rooms;                                     // All the rooms that are created for this board.
 	private Corridor[] corridors;                             // All the corridors that connect the rooms.
 	private GameObject boardHolder;                           // GameObject that acts as a container for all other tiles.
-
 
 	private void Start ()
 	{
 		// Create the board holder.
 		boardHolder = new GameObject("BoardHolder");
 
+		// Make board.
 		SetupTilesArray ();
 
+		// Section off everything.
 		CreateRoomsAndCorridors ();
 
+		// Put stuff down
 		SetTilesValuesForRooms ();
 		SetTilesValuesForCorridors ();
 
+		// Make it show up in game.
 		InstantiateTiles ();
 		InstantiateOuterWalls ();
-	}
 
+		// Add player.
+		createPlayer (); 
+	}
+		
+	void createPlayer ()
+	{
+		Vector3 playerPos = new Vector3 (rooms[0].xPos, rooms[0].yPos, -3);
+		Instantiate(player, playerPos, Quaternion.identity);
+	}
 
 	void SetupTilesArray ()
 	{
-		// Set the tiles jagged array to the correct width.
 		tiles = new TileType[columns][];
-
-		// Go through all the tile arrays...
 		for (int i = 0; i < tiles.Length; i++)
 		{
-			// ... and set each tile array is the correct height.
 			tiles[i] = new TileType[rows];
 		}
 	}
-
-
+		
 	void CreateRoomsAndCorridors ()
 	{
 		// Create the rooms array with a random size.
@@ -85,12 +96,6 @@ public class BoardCreator : MonoBehaviour
 		// Setup the first corridor using the first room.
 		corridors[0].SetupCorridor(rooms[0], corridorLength, roomWidth, roomHeight, columns, rows, true);
 
-	
-		Vector3 playerPos = new Vector3 (rooms[0].xPos, rooms[0].yPos, -3);
-		Instantiate(player, playerPos, Quaternion.identity);
-
-		Vector3 cameraPos = new Vector3 (playerPos.x, playerPos.y, -8);
-		Camera.main.transform.position = cameraPos;
 		for (int i = 1; i < rooms.Length; i++)
 		{
 			// Create a room.
@@ -108,13 +113,9 @@ public class BoardCreator : MonoBehaviour
 				// Setup the corridor based on the room that was just created.
 				corridors[i].SetupCorridor(rooms[i], corridorLength, roomWidth, roomHeight, columns, rows, false);
 			}
-
-
 		}
-
 	}
-
-
+		
 	void SetTilesValuesForRooms ()
 	{
 		// Go through all the rooms...
@@ -122,20 +123,22 @@ public class BoardCreator : MonoBehaviour
 		{
 			Room currentRoom = rooms[i];
 
+
+			currentRoom.SetupRoom (tiles, i);
+
+
 			// ... and for each room go through it's width.
-			for (int j = 0; j < currentRoom.roomWidth; j++)
+			for (int x = 0; x < currentRoom.roomWidth; x++)
 			{
-				int xCoord = currentRoom.xPos + j;
-
+				int xCoord = currentRoom.xPos + x;
 				// For each horizontal tile, go up vertically through the room's height.
-				for (int k = 0; k < currentRoom.roomHeight; k++)
+				for (int y = 0; y < currentRoom.roomHeight; y++)
 				{
-					int yCoord = currentRoom.yPos + k;
-
+					int yCoord = currentRoom.yPos + y;
 					// The coordinates in the jagged array are based on the room's position and it's width and height.
-					int rand = UnityEngine.Random.Range(0, 10);
+					int pitProb = UnityEngine.Random.Range(0, 16);
 					int rand1 = UnityEngine.Random.Range(0, 25);
-					if (rand == 5) {
+					if (pitProb == 5) {
 						tiles [xCoord] [yCoord] = TileType.Hole;
 					} else if (rand1 == 4) {
 						tiles [xCoord] [yCoord] = TileType.Enemy;
@@ -146,8 +149,7 @@ public class BoardCreator : MonoBehaviour
 			}
 		}
 	}
-
-
+		
 	void SetTilesValuesForCorridors ()
 	{
 		// Go through every corridor...
@@ -179,7 +181,6 @@ public class BoardCreator : MonoBehaviour
 					xCoord -= j;
 					break;
 				}
-
 				// Set the tile at these coordinates to Floor.
 				tiles[xCoord][yCoord] = TileType.Floor;
 			}
@@ -194,16 +195,17 @@ public class BoardCreator : MonoBehaviour
 		{
 			for (int j = 0; j < tiles[i].Length; j++)
 			{
-				// ... and instantiate a floor tile for it.
+				// Floors go everywhere.
 				InstantiateFromArray (floorTiles, i, j);
 
-				// If the tile type is Wall...
+				// Wall
 				if (tiles[i][j] == TileType.Wall)
 				{
 					// ... instantiate a wall over the top.
 					InstantiateFromArray (wallTiles, i, j);
 				}
 			
+				// Hole
 				if (tiles[i][j] == TileType.Hole)
 				{
 					// ... instantiate a hole over the top.
@@ -215,61 +217,43 @@ public class BoardCreator : MonoBehaviour
 					// ... instantiate a hole over the top.
 					InstantiateFromArray (Baddies, i, j);
 				}
-
 			}
 		}
 	}
-
-
+		
 	void InstantiateOuterWalls ()
 	{
-		// The outer walls are one unit left, right, up and down from the board.
 		float leftEdgeX = -1f;
 		float rightEdgeX = columns + 0f;
 		float bottomEdgeY = -1f;
 		float topEdgeY = rows + 0f;
 
-		// Instantiate both vertical walls (one on each side).
 		InstantiateVerticalOuterWall (leftEdgeX, bottomEdgeY, topEdgeY);
 		InstantiateVerticalOuterWall(rightEdgeX, bottomEdgeY, topEdgeY);
 
-		// Instantiate both horizontal walls, these are one in left and right from the outer walls.
 		InstantiateHorizontalOuterWall(leftEdgeX + 1f, rightEdgeX - 1f, bottomEdgeY);
 		InstantiateHorizontalOuterWall(leftEdgeX + 1f, rightEdgeX - 1f, topEdgeY);
 	}
-
-
+		
 	void InstantiateVerticalOuterWall (float xCoord, float startingY, float endingY)
 	{
-		// Start the loop at the starting value for Y.
 		float currentY = startingY;
-
-		// While the value for Y is less than the end value...
 		while (currentY <= endingY)
 		{
-			// ... instantiate an outer wall tile at the x coordinate and the current y coordinate.
 			InstantiateFromArray(outerWallTiles, xCoord, currentY);
-
 			currentY++;
 		}
 	}
 
-
 	void InstantiateHorizontalOuterWall (float startingX, float endingX, float yCoord)
 	{
-		// Start the loop at the starting value for X.
 		float currentX = startingX;
-
-		// While the value for X is less than the end value...
 		while (currentX <= endingX)
 		{
-			// ... instantiate an outer wall tile at the y coordinate and the current x coordinate.
 			InstantiateFromArray (outerWallTiles, currentX, yCoord);
-
 			currentX++;
 		}
 	}
-
 
 	void InstantiateFromArray (GameObject[] prefabs, float xCoord, float yCoord)
 	{
@@ -279,10 +263,11 @@ public class BoardCreator : MonoBehaviour
 		// The position to be instantiated at is based on the coordinates.
 		Vector3 position = new Vector3(xCoord, yCoord, 0f);
 
-		// Create an instance of the prefab from the random index of the array.
+		// If it's not a floor tile we have to put it at a lower z.
 		GameObject tileInstance = Instantiate(prefabs[randomIndex], position, Quaternion.identity) as GameObject;
-		if (prefabs == wallTiles || prefabs == holeTiles || prefabs == Baddies) {
-			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -1);
+
+		if (prefabs != floorTiles) {
+			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -3);
 			tileInstance.transform.position = pos;
 		}
 
