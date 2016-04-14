@@ -22,6 +22,9 @@ public class Character : MonoBehaviour {
     bool animation_happening;
 	string direction_facing;
 
+    public bool addForce_BigFireball;
+    public int by_how_much;
+
 
     // Use this for initialization
     void Start () {
@@ -100,13 +103,19 @@ public class Character : MonoBehaviour {
 
                 // This is just the magnet animation.
                 StartCoroutine(magnet_animation(2));
+
+                if (addForce_BigFireball)
+                    addForceBullets("pull");
             }
 
             // Push
             if (Input.GetKeyDown(KeyCode.K))
             {
-	               applyEnemies(2);
+	              applyEnemies(2);
 	              StartCoroutine(magnet_animation(1));
+
+                if (addForce_BigFireball)
+                    addForceBullets("push");
             }
         }
 
@@ -174,10 +183,9 @@ public class Character : MonoBehaviour {
 						Vector3 facing = transform.InverseTransformPoint (target.position);
 						float angle = Vector3.Angle (transform.up, angle_dir.normalized);
 						
-						print (angle);
-						print(Vector3.Distance(transform.position, target.position));
-						
-
+						//print (angle);
+						//print(Vector3.Distance(transform.position, target.position));
+	
 						// Find me if you need me to explain these particular mechanics, they're not that tough. 
 						if (direction_facing == "right" && facing.x > 0) {
 							if (angle >= 45 && angle <= 135) {
@@ -206,6 +214,78 @@ public class Character : MonoBehaviour {
 			}
 		}
 	}
+
+    void addForceBullets(string push_or_pull)
+    {
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+        Rigidbody2D bullet_rb = enemybody;  // Just a holder variable to initialize it.
+
+        foreach (GameObject potential_bullet in bullets)
+        {
+            if (potential_bullet.name != "BigFireball")
+                continue;
+
+            bullet_rb = potential_bullet.GetComponent<Rigidbody2D>();
+
+            // Taken from applyEnemies method
+            Vector2 dir = transform.position - potential_bullet.transform.position; 
+            float distance = dir.magnitude; 
+            float force_size = 10.0f;
+            dir.Normalize();
+
+            if (push_or_pull == "push")
+            {
+                // Yeah, shitload of repeated code here from applyEnemies... sue me. 
+                // Nah but it's stable and works nicely so w/e.
+
+                Vector3 angle_dir = bullet_rb.transform.position - transform.position;
+                Vector3 facing = transform.InverseTransformPoint(bullet_rb.transform.position);
+                float angle = Vector3.Angle(transform.up, angle_dir.normalized);
+
+                if (direction_facing == "right" && facing.x > 0)
+                {
+                    if (angle >= 45 && angle <= 135)
+                    {
+                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
+                    }
+
+                }
+                else if (direction_facing == "down")
+                {
+                    if (angle >= 65)
+                    {   // used to be 135
+                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
+                    }
+                }
+
+                else if (direction_facing == "left")
+                {
+                    if (angle >= 45 && angle <= 135 && facing.x < 0)
+                    {
+                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
+                    }
+
+                }
+                else if (direction_facing == "up")
+                {
+                    if (angle <= 75)
+                    { //used to be 45
+                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
+                    }
+                }
+
+               
+            }
+
+            else if (push_or_pull == "pull")
+            {
+                bullet_rb.AddForce(dir * (force_size / distance) * by_how_much);
+            }
+            
+            print("added force");
+        }
+
+    }
 
 	// Strictly for the magnet wave animation
 	void decreaseOpacity(){

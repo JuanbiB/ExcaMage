@@ -8,7 +8,7 @@ public class BigFireball : MonoBehaviour {
 
 	Vector2 distance;
 
-	float speed;
+	public float speed;
 	float clock;
 
 	// Use this for initialization
@@ -16,9 +16,10 @@ public class BigFireball : MonoBehaviour {
 				
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		rb = GetComponent<Rigidbody2D> ();
+        name = "BigFireball";
 
 		distance = char_ref.transform.position - transform.position;
-		rb.AddForce (distance.normalized * 100);	
+		rb.AddForce (distance.normalized * speed);	
 
 	}
 
