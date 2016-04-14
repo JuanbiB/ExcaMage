@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     public GameObject bullet_ref;
 
     float time;
+	public float shooting_rate;
 
 
     //TODO
@@ -77,7 +78,7 @@ public class Enemy : MonoBehaviour
         time += Time.deltaTime;
         float distance = Vector2.Distance(transform.position, char_ref.transform.position);
 
-        if (time > 0.5f && dead == false && distance < 6)
+        if (time > shooting_rate && dead == false && distance < 6)
         {
             Instantiate(bullet_ref, this.transform.position, transform.rotation);
             time = 0.0f;

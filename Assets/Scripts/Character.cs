@@ -60,11 +60,18 @@ public class Character : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
-
+	void Update () 
+	{
 		fixConstants ();
 		handleInput();
 		check_drag();
+	}
+
+	void focusCamera()
+	{
+		Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+		Vector3 cameraPos = new Vector3 (playerPos.x, playerPos.y, -8);
+		Camera.main.transform.position = cameraPos;
 
 	}
 

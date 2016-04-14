@@ -7,7 +7,7 @@ public class Fireball : MonoBehaviour {
 
     Vector2 distance;
 
-	float speed;
+	public float speed;
 	float clock;
 
 	// Use this for initialization
@@ -17,7 +17,7 @@ public class Fireball : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D> ();
 
 		distance = char_ref.transform.position - transform.position;
-        rb.AddForce (distance.normalized * 200);	
+		rb.AddForce (distance.normalized * speed);	
 
 	}
 	

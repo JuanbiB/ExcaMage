@@ -2,9 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/MapGen/Room.cs">
     <Files>
-      <File FileName="Assets/MapGen/BoardCreator.cs" Line="130" Column="4" />
-      <File FileName="Assets/MapGen/Room.cs" Line="11" Column="2" />
+      <File FileName="Assets/MapGen/Room.cs" Line="7" Column="16" />
+      <File FileName="Assets/MapGen/BoardCreator.cs" Line="18" Column="3" />
       <File FileName="Assets/MapGen/Corridor.cs" Line="4" Column="1" />
+      <File FileName="Assets/Scripts/Character.cs" Line="67" Column="16" />
+      <File FileName="Assets/Scripts/Fireball.cs" Line="24" Column="36" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="23" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
