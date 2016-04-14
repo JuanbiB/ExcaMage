@@ -1,41 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
 
-	Rigidbody2D body;
-	BoxCollider2D coll;
+    Rigidbody2D body;
+    BoxCollider2D coll;
 
-	int shrink_speed;
+    int shrink_speed;
     bool dead;
-    
-	Color enemy_color;
-    
-	float fade;
-	float move_speed;
 
-	GameObject char_ref;
-	Vector3 distance;
-	public GameObject bullet_ref;
+    Color enemy_color;
 
-	float time;
+    float fade;
+    float move_speed;
 
+    GameObject char_ref;
+    Vector3 distance;
+    public GameObject bullet_ref;
 
-	//TODO
-	//1. Create Enemy Movement that knows how to both
-	/// a) avoid pitfalls and spikes
-	/// b) Move towards the character
-	/// 
-	//2. Add shooting -- DONE
-	/// </summary>
+    float time;
 
 
-	// Use this for initialization
-	void Start () {
-		body = GetComponent<Rigidbody2D> ();
-		body.freezeRotation = true;
+    //TODO
+    //1. Create Enemy Movement that knows how to both
+    /// a) avoid pitfalls and spikes
+    /// b) Move towards the character
+    /// 
+    //2. Add shooting -- DONE
+    /// </summary>
+
+
+    // Use this for initialization
+    void Start()
+    {
+        body = GetComponent<Rigidbody2D>();
+        body.freezeRotation = true;
         dead = false;
-		coll = GetComponent<BoxCollider2D> ();
+        coll = GetComponent<BoxCollider2D>();
 
         // Color management
         enemy_color = gameObject.GetComponent<SpriteRenderer>().color;
@@ -43,31 +45,19 @@ public class Enemy : MonoBehaviour {
 
         shrink_speed = 2;
 
-		move_speed = 2f;
+        move_speed = 2f;
 
-		char_ref = GameObject.FindGameObjectWithTag ("Player");
-
-
-		time = 0.0f;
+        char_ref = GameObject.FindGameObjectWithTag("Player");
 
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        time = 0.0f;
 
-		time += Time.deltaTime;
-        float distance = Vector2.Distance(transform.position, char_ref.transform.position);
-        
 
-		if (time > 0.5f && dead==false && distance < 6) {
+    }
 
-			Instantiate (bullet_ref, this.transform.position, transform.rotation);
-		
-			time = 0.0f;
-		}
-
-	    if (dead)
+    void handleDeath()
+    {
+        if (dead)
         {
             Color temp = enemy_color;
             fade = fade - .004f;
@@ -76,43 +66,61 @@ public class Enemy : MonoBehaviour {
             gameObject.GetComponent<SpriteRenderer>().color = temp;
         }
 
-		if (enemy_color.a < 0) { //
-			Destroy (this.gameObject);
-		} else {
-			//Vector3 distance = new Vector3( Mathf.Clamp(this.transform.position.x, char_ref.transform.position.x
-			//distance= (char_ref.transform.position - this.transform.position) ;
-			//transform.position = Vector3.Lerp (this.transform.position, distance, move_speed*Time.deltaTime);
+        if (enemy_color.a < 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
-		}
-	}
+    void handleShooting()
+    {
+        time += Time.deltaTime;
+        float distance = Vector2.Distance(transform.position, char_ref.transform.position);
 
-	public IEnumerator fall_death(Vector2 pos){
-		body.constraints = RigidbodyConstraints2D.FreezeAll;
-		coll.isTrigger = true;
-		//dead = true;
+        if (time > 0.5f && dead == false && distance < 6)
+        {
+            Instantiate(bullet_ref, this.transform.position, transform.rotation);
+            time = 0.0f;
+        }
+    }
 
-		float clock = 0.0f;
-		do
-		{
+    // Update is called once per frame
+    void Update()
+    {
+        handleShooting();
+
+        handleDeath();
+      
+    }
+
+    public IEnumerator fall_death(Vector2 pos)
+    {
+        body.constraints = RigidbodyConstraints2D.FreezeAll;
+        coll.isTrigger = true;
+        //dead = true;
+
+        float clock = 0.0f;
+        do
+        {
             // This basically does 3 things:
 
             // Moves the enemy towards the middle of the pit.
-			this.transform.position = Vector2.MoveTowards(transform.position, pos, 3 * Time.deltaTime);
+            this.transform.position = Vector2.MoveTowards(transform.position, pos, 3 * Time.deltaTime);
             // Diminishes size.
-			this.transform.localScale -= Vector3.one * Time.deltaTime * shrink_speed;
+            this.transform.localScale -= Vector3.one * Time.deltaTime * shrink_speed;
             // Spins around.
-			this.transform.eulerAngles = new Vector3(0,0,360*clock);
-			
-			clock+= Time.deltaTime;
+            this.transform.eulerAngles = new Vector3(0, 0, 360 * clock);
 
-			yield return null;
+            clock += Time.deltaTime;
 
-		} while (transform.localScale.x > 0);
+            yield return null;
 
-		Destroy(gameObject);
-	}
+        } while (transform.localScale.x > 0);
 
-   public IEnumerator spike_death()
+        Destroy(gameObject);
+    }
+
+    public IEnumerator spike_death()
     {
         float time = 0.0f;
         Quaternion qua = Quaternion.Euler(new Vector3(0, 0, -90));
@@ -137,7 +145,7 @@ public class Enemy : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Pitfall")
         {
-			dead = true;
+            dead = true;
             StartCoroutine(fall_death(coll.gameObject.transform.position));
         }
         else if (coll.gameObject.tag == "Spike")
@@ -146,6 +154,3 @@ public class Enemy : MonoBehaviour {
         }
     }
 }
-
-
-	
