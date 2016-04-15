@@ -25,6 +25,8 @@ public class Character : MonoBehaviour {
     public bool addForce_BigFireball;
     public int by_how_much;
 
+	Vector3 temp;
+
 
     // Use this for initialization
     void Start () {
@@ -57,10 +59,13 @@ public class Character : MonoBehaviour {
 		//Used to keep track of push animation
 		direction_facing = "right";
 
-	}
+        temp = transform.position;
 
-	// Update is called once per frame
-	void Update () 
+
+    }
+
+    // Update is called once per frame
+    void Update () 
 	{
 		fixConstants ();
 		handleInput();
@@ -77,27 +82,51 @@ public class Character : MonoBehaviour {
 
     void handleInput()
     {
+
         //Movement
-		if (Input.GetKey (KeyCode.W)) {
-			transform.position += Vector3.up * Time.deltaTime * character_speed;
-			direction_facing = "up";
+
+     
+        if (Input.GetKey (KeyCode.S) && Input.GetKey (KeyCode.A)) {
+			temp = transform.position + new Vector3(-1, -1, 0) * Time.deltaTime * character_speed;
+			direction_facing = "down-left";
 		}
 
-		if (Input.GetKey (KeyCode.S)) {
-			transform.position += -Vector3.up * Time.deltaTime * character_speed;
+		else if (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.W)) {
+			temp = transform.position + new Vector3(-1, 1, 0) * Time.deltaTime * character_speed;
+			direction_facing = "left-up";
+		}
+
+		else if (Input.GetKey (KeyCode.D) && Input.GetKey (KeyCode.S)) {
+			temp = transform.position + new Vector3(1, -1, 0) * Time.deltaTime * character_speed;
+			direction_facing = "right-down";
+		}
+
+		else if (Input.GetKey (KeyCode.W) && Input.GetKey (KeyCode.D)) {
+			temp = transform.position + new Vector3 (1, 1, 0) * Time.deltaTime * character_speed;
+			direction_facing = "up-right";
+		} 
+
+		else if (Input.GetKey (KeyCode.W)) {
+			temp = transform.position + Vector3.up * Time.deltaTime * character_speed;
+			direction_facing = "up";
+		} 
+
+		else if (Input.GetKey (KeyCode.D)) {
+			temp = transform.position + Vector3.right * Time.deltaTime * character_speed;
+			direction_facing = "right";
+		} 
+
+		else if (Input.GetKey (KeyCode.S)) {
+			temp = transform.position + -Vector3.up * Time.deltaTime * character_speed;
 			direction_facing = "down";
 		}
 
-		if (Input.GetKey (KeyCode.D)) {
-			transform.position += Vector3.right * Time.deltaTime * character_speed;
-			direction_facing = "right";
-		}
-
-
-		if (Input.GetKey (KeyCode.A)) {
-			transform.position += -Vector3.right * Time.deltaTime * character_speed;
+		else if (Input.GetKey (KeyCode.A)) {
+			temp = transform.position + -Vector3.right * Time.deltaTime * character_speed;
 			direction_facing = "left";
 		}
+
+		body.MovePosition (temp);
 
         // Animation
         if (!animation_happening)
@@ -192,6 +221,8 @@ public class Character : MonoBehaviour {
 						
 						//print (angle);
 						//print(Vector3.Distance(transform.position, target.position));
+
+						print (direction_facing);
 	
 						// Find me if you need me to explain these particular mechanics, they're not that tough. 
 						if (direction_facing == "right" && facing.x > 0) {
