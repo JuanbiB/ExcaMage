@@ -1,41 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Character : MonoBehaviour {
+public class Character : MonoBehaviour
+{
 
     Rigidbody2D body;
     Rigidbody2D enemybody;
     GameObject[] go;
-	SpriteRenderer sp_render;
+    SpriteRenderer sp_render;
 
-	// Prefabs 
+    // Prefabs 
     public GameObject magnet_wave_prefab;
-	GameObject magnet_wave;
+    GameObject magnet_wave;
     public GameObject broken_tile;
 
-	// Variables
+    // Variables
     float time;
     float counter;
-	int allowed_radius;
-	int character_speed;
+    int allowed_radius;
+    int character_speed;
     bool hit;
     bool animation_happening;
-	string direction_facing;
+    string direction_facing;
 
     public bool addForce_BigFireball;
     public int by_how_much;
 
-	Vector3 temp;
+    // This is for movement
+    Vector3 temp;
 
+    // Animation!
+    Animator pull_anim_controller;
+    Animator push_anim_controller;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
-		// Player rigidbody management
+        // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
-        
+
         // Put in place to avoid character to spin off when hit.
-		body.freezeRotation = true;
+        body.freezeRotation = true;
 
         // Sprite renderer, used for colors and transparency.
         sp_render = GetComponent<SpriteRenderer>();
@@ -44,8 +50,8 @@ public class Character : MonoBehaviour {
         go = GameObject.FindGameObjectsWithTag("Enemy");
 
         // The sprite that represents the "magnet wave". Pure aesthetics.
-		Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
-		magnet_wave = GameObject.Find ("Magnet-Wave(Clone)");
+        Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
+        magnet_wave = GameObject.Find("Magnet-Wave(Clone)");
 
         // How fast toon moves.
         character_speed = 4;
@@ -56,80 +62,103 @@ public class Character : MonoBehaviour {
         //How far your magnet power should be able to reach
         allowed_radius = 6;
 
-		//Used to keep track of push animation
-		direction_facing = "right";
+        //Used to keep track of push animation
+        direction_facing = "right";
 
+        // Just initializing movement variable
         temp = transform.position;
 
-
+        // Getting the UI's animators
+        push_anim_controller = GameObject.Find("Canvas/Push Cooldown").GetComponent<Animator>();
+        pull_anim_controller = GameObject.Find("Canvas/Pull Cooldown").GetComponent<Animator>();
+      
     }
 
     // Update is called once per frame
-    void Update () 
-	{
-		fixConstants ();
-		handleInput();
-		check_drag();
-	}
+    void Update()
+    {
+        fixConstants();
+        handleInput();
+        check_drag();
+    }
 
-	void focusCamera()
-	{
-		Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
-		Vector3 cameraPos = new Vector3 (playerPos.x, playerPos.y, -8);
-		Camera.main.transform.position = cameraPos;
+    void focusCamera()
+    {
+        Vector3 playerPos = transform.position;
+        Vector3 cameraPos = new Vector3(playerPos.x, playerPos.y, -8);
+        Camera.main.transform.position = cameraPos;
 
-	}
+    }
 
     void handleInput()
     {
 
         //Movement
+        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            temp = transform.position + new Vector3(-1, -1, 0) * Time.deltaTime * character_speed;
+            direction_facing = "down-left";
+        }
 
-     
-        if (Input.GetKey (KeyCode.S) && Input.GetKey (KeyCode.A)) {
-			temp = transform.position + new Vector3(-1, -1, 0) * Time.deltaTime * character_speed;
-			direction_facing = "down-left";
-		}
+        else if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W))
+        {
+            temp = transform.position + new Vector3(-1, 1, 0) * Time.deltaTime * character_speed;
+            direction_facing = "up-left";
+        }
 
-		else if (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.W)) {
-			temp = transform.position + new Vector3(-1, 1, 0) * Time.deltaTime * character_speed;
-			direction_facing = "left-up";
-		}
+        else if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S))
+        {
+            temp = transform.position + new Vector3(1, -1, 0) * Time.deltaTime * character_speed;
+            direction_facing = "down-right";
+        }
 
-		else if (Input.GetKey (KeyCode.D) && Input.GetKey (KeyCode.S)) {
-			temp = transform.position + new Vector3(1, -1, 0) * Time.deltaTime * character_speed;
-			direction_facing = "right-down";
-		}
+        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            temp = transform.position + new Vector3(1, 1, 0) * Time.deltaTime * character_speed;
+            direction_facing = "up-right";
+        }
 
-		else if (Input.GetKey (KeyCode.W) && Input.GetKey (KeyCode.D)) {
-			temp = transform.position + new Vector3 (1, 1, 0) * Time.deltaTime * character_speed;
-			direction_facing = "up-right";
-		} 
+        else if (Input.GetKey(KeyCode.W))
+        {
+            temp = transform.position + Vector3.up * Time.deltaTime * character_speed;
+            direction_facing = "up";
+        }
 
-		else if (Input.GetKey (KeyCode.W)) {
-			temp = transform.position + Vector3.up * Time.deltaTime * character_speed;
-			direction_facing = "up";
-		} 
+        else if (Input.GetKey(KeyCode.D))
+        {
+            temp = transform.position + Vector3.right * Time.deltaTime * character_speed;
+            direction_facing = "right";
+        }
 
-		else if (Input.GetKey (KeyCode.D)) {
-			temp = transform.position + Vector3.right * Time.deltaTime * character_speed;
-			direction_facing = "right";
-		} 
+        else if (Input.GetKey(KeyCode.S))
+        {
+            temp = transform.position + -Vector3.up * Time.deltaTime * character_speed;
+            direction_facing = "down";
+        }
 
-		else if (Input.GetKey (KeyCode.S)) {
-			temp = transform.position + -Vector3.up * Time.deltaTime * character_speed;
-			direction_facing = "down";
-		}
+        else if (Input.GetKey(KeyCode.A))
+        {
+            temp = transform.position + -Vector3.right * Time.deltaTime * character_speed;
+            direction_facing = "left";
+        }
 
-		else if (Input.GetKey (KeyCode.A)) {
-			temp = transform.position + -Vector3.right * Time.deltaTime * character_speed;
-			direction_facing = "left";
-		}
+        body.MovePosition(temp);
 
-		body.MovePosition (temp);
+        push_and_pull();
 
-        // Animation
-        if (!animation_happening)
+
+        // Breaking of tile
+        // Creates a broken tile to your right!
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(broken_tile, new Vector2(transform.position.x + 1, transform.position.y), transform.rotation);
+        }
+    }
+
+    void push_and_pull()
+    {
+        // Checks the recharge rate animation.
+        if (!pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
         {
             // Pull
             if (Input.GetKeyDown(KeyCode.J))
@@ -140,26 +169,27 @@ public class Character : MonoBehaviour {
                 // This is just the magnet animation.
                 StartCoroutine(magnet_animation(2));
 
+                //Triggers the recharge rate animation.
+                pull_anim_controller.Play("pull_anim");
+
                 if (addForce_BigFireball)
                     addForceBullets("pull");
             }
+        }
 
-            // Push
-            if (Input.GetKeyDown(KeyCode.K))
+        // Push
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim"))
             {
-	              applyEnemies(2);
-	              StartCoroutine(magnet_animation(1));
+
+                applyEnemies(2);
+                StartCoroutine(magnet_animation(1));
+                push_anim_controller.Play("push_anim");
 
                 if (addForce_BigFireball)
                     addForceBullets("push");
             }
-        }
-
-        // Breaking of tile
-        // Creates a broken tile to your right!
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(broken_tile, new Vector2(transform.position.x + 1, transform.position.y), transform.rotation);
         }
     }
 
@@ -175,7 +205,9 @@ public class Character : MonoBehaviour {
                 enemybody.drag += Time.deltaTime * 3;
 
                 // When they reach a certain point the drag will make them stand still, so you want to reset it for the next time you AddForce.
-                if (enemybody.IsSleeping() || Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K))
+                if (enemybody.IsSleeping() || 
+                    (Input.GetKeyDown(KeyCode.J) && !pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
+                    || (Input.GetKeyDown(KeyCode.K) && !push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim")))
                 {
                     enemybody.drag = 0;
                     enemybody.velocity = Vector2.zero;
@@ -184,74 +216,110 @@ public class Character : MonoBehaviour {
         }
     }
 
-	void fixConstants(){
-		// Put in place to prevent enemies from transmitting velocity to character if they hit him. 
-		body.velocity = Vector3.zero;
-	}
+    void fixConstants()
+    {
+        // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
+        body.velocity = Vector3.zero;
+    }
 
-	void applyEnemies(int porp)
-	{
-		for (int i = 0; i < go.Length; i++)
-		{
-			// Checking if the enemy has been destroyed. Don't access if true.
-			if (go [i] != null) {
-				enemybody = go [i].GetComponent<Rigidbody2D> ();
-				Transform target = go [i].transform;
+    void applyEnemies(int porp)
+    {
+        for (int i = 0; i < go.Length; i++)
+        {
+            // Checking if the enemy has been destroyed. Don't access if true.
+            if (go[i] != null)
+            {
+                enemybody = go[i].GetComponent<Rigidbody2D>();
+                Transform target = go[i].transform;
 
-				// Refer: http://answers.unity3d.com/questions/1167656/choosing-speed-and-direction-of-addforce.html#answer-1167720
-				Vector2 dir = transform.position - target.position;  // Direction between character and enemy.
-				float distance = dir.magnitude; // Distance between two in float form, instead of Vector.
-				float force_size = 10.0f;
-				dir.Normalize();    // Makes the distance have a magnitude of 1.
+                // Refer: http://answers.unity3d.com/questions/1167656/choosing-speed-and-direction-of-addforce.html#answer-1167720
+                Vector2 dir = transform.position - target.position;  // Direction between character and enemy.
+                float distance = dir.magnitude; // Distance between two in float form, instead of Vector.
+                float force_size = 10.0f;
+                dir.Normalize();    // Makes the distance have a magnitude of 1.
 
-				float distance_check = Vector2.Distance(transform.position, target.position);
-				if (distance_check < allowed_radius)
-				{
-					if (porp == 1)
-					{
-						// Inverse linear force equation.
-						enemybody.AddForce(dir * (force_size / distance) * 50);
+                float distance_check = Vector2.Distance(transform.position, target.position);
+                if (distance_check < allowed_radius)
+                {
+                    if (porp == 1)
+                    {
+                        // Inverse linear force equation.
+                        enemybody.AddForce(dir * (force_size / distance) * 50);
 
-					}
-					else {
-						// Variables we're going to need to make the calculations for the push						
-						Vector3 angle_dir = target.position - transform.position;
-						Vector3 facing = transform.InverseTransformPoint (target.position);
-						float angle = Vector3.Angle (transform.up, angle_dir.normalized);
-						
-						//print (angle);
-						//print(Vector3.Distance(transform.position, target.position));
+                    }
+                    else {
+                        // Variables we're going to need to make the calculations for the push						
+                        Vector3 angle_dir = target.position - transform.position;
+                        Vector3 facing = transform.InverseTransformPoint(target.position);
+                        float angle = Vector3.Angle(transform.up, angle_dir.normalized);
 
-						print (direction_facing);
-	
-						// Find me if you need me to explain these particular mechanics, they're not that tough. 
-						if (direction_facing == "right" && facing.x > 0) {
-							if (angle >= 45 && angle <= 135) {
-								enemybody.AddForce (-dir * (force_size / distance) * 50);
-							}
+                        //print (angle);
+                        //print(Vector3.Distance(transform.position, target.position));
 
-						} else if (direction_facing == "down") {
-							if (angle >= 65) {	// used to be 135
-								enemybody.AddForce (-dir * (force_size / distance) * 50);
-							}
-						} 
+                        print(360 - angle);
 
-						else if (direction_facing == "left") {
-							if (angle >= 45 && angle <= 135 && facing.x < 0) {
-								enemybody.AddForce (-dir * (force_size / distance) * 50);
-							}
+                        // Find me if you need me to explain these particular mechanics, they're not that tough. 
+                        if (direction_facing == "right" && facing.x > 0)
+                        {
+                            if (angle >= 45 && angle <= 135)
+                            {
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                            }
 
-						} else if (direction_facing == "up") {
-							if (angle <= 75) { //used to be 45
-								enemybody.AddForce (-dir * (force_size / distance) * 50);
-							}
-						}
+                        }
+                        else if (direction_facing == "down")
+                        {
+                            if (angle >= 65)
+                            {   // used to be 135
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                            }
+                        }
 
-					}
-				}
-			}
-		}
-	}
+                        else if (direction_facing == "left")
+                        {
+                            if (angle >= 45 && angle <= 135 && facing.x < 0)
+                            {
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                            }
+
+                        }
+                        else if (direction_facing == "up")
+                        {
+                            if (angle <= 75)//used to be 45
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+
+                        }
+
+                        else if (direction_facing == "up-right" && facing.x > 0)
+                        {
+                            if (angle >= 22.5 && angle <= 67.5)
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                        }
+
+                        else if (direction_facing == "down-right" && facing.x > 0)
+                        {
+
+                            if (angle >= 112.5 && angle <=135.5)
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                        }
+
+                        else if (direction_facing == "down-left")
+                        {
+                            if (angle >= 112.5 && angle <= 135.5)
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                        }
+
+                        else if (direction_facing == "up-left")
+                        {
+                            if (angle >= 22.5 && angle <= 67.5)
+                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 
     void addForceBullets(string push_or_pull)
     {
@@ -266,8 +334,8 @@ public class Character : MonoBehaviour {
             bullet_rb = potential_bullet.GetComponent<Rigidbody2D>();
 
             // Taken from applyEnemies method
-            Vector2 dir = transform.position - potential_bullet.transform.position; 
-            float distance = dir.magnitude; 
+            Vector2 dir = transform.position - potential_bullet.transform.position;
+            float distance = dir.magnitude;
             float force_size = 10.0f;
             dir.Normalize();
 
@@ -312,31 +380,32 @@ public class Character : MonoBehaviour {
                     }
                 }
 
-               
+
             }
 
             else if (push_or_pull == "pull")
             {
                 bullet_rb.AddForce(dir * (force_size / distance) * by_how_much);
             }
-            
-            print("added force");
+
+            print("added force to bullet");
         }
 
     }
 
-	// Strictly for the magnet wave animation
-	void decreaseOpacity(){
-		Color temp = magnet_wave.GetComponent<SpriteRenderer> ().color;
-		temp.a -= 0.04f;
-		magnet_wave.GetComponent<SpriteRenderer> ().color = temp;
-	}
+    // Strictly for the magnet wave animation
+    void decreaseOpacity()
+    {
+        Color temp = magnet_wave.GetComponent<SpriteRenderer>().color;
+        temp.a -= 0.04f;
+        magnet_wave.GetComponent<SpriteRenderer>().color = temp;
+    }
 
     public IEnumerator magnet_animation(int type)
     {
         animation_happening = true;
-		magnet_wave.transform.position = this.transform.position;
-		Color original = magnet_wave.GetComponent<SpriteRenderer> ().color;
+        magnet_wave.transform.position = this.transform.position;
+        Color original = magnet_wave.GetComponent<SpriteRenderer>().color;
 
         // Pull animation
         if (type == 2)
@@ -345,7 +414,7 @@ public class Character : MonoBehaviour {
             magnet_wave.transform.localScale = new Vector3(8, 8, 1);
             while (magnet_wave.transform.localScale.x > .01f)
             {
-				decreaseOpacity ();
+                decreaseOpacity();
                 magnet_wave.transform.localScale -= Vector3.one * Time.deltaTime * 20;
                 yield return null;
             }
@@ -353,33 +422,41 @@ public class Character : MonoBehaviour {
         // Push animation
         else
         {
-			Vector3 change = Vector3.zero;
-			float time = 0.0f;
+            Vector3 change = Vector3.zero;
+            float time = 0.0f;
 
-			magnet_wave.transform.localScale = new Vector3 (1.5f, 1.5f, 0);
-			if (direction_facing == "right")
-				change = new Vector3 (1, 0, 0);
-			else if (direction_facing == "down")
-				change = new Vector3 (0, -1, 0);
-			else if (direction_facing == "left")
-				change = new Vector3 (-1, 0, 0);
-			else if (direction_facing == "up")
-				change = new Vector3 (0, 1, 0);
+            magnet_wave.transform.localScale = new Vector3(1.5f, 1.5f, 0);
+            if (direction_facing == "right")
+                change = new Vector3(1, 0, 0);
+            else if (direction_facing == "down")
+                change = new Vector3(0, -1, 0);
+            else if (direction_facing == "left")
+                change = new Vector3(-1, 0, 0);
+            else if (direction_facing == "up")
+                change = new Vector3(0, 1, 0);
+            else if (direction_facing == "up-right")
+                change = new Vector3(1, 1, 0);
+            else if (direction_facing == "down-right")
+                change = new Vector3(1, -1, 0);
+            else if (direction_facing == "down-left")
+                change = new Vector3(-1, -1, 0);
+            else if (direction_facing == "up-left")
+                change = new Vector3(-1, 1, 0);
 
             // Starting small, then increasing in size, simulating "pushing".
-			while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0)
+            while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0)
             {
-				decreaseOpacity ();
-				time += Time.deltaTime;
-					
-				magnet_wave.transform.position += change * Time.deltaTime * 10;
-              	magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 3;
+                decreaseOpacity();
+                time += Time.deltaTime;
+
+                magnet_wave.transform.position += change * Time.deltaTime * 10;
+                magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 3;
                 yield return null;
             }
-  		}
+        }
 
         magnet_wave.transform.localScale = new Vector3(0, 0, 1);
-		magnet_wave.GetComponent<SpriteRenderer> ().color = original;
+        magnet_wave.GetComponent<SpriteRenderer>().color = original;
         animation_happening = false;
     }
 
@@ -388,7 +465,7 @@ public class Character : MonoBehaviour {
         hit = true;
         float time = 0.0f;
         Color original = sp_render.color;
-        while (time < 1.5f) 
+        while (time < 1.5f)
         {
             Color temp = sp_render.color;
             temp = Color.red;
@@ -404,7 +481,7 @@ public class Character : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-		if (coll.gameObject.tag == "Enemy")
+        if (coll.gameObject.tag == "Enemy")
         {
             if (!hit)   // In place to prevent being damaged when you've already been recently damaged.
             {
@@ -414,14 +491,18 @@ public class Character : MonoBehaviour {
         }
     }
 
-	void OnTriggerEnter2D(Collider2D coll){
-		if (coll.gameObject.tag == "Bullet") {
-			if (!hit) {
-				StartCoroutine (hit_animation ());
-				Destroy (coll.gameObject);
-			} else {
-				Destroy (coll.gameObject);
-			}
-		}
-	}
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.tag == "Bullet")
+        {
+            if (!hit)
+            {
+                StartCoroutine(hit_animation());
+                Destroy(coll.gameObject);
+            }
+            else {
+                Destroy(coll.gameObject);
+            }
+        }
+    }
 }
