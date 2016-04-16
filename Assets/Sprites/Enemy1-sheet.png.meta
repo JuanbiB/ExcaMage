@@ -1,10 +1,11 @@
 fileFormatVersion: 2
-guid: c196db8e41ba90f4ea82cdefa9926bd3
-timeCreated: 1460846965
+guid: edb7403a20d861b44b5dfadc35f91337
+timeCreated: 1460848113
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Enemy1_0
+    21300000: Enemy1-sheet_0
+    21300002: Enemy1-sheet_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,10 +52,21 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Enemy1_0
+    - name: Enemy1-sheet_0
       rect:
         serializedVersion: 2
         x: 0
+        y: 1
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Enemy1-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 32
         y: 1
         width: 32
         height: 28
