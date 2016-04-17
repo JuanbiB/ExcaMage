@@ -12,6 +12,9 @@ public class Character : MonoBehaviour
     // Prefabs 
     public GameObject magnet_wave_prefab;
     GameObject magnet_wave;
+    public GameObject push_wave_prefab;
+    GameObject push_wave;
+
     public GameObject broken_tile;
 
     // Variables
@@ -32,6 +35,7 @@ public class Character : MonoBehaviour
     // Animation!
     Animator pull_anim_controller;
     Animator push_anim_controller;
+    Animator push_wave_controller;
 
     // Use this for initialization
     void Start()
@@ -52,6 +56,9 @@ public class Character : MonoBehaviour
         // The sprite that represents the "magnet wave". Pure aesthetics.
         Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
         magnet_wave = GameObject.Find("Magnet-Wave(Clone)");
+        push_wave = (GameObject) Instantiate(push_wave_prefab, transform.position, transform.rotation);
+
+        push_wave.transform.localScale = new Vector3(20, 20, 0);
 
         // How fast toon moves.
         character_speed = 4;
@@ -71,7 +78,12 @@ public class Character : MonoBehaviour
         // Getting the UI's animators
         push_anim_controller = GameObject.Find("Canvas/Push Cooldown").GetComponent<Animator>();
         pull_anim_controller = GameObject.Find("Canvas/Pull Cooldown").GetComponent<Animator>();
-      
+
+        
+        // Getting the push animator
+        push_wave_controller = push_wave.GetComponent<Animator>();
+        push_wave.GetComponent<SpriteRenderer>().enabled = false;
+
     }
 
     // Update is called once per frame
@@ -157,6 +169,9 @@ public class Character : MonoBehaviour
 
     void push_and_pull()
     {
+        if (Input.GetKey(KeyCode.J) && Input.GetKey(KeyCode.K))
+            return;
+
         // Checks the recharge rate animation.
         if (!pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
         {
@@ -220,6 +235,7 @@ public class Character : MonoBehaviour
     {
         // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
         body.velocity = Vector3.zero;
+        push_wave.transform.position = transform.position;
     }
 
     void applyEnemies(int porp)
@@ -424,30 +440,33 @@ public class Character : MonoBehaviour
         {
             Vector3 change = Vector3.zero;
             float time = 0.0f;
+            push_wave.GetComponent<SpriteRenderer>().enabled = true;
 
             magnet_wave.transform.localScale = new Vector3(1.5f, 1.5f, 0);
             if (direction_facing == "right")
-                change = new Vector3(1, 0, 0);
+                push_wave.transform.Rotate(0, 0, -90);
             else if (direction_facing == "down")
-                change = new Vector3(0, -1, 0);
+                push_wave.transform.Rotate(0, 0, 180);
             else if (direction_facing == "left")
-                change = new Vector3(-1, 0, 0);
+                push_wave.transform.Rotate(0, 0, 90);
             else if (direction_facing == "up")
-                change = new Vector3(0, 1, 0);
+                push_wave.transform.Rotate(0, 0, 0);
             else if (direction_facing == "up-right")
-                change = new Vector3(1, 1, 0);
+                push_wave.transform.Rotate(0, 0, -45);
             else if (direction_facing == "down-right")
-                change = new Vector3(1, -1, 0);
+                push_wave.transform.Rotate(0, 0, -135);
             else if (direction_facing == "down-left")
-                change = new Vector3(-1, -1, 0);
+                push_wave.transform.Rotate(0, 0, 135);
             else if (direction_facing == "up-left")
-                change = new Vector3(-1, 1, 0);
+                push_wave.transform.Rotate(0, 0, 45);
 
             // Starting small, then increasing in size, simulating "pushing".
             while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0)
             {
                 decreaseOpacity();
                 time += Time.deltaTime;
+
+                push_wave_controller.Play("push_wave_anim");
 
                 magnet_wave.transform.position += change * Time.deltaTime * 10;
                 magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 3;
@@ -458,6 +477,10 @@ public class Character : MonoBehaviour
         magnet_wave.transform.localScale = new Vector3(0, 0, 1);
         magnet_wave.GetComponent<SpriteRenderer>().color = original;
         animation_happening = false;
+
+        push_wave.transform.eulerAngles = Vector3.zero;
+        push_wave.GetComponent<SpriteRenderer>().enabled = false;
+        push_wave_controller.Play("idle");
     }
 
     public IEnumerator hit_animation()
