@@ -38,6 +38,9 @@ public class Character : MonoBehaviour
     Animator push_wave_controller;
     Animator my_animator;
 
+	//Color stuff
+	Color original;
+
     // Use this for initialization
     void Start()
     {
@@ -91,6 +94,8 @@ public class Character : MonoBehaviour
 
         //Quick fix 
         transform.position += new Vector3(0, 0, -3);
+
+		original = sp_render.color;
     }
 
     // Update is called once per frame
@@ -495,7 +500,6 @@ public class Character : MonoBehaviour
     {
         hit = true;
         float time = 0.0f;
-        Color original = sp_render.color;
         while (time < 1.5f)
         {
             Color temp = sp_render.color;
