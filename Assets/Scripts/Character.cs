@@ -93,15 +93,7 @@ public class Character : MonoBehaviour
         handleInput();
         check_drag();
     }
-
-    void focusCamera()
-    {
-        Vector3 playerPos = transform.position;
-        Vector3 cameraPos = new Vector3(playerPos.x, playerPos.y, -8);
-        Camera.main.transform.position = cameraPos;
-
-    }
-
+		
     void handleInput()
     {
 

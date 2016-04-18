@@ -65,6 +65,7 @@ public class Enemy : MonoBehaviour
             temp.a = fade;
 
             gameObject.GetComponent<SpriteRenderer>().color = temp;
+			BoardCreator.instance.SendMessage("kill");
         }
 
         if (enemy_color.a < 0)
