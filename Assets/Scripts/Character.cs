@@ -57,8 +57,9 @@ public class Character : MonoBehaviour
         // The sprite that represents the "magnet wave". Pure aesthetics.
         Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
         magnet_wave = GameObject.Find("Magnet-Wave(Clone)");
-        push_wave = (GameObject) Instantiate(push_wave_prefab, transform.position, transform.rotation);
 
+        // The sprite that represents the wi-fi esque push
+        push_wave = (GameObject) Instantiate(push_wave_prefab, transform.position, transform.rotation);
         push_wave.transform.localScale = new Vector3(20, 20, 0);
 
         // How fast toon moves.
@@ -87,6 +88,9 @@ public class Character : MonoBehaviour
 
         // Getting the player's animator
         my_animator = GetComponent<Animator>();
+
+        //Quick fix 
+        transform.position += new Vector3(0, 0, -3);
     }
 
     // Update is called once per frame
@@ -240,6 +244,7 @@ public class Character : MonoBehaviour
         // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
         body.velocity = Vector3.zero;
         push_wave.transform.position = transform.position;
+        magnet_wave.transform.position = transform.position;
     }
 
     void applyEnemies(int porp)
@@ -424,7 +429,7 @@ public class Character : MonoBehaviour
     public IEnumerator magnet_animation(int type)
     {
         animation_happening = true;
-        magnet_wave.transform.position = this.transform.position;
+        
         Color original = magnet_wave.GetComponent<SpriteRenderer>().color;
         // Pull animation
         if (type == 2)
