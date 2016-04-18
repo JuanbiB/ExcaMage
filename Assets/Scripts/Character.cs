@@ -36,6 +36,7 @@ public class Character : MonoBehaviour
     Animator pull_anim_controller;
     Animator push_anim_controller;
     Animator push_wave_controller;
+    Animator my_animator;
 
     // Use this for initialization
     void Start()
@@ -84,6 +85,8 @@ public class Character : MonoBehaviour
         push_wave_controller = push_wave.GetComponent<Animator>();
         push_wave.GetComponent<SpriteRenderer>().enabled = false;
 
+        // Getting the player's animator
+        my_animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -134,12 +137,14 @@ public class Character : MonoBehaviour
         {
             temp = transform.position + Vector3.up * Time.deltaTime * character_speed;
             direction_facing = "up";
+            my_animator.Play("player_up");
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
             temp = transform.position + Vector3.right * Time.deltaTime * character_speed;
             direction_facing = "right";
+            my_animator.Play("player_right");
         }
 
         else if (Input.GetKey(KeyCode.S))
@@ -152,9 +157,13 @@ public class Character : MonoBehaviour
         {
             temp = transform.position + -Vector3.right * Time.deltaTime * character_speed;
             direction_facing = "left";
+            my_animator.Play("player_left");
         }
 
         body.MovePosition(temp);
+
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.W))
+            my_animator.Play("player_idle");
 
         push_and_pull();
 
@@ -186,6 +195,9 @@ public class Character : MonoBehaviour
 
                 //Triggers the recharge rate animation.
                 pull_anim_controller.Play("pull_anim");
+                my_animator.Play("player_pull");
+
+
 
                 if (addForce_BigFireball)
                     addForceBullets("pull");
@@ -422,7 +434,6 @@ public class Character : MonoBehaviour
         animation_happening = true;
         magnet_wave.transform.position = this.transform.position;
         Color original = magnet_wave.GetComponent<SpriteRenderer>().color;
-
         // Pull animation
         if (type == 2)
         {
