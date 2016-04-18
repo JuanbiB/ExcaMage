@@ -35,7 +35,6 @@ public class BoardCreator : MonoBehaviour
 
 	private void Update()
 	{
-		print (curKills + " askjdhfasdf " + rooms [curLevel].enemyCount);
 		if (curKills >= rooms[curLevel].enemyCount) {
 			spawnExit ();
 			curKills = 0;

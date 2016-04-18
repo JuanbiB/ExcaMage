@@ -22,16 +22,6 @@ public class Enemy : MonoBehaviour
     float time;
 	public float shooting_rate;
 
-
-    //TODO
-    //1. Create Enemy Movement that knows how to both
-    /// a) avoid pitfalls and spikes
-    /// b) Move towards the character
-    /// 
-    //2. Add shooting -- DONE
-    /// </summary>
-
-
     // Use this for initialization
     void Start()
     {
@@ -52,9 +42,16 @@ public class Enemy : MonoBehaviour
 
 
         time = 0.0f;
-
-
     }
+
+	// Update is called once per frame
+	void Update()
+	{
+		handleShooting();
+
+		handleDeath();
+
+	}
 
     void handleDeath()
     {
@@ -85,15 +82,7 @@ public class Enemy : MonoBehaviour
             time = 0.0f;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        handleShooting();
-
-        handleDeath();
-      
-    }
+		
 
     public IEnumerator fall_death(Vector2 pos)
     {
