@@ -35,10 +35,11 @@ public class BoardCreator : MonoBehaviour
 
 	private void Update()
 	{
+		print (curKills + " askjdhfasdf " + rooms [curLevel].enemyCount);
 		if (curKills >= rooms[curLevel].enemyCount) {
+			spawnExit ();
 			curKills = 0;
 			curLevel++;
-			spawnExit ();
 		}
 	}
 
@@ -167,12 +168,13 @@ public class BoardCreator : MonoBehaviour
 
 	private void spawnExit ()
 	{
-		Vector3 portalPos = new Vector3 ((20+(30*curLevel-1)), 10);
+		Vector3 portalPos = new Vector3 ((30*(curLevel)+10), 10,-5);
 		Instantiate(portal, portalPos, Quaternion.identity);	
 	}
 
 	private void kill ()
 	{
+		print ("kill");
 		curKills++;
 	}
 }

@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
             temp.a = fade;
 
             gameObject.GetComponent<SpriteRenderer>().color = temp;
-			BoardCreator.instance.SendMessage("kill");
+		
         }
 
         if (enemy_color.a < 0)
@@ -119,6 +119,7 @@ public class Enemy : MonoBehaviour
 
         } while (transform.localScale.x > 0);
 
+		BoardCreator.instance.SendMessage("kill");
         Destroy(gameObject);
     }
 

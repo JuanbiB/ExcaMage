@@ -63,7 +63,7 @@ public class Character : MonoBehaviour
         push_wave.transform.localScale = new Vector3(20, 20, 0);
 
         // How fast toon moves.
-        character_speed = 4;
+        character_speed = 7;
 
         // Lock so that you don't push and pull and the same time.
         animation_happening = false;
@@ -535,5 +535,9 @@ public class Character : MonoBehaviour
                 Destroy(coll.gameObject);
             }
         }
+		if (coll.gameObject.tag == "Finish") {
+			Vector3 curr = this.transform.position;
+			this.transform.position = new Vector3 (curr.x + 30, curr.y, curr.z);
+		}
     }
 }
