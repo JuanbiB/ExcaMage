@@ -25,6 +25,7 @@ public class Character : MonoBehaviour
     bool hit;
     bool animation_happening;
     string direction_facing;
+	bool interrupt_animation;
 
     public bool addForce_BigFireball;
     public int by_how_much;
@@ -96,6 +97,7 @@ public class Character : MonoBehaviour
         transform.position += new Vector3(0, 0, -3);
 
 		original = sp_render.color;
+		interrupt_animation = false;
     }
 
     // Update is called once per frame
@@ -138,14 +140,19 @@ public class Character : MonoBehaviour
         {
             temp = transform.position + Vector3.up * Time.deltaTime * character_speed;
             direction_facing = "up";
-            my_animator.Play("player_up");
+
+			if (interrupt_animation == false)
+            	my_animator.Play("player_up");
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
             temp = transform.position + Vector3.right * Time.deltaTime * character_speed;
             direction_facing = "right";
-            my_animator.Play("player_right");
+
+			if (interrupt_animation == false)
+            	my_animator.Play("player_right");
+
         }
 
         else if (Input.GetKey(KeyCode.S))
@@ -158,7 +165,9 @@ public class Character : MonoBehaviour
         {
             temp = transform.position + -Vector3.right * Time.deltaTime * character_speed;
             direction_facing = "left";
-            my_animator.Play("player_left");
+
+			if (interrupt_animation == false)
+            	my_animator.Play("player_left");
         }
 
         body.MovePosition(temp);
@@ -194,10 +203,12 @@ public class Character : MonoBehaviour
                 // This is just the magnet animation.
                 StartCoroutine(magnet_animation(2));
 
+				// In place to fix animation splitting
+				interrupt_animation = true;
+
                 //Triggers the recharge rate animation.
                 pull_anim_controller.Play("pull_anim");
                 my_animator.Play("player_pull");
-
 
 
                 if (addForce_BigFireball)
@@ -447,6 +458,9 @@ public class Character : MonoBehaviour
                 magnet_wave.transform.localScale -= Vector3.one * Time.deltaTime * 20;
                 yield return null;
             }
+
+			//In place to fix the animations
+			interrupt_animation = false;
         }
         // Push animation
         else
