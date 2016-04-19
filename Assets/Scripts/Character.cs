@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Character : MonoBehaviour
     GameObject[] go;
     SpriteRenderer sp_render;
 
+
+
     // Prefabs 
     public GameObject magnet_wave_prefab;
     GameObject magnet_wave;
@@ -16,6 +19,8 @@ public class Character : MonoBehaviour
     GameObject push_wave;
 
     public GameObject broken_tile;
+
+	public int health;
 
     // Variables
     float time;
@@ -47,6 +52,8 @@ public class Character : MonoBehaviour
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
+
+
 
         // Put in place to avoid character to spin off when hit.
         body.freezeRotation = true;
@@ -96,15 +103,23 @@ public class Character : MonoBehaviour
         transform.position += new Vector3(0, 0, -3);
 
 		original = sp_render.color;
+
+		health = 3;
+		//this.gameObject.tag = "Character";
     }
 
     // Update is called once per frame
     void Update()
     {
         fixConstants();
-        handleInput();
+		if (health > 0) {
+			handleInput ();
+		}
         check_drag();
     }
+	void onDeath(){
+		print ("You have died");
+	}
 		
     void handleInput()
     {
@@ -499,6 +514,7 @@ public class Character : MonoBehaviour
     public IEnumerator hit_animation()
     {
         hit = true;
+		health--;
         float time = 0.0f;
         while (time < 1.5f)
         {
