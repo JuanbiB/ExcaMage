@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class HUD : MonoBehaviour {
 
@@ -71,6 +72,10 @@ public class HUD : MonoBehaviour {
 		if (numhearts == 0) {
 			Time.timeScale = 0;
 			deathText.gameObject.SetActive (true);
+			if (Input.anyKey) {
+				SceneManager.LoadScene ("Start Menu");
+			}
+
 
 
 		}

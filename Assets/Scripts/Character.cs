@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
 public class Character : MonoBehaviour
 {
 
@@ -119,9 +120,7 @@ public class Character : MonoBehaviour
 		}
         check_drag();
     }
-	void onDeath(){
-		print ("You have died");
-	}
+
 		
     void handleInput()
     {
