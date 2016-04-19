@@ -50,6 +50,7 @@ public class Character : MonoBehaviour
 
 	// Use this please
 	public static Character instance = null;
+
 	void Awake(){
 		this.health = 3;
 	}
@@ -112,6 +113,8 @@ public class Character : MonoBehaviour
 		original = sp_render.color;
 		//this.gameObject.tag = "Character";
 		interrupt_animation = false;
+
+		// Making an instance for non-monobehaviors
 		instance = this;
 
     }

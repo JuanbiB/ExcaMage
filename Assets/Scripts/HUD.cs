@@ -80,7 +80,7 @@ public class HUD : MonoBehaviour {
 			Time.timeScale = 0;
 			deathText.gameObject.SetActive (true);
 			if (Input.anyKey) {
-				SceneManager.LoadScene ("Start Menu");
+				SceneManager.LoadScene ("main");
 			}
 
 		}

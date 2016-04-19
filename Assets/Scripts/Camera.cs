@@ -5,6 +5,10 @@ public class Camera : MonoBehaviour {
 
 	public GameObject player;
 
+	void Awake(){
+		Time.timeScale = 1;
+	}
+
 	void Start ()
 	{
 		player = GameObject.FindGameObjectWithTag ("Player");
