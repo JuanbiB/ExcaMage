@@ -26,7 +26,7 @@ public class StartScreenManager : MonoBehaviour {
 	}
 	IEnumerator LoadGame(){
 		yield return new WaitForSeconds (4);
-		SceneManager.LoadScene ("main 1");
+		SceneManager.LoadScene ("main");
 	}
 	
 	// Update is called once per frame
