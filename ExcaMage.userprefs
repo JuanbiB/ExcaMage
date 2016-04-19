@@ -1,13 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MapGen\Room.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Character.cs">
     <Files>
-      <File FileName="Assets\MapGen\Room.cs" Line="84" Column="40" />
-      <File FileName="Assets\Scripts\HUD.cs" Line="71" Column="4" />
-      <File FileName="Assets\MapGen\BoardCreator.cs" Line="165" Column="5" />
-      <File FileName="Assets\Scripts\FlyingEnemy.cs" Line="72" Column="1" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="112" Column="29" />
-      <File FileName="Assets\Scripts\Character.cs" Line="116" Column="3" />
+      <File FileName="Assets/MapGen/BoardCreator.cs" Line="197" Column="16" />
+      <File FileName="Assets/Scripts/FlyingEnemy.cs" Line="40" Column="15" />
+      <File FileName="Assets/Scripts/Character.cs" Line="303" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

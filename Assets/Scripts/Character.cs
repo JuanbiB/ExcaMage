@@ -303,7 +303,10 @@ public class Character : MonoBehaviour
                 {
                     if (porp == 1)
                     {
-                        // Inverse linear force equation.
+						if (go [i].gameObject.name == "FlyingMonster")
+							go [i].gameObject.GetComponent<FlyingEnemy> ().moving_towards = false;
+                        
+						// Inverse linear force equation.
                         enemybody.AddForce(dir * (force_size / distance) * 50);
 
                     }

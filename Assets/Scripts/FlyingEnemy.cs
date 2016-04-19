@@ -7,7 +7,7 @@ public class FlyingEnemy : MonoBehaviour {
 	Rigidbody2D rb;
 	Vector3 temp;
 	int speed;
-	bool moving_towards;
+	public bool moving_towards;
 	float time;
 
 	// Use this for initialization
@@ -19,6 +19,8 @@ public class FlyingEnemy : MonoBehaviour {
 		temp = transform.position;
 		moving_towards = true;
 		time = 0.0f;
+
+		name = "FlyingMonster";
 	}
 	
 	// Update is called once per frame
@@ -35,7 +37,7 @@ public class FlyingEnemy : MonoBehaviour {
 			time += Time.deltaTime;
 		}
 
-		if (time > .8f) {
+		if (time > 2f) {
 			time = 0.0f;
 			moving_towards = true;
 		}

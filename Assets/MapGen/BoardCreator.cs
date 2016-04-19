@@ -189,8 +189,13 @@ public class BoardCreator : MonoBehaviour
 		GameObject tileInstance = Instantiate(prefabs[randomIndex], position, Quaternion.identity) as GameObject;
 
 		// If it's not a floor tile we have to put it at a lower z.
-		if (prefabs != floorTiles || prefabs == Spikes) {
+		if (prefabs != floorTiles) {
 			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -2);
+			tileInstance.transform.position = pos;
+		}
+
+		if (prefabs == Baddies) {
+			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -3);
 			tileInstance.transform.position = pos;
 		}
 
