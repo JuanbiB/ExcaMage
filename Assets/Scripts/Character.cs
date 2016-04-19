@@ -54,7 +54,6 @@ public class Character : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-		instance = this;
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
@@ -113,6 +112,8 @@ public class Character : MonoBehaviour
 		health = 3;
 		//this.gameObject.tag = "Character";
 		interrupt_animation = false;
+		instance = this;
+
     }
 
     // Update is called once per frame

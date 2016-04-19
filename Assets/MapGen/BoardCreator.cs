@@ -10,7 +10,8 @@ public enum TileType
 	SpikeR, SpikeL, SpikeU, SpikeD, 
 
 	//Enemies
-	BasicEnemy
+	BasicEnemy,
+	FlyingEnemy
 }
 	
 public class BoardCreator : MonoBehaviour
@@ -51,7 +52,7 @@ public class BoardCreator : MonoBehaviour
 		}
 	}
 
-	private void Start ()
+	private void Awake ()
 	{
 		// Create the board holder.
 		instance = this;
@@ -143,6 +144,11 @@ public class BoardCreator : MonoBehaviour
 					InstantiateFromArray (Baddies, x, y);
 				}
 
+				if (tiles[x][y] == TileType.FlyingEnemy)
+				{
+					InstantiateFromArray (Baddies, x, y);
+				}
+
 				if (tiles[x][y] == TileType.SpikeD || tiles[x][y] == TileType.SpikeL 
 					|| tiles[x][y] == TileType.SpikeR || tiles[x][y] == TileType.SpikeU)
 				{
@@ -156,6 +162,7 @@ public class BoardCreator : MonoBehaviour
 	{
 		Vector3 playerPos = new Vector3 (10, 10);
 		Instantiate(player, playerPos, Quaternion.identity);
+		//Character.instance.invunerable (1f);
 	}
 
 	void InstantiateFromArray (GameObject[] prefabs, float xCoord, float yCoord)
@@ -166,11 +173,23 @@ public class BoardCreator : MonoBehaviour
 		// The position to be instantiated at is based on the coordinates.
 		Vector3 position = new Vector3(xCoord, yCoord, 0f);
 
+		// Board x and y of prefab
+		int x = (int)Mathf.Round(position.x);
+		int y = (int)Mathf.Round(position.y);
+
+		// If we are a bad guy put the right one
+		if (prefabs == Baddies) {
+			if (tiles[x][y] == TileType.BasicEnemy)
+				randomIndex = 0;
+			if (tiles[x][y] == TileType.FlyingEnemy)
+				randomIndex = 1;
+		}
+
 		// Create the prefab.
 		GameObject tileInstance = Instantiate(prefabs[randomIndex], position, Quaternion.identity) as GameObject;
 
 		// If it's not a floor tile we have to put it at a lower z.
-		if (prefabs != floorTiles) {
+		if (prefabs != floorTiles || prefabs == Spikes) {
 			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -2);
 			tileInstance.transform.position = pos;
 		}
