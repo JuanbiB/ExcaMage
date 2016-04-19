@@ -104,13 +104,10 @@ public class Character : MonoBehaviour
         transform.position += new Vector3(0, 0, -3);
 
 		original = sp_render.color;
-<<<<<<< HEAD
 
 		health = 3;
 		//this.gameObject.tag = "Character";
-=======
 		interrupt_animation = false;
->>>>>>> origin/master
     }
 
     // Update is called once per frame
