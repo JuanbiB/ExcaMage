@@ -220,7 +220,7 @@ public class Character : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.J))
             {
                 // This is the actual adding of force to enemies.
-                applyEnemies(1);
+				applyForceToEnemies(1);
 
                 // This is just the magnet animation.
                 StartCoroutine(magnet_animation(2));
@@ -244,7 +244,7 @@ public class Character : MonoBehaviour
             if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim"))
             {
 
-                applyEnemies(2);
+				applyForceToEnemies(2);
                 StartCoroutine(magnet_animation(1));
                 push_anim_controller.Play("push_anim");
 
@@ -285,7 +285,7 @@ public class Character : MonoBehaviour
         magnet_wave.transform.position = transform.position;
     }
 
-    void applyEnemies(int porp)
+    void applyForceToEnemies(int porp)
     {
         for (int i = 0; i < go.Length; i++)
         {
