@@ -1,14 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-// The type of tile that will be laid in a specific position. Floor is laid everywhere with others on top.
 public enum TileType
 {
-	Wall, Floor, Hole, BasicEnemy
+	//Environment
+	Wall, 
+	Floor, 
+	Hole, 
+	SpikeR, SpikeL, SpikeU, SpikeD, 
+
+	//Enemies
+	BasicEnemy
 }
 	
 public class BoardCreator : MonoBehaviour
 {
+	// Basic board stuff
 	private IntRange numRooms = new IntRange (15, 20);         
 	private int boardH = 40;
 	private int boardW = 310;
@@ -18,6 +25,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] wallTiles;                            // An array of wall tile prefabs.
 	public GameObject[] holeTiles;    						  // An array of hole prefabs.
 	public GameObject[] Baddies;						      // An array of enemies.
+	public GameObject[] Spikes;	
 	public GameObject player;								  // The player prefab.
 	public GameObject portal;
 
@@ -30,9 +38,10 @@ public class BoardCreator : MonoBehaviour
 	private int curLevel = 0;
 	private int curKills = 0;
 
-
+	// So other scipts can see this
 	public static BoardCreator instance = null;
 
+	// Check is the room done
 	private void Update()
 	{
 		if (curKills >= rooms[curLevel].enemyCount) {
@@ -84,9 +93,7 @@ public class BoardCreator : MonoBehaviour
 			}
 		}
 	}
-
-
-
+		
 	void createRooms()
 	{
 		rooms = new Room[10];
@@ -135,6 +142,12 @@ public class BoardCreator : MonoBehaviour
 				{
 					InstantiateFromArray (Baddies, x, y);
 				}
+
+				if (tiles[x][y] == TileType.SpikeD || tiles[x][y] == TileType.SpikeL 
+					|| tiles[x][y] == TileType.SpikeR || tiles[x][y] == TileType.SpikeU)
+				{
+					InstantiateFromArray (Spikes, x, y);
+				}
 			}
 		}
 	}
@@ -153,21 +166,40 @@ public class BoardCreator : MonoBehaviour
 		// The position to be instantiated at is based on the coordinates.
 		Vector3 position = new Vector3(xCoord, yCoord, 0f);
 
-		// If it's not a floor tile we have to put it at a lower z.
+		// Create the prefab.
 		GameObject tileInstance = Instantiate(prefabs[randomIndex], position, Quaternion.identity) as GameObject;
 
+		// If it's not a floor tile we have to put it at a lower z.
 		if (prefabs != floorTiles) {
-			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -3);
+			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -2);
 			tileInstance.transform.position = pos;
+		}
+
+		// If its a spike we gotta rotate it properly
+		if (prefabs == Spikes) {
+			rotato (tileInstance);
 		}
 
 		// Set the tile's parent to the board holder.
 		tileInstance.transform.parent = boardHolder.transform;
 	}
 
+	private void rotato(GameObject tileInstance)
+	{
+		int x = (int)Mathf.Round(tileInstance.transform.position.x);
+		int y = (int)Mathf.Round(tileInstance.transform.position.y);
+		if (tiles [x] [y] == TileType.SpikeU)
+			tileInstance.transform.Rotate (0, 0, 90);
+		if (tiles [x] [y] == TileType.SpikeL)
+			tileInstance.transform.Rotate (0, 0, 180);
+		if (tiles [x] [y] == TileType.SpikeD)
+			tileInstance.transform.Rotate (0, 0, 270);
+	}
+
 	private void spawnExit ()
 	{
-		Vector3 portalPos = new Vector3 ((30*(curLevel)+10), 10,-5);
+		
+		Vector3 portalPos = new Vector3 ((30*(curLevel)+10+4), 10+4,-5);
 		Instantiate(portal, portalPos, Quaternion.identity);	
 	}
 

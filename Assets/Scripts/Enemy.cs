@@ -114,6 +114,7 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator spike_death()
     {
+		BoardCreator.instance.SendMessage("kill");
         float time = 0.0f;
         Quaternion qua = Quaternion.Euler(new Vector3(0, 0, -90));
         while (time < 1.5)
@@ -129,6 +130,7 @@ public class Enemy : MonoBehaviour
 
         body.isKinematic = true;
         coll.isTrigger = true;
+
 
         dead = true;
     }

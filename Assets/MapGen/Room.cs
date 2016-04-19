@@ -3,7 +3,9 @@
 public class Room
 {
 	public int level;										  // What level
-	public TileType[][] roomTiles;								  // All the tiles in the room.
+	public TileType[][] roomTiles;							  // All the tiles in the room.
+	public int height;
+	public int width;
 	public GameObject[] Baddies;						      // An array of enemies.
 	public int enemyCount = 0;
 
@@ -37,8 +39,8 @@ public class Room
 		
 	public void Standard()
 	{
-		int width = UnityEngine.Random.Range(8, 16);
-		int height = UnityEngine.Random.Range(8, 16);
+		width = UnityEngine.Random.Range(8, 16);
+		height = UnityEngine.Random.Range(8, 16);
 
 		SetupTilesArray (width, height);
 		PutFloor();
@@ -55,6 +57,7 @@ public class Room
 				}
 			}
 		}
+		addSpikes (30);
 	}
 
 //	public void Bats(TileType[][] tiles)
@@ -63,4 +66,25 @@ public class Room
 //	public void Turrets(TileType[][] tiles)
 //	{
 //	} 
+
+	public void addSpikes(int prob){
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				int probSpike = UnityEngine.Random.Range (0, prob);
+				if (x == 0 && probSpike == 1) {
+				//	Debug.Log("spiker");
+					this.roomTiles [x] [y] = TileType.SpikeR;
+				} else if (y == 0 && probSpike == 1) {
+				//	Debug.Log("spikeu");
+					this.roomTiles [x] [y] = TileType.SpikeU;
+				} else if (x == width - 1 && probSpike == 1) {
+				//	Debug.Log("spikel");
+					this.roomTiles [x] [y] = TileType.SpikeL;
+				} else if (y == height - 1 && probSpike == 1) {
+				//	Debug.Log("spiked");
+					this.roomTiles [x] [y] = TileType.SpikeD;
+				}
+			}
+		}
+	}
 }

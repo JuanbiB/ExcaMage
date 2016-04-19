@@ -41,9 +41,13 @@ public class Character : MonoBehaviour
 	//Color stuff
 	Color original;
 
+	// Use this please
+	public static Character instance = null;
+
     // Use this for initialization
     void Start()
     {
+		instance = this;
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
@@ -286,7 +290,7 @@ public class Character : MonoBehaviour
                         //print (angle);
                         //print(Vector3.Distance(transform.position, target.position));
 
-                        print(360 - angle);
+//                        print(360 - angle);
 
                         // Find me if you need me to explain these particular mechanics, they're not that tough. 
                         if (direction_facing == "right" && facing.x > 0)
@@ -514,6 +518,18 @@ public class Character : MonoBehaviour
         hit = false;
     }
 
+	public IEnumerator invunerable(float time)
+	{
+		hit = true;
+		float start = 0.0f;
+		while (start < time)
+		{
+			time += Time.deltaTime;
+			yield return null;
+		}
+		hit = false;
+	}
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "Enemy")
@@ -542,6 +558,7 @@ public class Character : MonoBehaviour
 		if (coll.gameObject.tag == "Finish") {
 			Vector3 curr = this.transform.position;
 			this.transform.position = new Vector3 (curr.x + 30, curr.y, curr.z);
+			StartCoroutine ("invunerable", 1f);
 		}
     }
 }
