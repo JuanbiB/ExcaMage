@@ -21,7 +21,7 @@ public class Character : MonoBehaviour
 
     public GameObject broken_tile;
 
-	public int health;
+	public int health=3;
 
     // Variables
     float time;
@@ -50,6 +50,9 @@ public class Character : MonoBehaviour
 
 	// Use this please
 	public static Character instance = null;
+	void Awake(){
+		this.health = 3;
+	}
 
     // Use this for initialization
     void Start()
@@ -57,7 +60,6 @@ public class Character : MonoBehaviour
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
-
 
 
         // Put in place to avoid character to spin off when hit.
@@ -108,8 +110,6 @@ public class Character : MonoBehaviour
         transform.position += new Vector3(0, 0, -3);
 
 		original = sp_render.color;
-
-		health = 3;
 		//this.gameObject.tag = "Character";
 		interrupt_animation = false;
 		instance = this;

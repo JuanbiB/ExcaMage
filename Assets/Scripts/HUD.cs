@@ -24,8 +24,11 @@ public class HUD : MonoBehaviour {
 	void Start () {
 
 		player = GameObject.FindGameObjectWithTag ("Player");
-
 		numhearts = 0;
+		addHearts ();
+
+
+
 
 		deathText.gameObject.SetActive (false);
 		//HeartUI = (Image) GameObject.FindGameObjectWithTag("Heart");
@@ -38,6 +41,8 @@ public class HUD : MonoBehaviour {
 
 	//To be used at instantiation of game
 	void addHearts(){
+		//print ("WHY ARENT U WORKING");
+		print (player.GetComponent<Character> ().health);
 			for (int i = 0; i < player.GetComponent<Character>().health; i++) {
 			Image heart_to_add = Instantiate (HeartUI);//instantiate heart
 			heart_to_add.gameObject.SetActive(true);
@@ -46,7 +51,7 @@ public class HUD : MonoBehaviour {
 			heart_to_add.transform.SetParent(ParentPanel,false);
 			heart_to_add.transform.localScale = new Vector3 (1, 1, 1);
 			numhearts++;
-			//print ("hit");
+			//print (numhearts+ "is numhearts");
 
 		}
 		
@@ -55,10 +60,12 @@ public class HUD : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (player == null) {
+			//print ("CUCK");
 			player = GameObject.FindGameObjectWithTag ("Player");
 			addHearts ();
 			print (heartSprites.Count);
 		}
+		print (numhearts + " right now");
 		if (player.GetComponent<Character>().health < numhearts) {
 			Image heart_to_destroy = heartSprites [heartSprites.Count - 1];
 			Destroy (heart_to_destroy.gameObject);
@@ -69,14 +76,12 @@ public class HUD : MonoBehaviour {
 
 			
 		}
-		if (numhearts == 0) {
+		if (player.GetComponent<Character>().health <= 0) {
 			Time.timeScale = 0;
 			deathText.gameObject.SetActive (true);
 			if (Input.anyKey) {
 				SceneManager.LoadScene ("Start Menu");
 			}
-
-
 
 		}
 //		if (chr == null) {
