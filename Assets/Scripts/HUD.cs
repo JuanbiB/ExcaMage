@@ -41,8 +41,6 @@ public class HUD : MonoBehaviour {
 
 	//To be used at instantiation of game
 	void addHearts(){
-		//print ("WHY ARENT U WORKING");
-		print (player.GetComponent<Character> ().health);
 			for (int i = 0; i < player.GetComponent<Character>().health; i++) {
 			Image heart_to_add = Instantiate (HeartUI);//instantiate heart
 			heart_to_add.gameObject.SetActive(true);
@@ -51,7 +49,6 @@ public class HUD : MonoBehaviour {
 			heart_to_add.transform.SetParent(ParentPanel,false);
 			heart_to_add.transform.localScale = new Vector3 (1, 1, 1);
 			numhearts++;
-			//print (numhearts+ "is numhearts");
 
 		}
 		
@@ -65,7 +62,6 @@ public class HUD : MonoBehaviour {
 			addHearts ();
 			print (heartSprites.Count);
 		}
-		print (numhearts + " right now");
 		if (player.GetComponent<Character>().health < numhearts) {
 			Image heart_to_destroy = heartSprites [heartSprites.Count - 1];
 			Destroy (heart_to_destroy.gameObject);

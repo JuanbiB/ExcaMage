@@ -24,9 +24,18 @@ public class StartScreenManager : MonoBehaviour {
 		startsound.Play ();
 		StartCoroutine (LoadGame ());
 	}
+
 	IEnumerator LoadGame(){
-		yield return new WaitForSeconds (4);
-		SceneManager.LoadScene ("main");
+
+		AsyncOperation async = SceneManager.LoadSceneAsync ("main");
+
+		while (!async.isDone) {
+			print (async.progress);
+
+			yield return(0);
+		}
+		//yield return new WaitForSeconds (4);
+		//SceneManager.LoadScene ("main");
 	}
 	
 	// Update is called once per frame

@@ -229,7 +229,6 @@ public class BoardCreator : MonoBehaviour
 
 	private void kill ()
 	{
-		print ("kill");
 		curKills++;
 	}
 }

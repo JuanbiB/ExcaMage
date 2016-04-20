@@ -261,9 +261,8 @@ public class Character : MonoBehaviour
         {
             if (go[i] != null)
             {
-
                 enemybody = go[i].GetComponent<Rigidbody2D>();
-                enemybody.drag += Time.deltaTime * 3;
+				enemybody.drag += Time.deltaTime * 3;
 
                 // When they reach a certain point the drag will make them stand still, so you want to reset it for the next time you AddForce.
                 if (enemybody.IsSleeping() || 
@@ -271,7 +270,6 @@ public class Character : MonoBehaviour
                     || (Input.GetKeyDown(KeyCode.K) && !push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim")))
                 {
                     enemybody.drag = 0;
-                    enemybody.velocity = Vector2.zero;
                 }
             }
         }
@@ -302,17 +300,21 @@ public class Character : MonoBehaviour
                 dir.Normalize();    // Makes the distance have a magnitude of 1.
 
                 float distance_check = Vector2.Distance(transform.position, target.position);
+
+				string nameCheck = go [i].gameObject.name;
+
                 if (distance_check < allowed_radius)
                 {
-                    if (porp == 1)
-                    {
-						if (go [i].gameObject.name == "FlyingMonster")
-							go [i].gameObject.GetComponent<FlyingEnemy> ().moving_towards = false;
-                        
-						// Inverse linear force equation.
-                        enemybody.AddForce(dir * (force_size / distance) * 50);
 
+                    if (porp == 1)
+					{
+						// Inverse linear force equation.
+					if (go [i].gameObject.name == "FlyingMonster") {
+							go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+						}
+							enemybody.AddForce(dir * (force_size / distance) * 50);
                     }
+
                     else {
                         // Variables we're going to need to make the calculations for the push						
                         Vector3 angle_dir = target.position - transform.position;
@@ -329,15 +331,24 @@ public class Character : MonoBehaviour
                         {
                             if (angle >= 45 && angle <= 135)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
                             }
 
+							enemybody.AddForce(-dir * (force_size / distance) * 50);
                         }
                         else if (direction_facing == "down")
                         {
                             if (angle >= 65)
                             {   // used to be 135
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+
+
+								enemybody.AddForce(-dir * (force_size / distance) * 50);
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+								
                             }
                         }
 
@@ -345,40 +356,79 @@ public class Character : MonoBehaviour
                         {
                             if (angle >= 45 && angle <= 135 && facing.x < 0)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+
+								enemybody.AddForce(-dir * (force_size / distance) * 50);
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+								
+                          
                             }
 
                         }
                         else if (direction_facing == "up")
                         {
-                            if (angle <= 75)//used to be 45
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+							if (angle <= 75) {
+
+								enemybody.AddForce (-dir * (force_size / distance) * 50);
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+
+						
+							}
 
                         }
 
                         else if (direction_facing == "up-right" && facing.x > 0)
                         {
-                            if (angle >= 22.5 && angle <= 67.5)
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+							if (angle >= 22.5 && angle <= 67.5){
+								enemybody.AddForce (-dir * (force_size / distance) * 50);
+
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+
+
+							}
                         }
 
                         else if (direction_facing == "down-right" && facing.x > 0)
                         {
 
-                            if (angle >= 112.5 && angle <=135.5)
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+							if (angle >= 112.5 && angle <=135.5){
+								enemybody.AddForce (-dir * (force_size / distance) * 50);
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+
+
+							}
                         }
 
                         else if (direction_facing == "down-left")
                         {
-                            if (angle >= 112.5 && angle <= 135.5)
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+							if (angle >= 112.5 && angle <= 135.5){
+								enemybody.AddForce (-dir * (force_size / distance) * 50);
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+
+
+							}
                         }
 
                         else if (direction_facing == "up-left")
                         {
-                            if (angle >= 22.5 && angle <= 67.5)
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+							if (angle >= 22.5 && angle <= 67.5){
+								enemybody.AddForce (-dir * (force_size / distance) * 50);
+
+
+								if (nameCheck == "FlyingMonster")
+									go [i].gameObject.GetComponent<FlyingEnemy> ().appliedForce = true;
+
+
+							}
                         }
 
                     }
@@ -388,7 +438,7 @@ public class Character : MonoBehaviour
     }
 
     void addForceBullets(string push_or_pull)
-    {
+    {	
         GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
         Rigidbody2D bullet_rb = enemybody;  // Just a holder variable to initialize it.
 
@@ -572,7 +622,6 @@ public class Character : MonoBehaviour
         {
             if (!hit)   // In place to prevent being damaged when you've already been recently damaged.
             {
-                print("hit");
                 StartCoroutine(hit_animation());
             }
         }
