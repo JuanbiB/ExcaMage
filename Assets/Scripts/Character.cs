@@ -21,7 +21,7 @@ public class Character : MonoBehaviour
 
     public GameObject broken_tile;
 
-	public int health=3;
+	public int health=5;
 
     // Variables
     float time;
@@ -52,7 +52,7 @@ public class Character : MonoBehaviour
 	public static Character instance = null;
 
 	void Awake(){
-		this.health = 3;
+		this.health = 5;
 	}
 
     // Use this for initialization
@@ -643,7 +643,7 @@ public class Character : MonoBehaviour
 		if (coll.gameObject.tag == "Finish") {
 			Vector3 curr = this.transform.position;
 			this.transform.position = new Vector3 (curr.x + 30, curr.y, curr.z);
-			StartCoroutine ("invunerable", 1f);
+			//StartCoroutine ("invunerable", 1f);
 		}
     }
 }

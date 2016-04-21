@@ -30,7 +30,7 @@ public class StartScreenManager : MonoBehaviour {
 		AsyncOperation async = SceneManager.LoadSceneAsync ("main");
 
 		while (!async.isDone) {
-			print (async.progress);
+//			print (async.progress);
 
 			yield return(0);
 		}

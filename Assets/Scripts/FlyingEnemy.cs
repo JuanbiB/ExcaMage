@@ -98,8 +98,8 @@ public class FlyingEnemy : MonoBehaviour {
 			yield return null;
 		}
 
-		BoardCreator.instance.SendMessage("kill");
 		Destroy (this.gameObject);
+		BoardCreator.instance.SendMessage("kill");
 	}
 		
 

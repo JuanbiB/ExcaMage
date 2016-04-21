@@ -108,13 +108,13 @@ public class Enemy : MonoBehaviour
 
         } while (transform.localScale.x > 0);
 
-		BoardCreator.instance.SendMessage("kill");
         Destroy(gameObject);
+		BoardCreator.instance.SendMessage("kill");
+	
     }
 
     public IEnumerator spike_death()
     {
-		BoardCreator.instance.SendMessage("kill");
         float time = 0.0f;
         Quaternion qua = Quaternion.Euler(new Vector3(0, 0, -90));
         while (time < 1.5)
@@ -130,10 +130,9 @@ public class Enemy : MonoBehaviour
 
         body.isKinematic = true;
         coll.isTrigger = true;
-
-
-        dead = true;
-    }
+		dead = true;
+		BoardCreator.instance.SendMessage("kill");
+	}
 
     void OnTriggerEnter2D(Collider2D coll)
     {
