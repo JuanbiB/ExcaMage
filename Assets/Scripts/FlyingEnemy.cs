@@ -15,6 +15,7 @@ public class FlyingEnemy : MonoBehaviour {
 
 	float time;
 	float time2;
+	int min_distance;
 
 	// Use this for initialization
 	void Start () {
@@ -31,11 +32,15 @@ public class FlyingEnemy : MonoBehaviour {
 
 		appliedForce = false;
 		dead = false;
+
+		min_distance = 10;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+		if (Vector3.Distance (player.transform.position, transform.position) > min_distance)
+			return;
 
 		if (dead)
 			return;
