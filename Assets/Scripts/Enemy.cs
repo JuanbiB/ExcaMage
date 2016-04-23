@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+    // prefab management
+    public GameObject exploded_pieces_prefab;
+    GameObject exploded_pieces;
 
     Rigidbody2D body;
     BoxCollider2D coll;
@@ -49,26 +52,14 @@ public class Enemy : MonoBehaviour
 	{
 		handleShooting();
 
-		handleDeath();
-
 	}
 
-    void handleDeath()
+    void spikeDeath()
     {
-        if (dead)
-        {
-            Color temp = enemy_color;
-            fade = fade - .004f;
-            temp.a = fade;
-
-            gameObject.GetComponent<SpriteRenderer>().color = temp;
-		
-        }
-
-        if (enemy_color.a < 0)
-        {
-            Destroy(this.gameObject);
-        }
+        BoardCreator.instance.SendMessage("kill");
+        Instantiate(exploded_pieces_prefab, transform.position, transform.rotation);
+        GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject);
     }
 
     void handleShooting()
@@ -108,9 +99,9 @@ public class Enemy : MonoBehaviour
 
         } while (transform.localScale.x > 0);
 
+        BoardCreator.instance.SendMessage("kill");
         Destroy(gameObject);
-		BoardCreator.instance.SendMessage("kill");
-	
+
     }
 
     public IEnumerator spike_death()
@@ -131,7 +122,7 @@ public class Enemy : MonoBehaviour
         body.isKinematic = true;
         coll.isTrigger = true;
 		dead = true;
-		BoardCreator.instance.SendMessage("kill");
+		
 	}
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -143,7 +134,7 @@ public class Enemy : MonoBehaviour
         }
         else if (coll.gameObject.tag == "Spike")
         {
-            StartCoroutine(spike_death());
+            spikeDeath();
         }
     }
 }

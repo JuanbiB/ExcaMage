@@ -271,7 +271,8 @@ public class Character : MonoBehaviour
     {
         foreach (GameObject g in go)
         {
-            g.GetComponent<SpriteRenderer>().color = Color.white;
+            if (g != null)
+                g.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
@@ -436,8 +437,8 @@ public class Character : MonoBehaviour
 
                 // When they reach a certain point the drag will make them stand still, so you want to reset it for the next time you AddForce.
                 if (enemybody.IsSleeping() ||
-                    (Input.GetKeyDown(KeyCode.J) && !pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
-                    || (Input.GetKeyDown(KeyCode.K) && !push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim")))
+                    (Input.GetKeyUp(KeyCode.J) && !pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
+                    || (Input.GetKeyUp(KeyCode.K) && !push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim")))
                 {
                     enemybody.drag = 0;
                 }
@@ -775,8 +776,6 @@ public class Character : MonoBehaviour
             {
                 decreaseOpacity();
                 time += Time.deltaTime;
-
-                print(magnet_wave.transform.position);
 
                 magnet_wave.transform.position += change * Time.deltaTime * 10;
                 magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 3;
