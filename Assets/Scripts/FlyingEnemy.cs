@@ -6,7 +6,7 @@ public class FlyingEnemy : MonoBehaviour {
 	GameObject player;
 	Rigidbody2D rb;
 	Vector3 temp;
-	int speed;
+	public int speed;
 
 	public bool moving_towards;
 	public bool appliedForce;
@@ -21,7 +21,6 @@ public class FlyingEnemy : MonoBehaviour {
 	void Start () {
 		rb = gameObject.GetComponent<Rigidbody2D> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
-		speed = 3;
 
 		temp = transform.position;
 		moving_towards = true;
