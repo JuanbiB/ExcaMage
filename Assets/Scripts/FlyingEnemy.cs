@@ -6,7 +6,7 @@ public class FlyingEnemy : MonoBehaviour {
 	GameObject player;
 	Rigidbody2D rb;
 	Vector3 temp;
-	int speed;
+	public int speed;
 
 	public bool moving_towards;
 	public bool appliedForce;
@@ -17,11 +17,13 @@ public class FlyingEnemy : MonoBehaviour {
 	float time2;
 	int min_distance;
 
+    // Exploding death
+    public GameObject exploding_pieces;
+
 	// Use this for initialization
 	void Start () {
 		rb = gameObject.GetComponent<Rigidbody2D> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
-		speed = 3;
 
 		temp = transform.position;
 		moving_towards = true;
@@ -48,7 +50,7 @@ public class FlyingEnemy : MonoBehaviour {
 		// From here
 		if (appliedForce) {
 			time2 += Time.deltaTime;
-			if (time2 > 1.5f) {
+			if (time2 > .5f) {
 				appliedForce = false;
 				rb.velocity = Vector3.zero;
 				time2 = 0.0f;
@@ -116,7 +118,9 @@ public class FlyingEnemy : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.tag == "Spike") {
-			StartCoroutine (spiked ());
+            Instantiate(exploding_pieces, transform.position, transform.rotation);
+            BoardCreator.instance.SendMessage("kill");
+            Destroy(this.gameObject);
 		}
 	}
 }

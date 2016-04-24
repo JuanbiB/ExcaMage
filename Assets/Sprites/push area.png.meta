@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: d4b4ad1f81c1e4b89af699f5c259f56f
-timeCreated: 1461113185
+guid: 6afbaa32cccd8534a917b8c695a85abd
+timeCreated: 1461434752
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: push area_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -29,8 +30,8 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 0
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +39,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +50,25 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: push area_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -50, y: 99}
+        - {x: -50, y: 90}
+        - {x: -5, y: -1}
+        - {x: 4, y: -1}
+        - {x: 20, y: 31}
+        - {x: 50, y: 93}
+        - {x: 50, y: 99}
     outline: []
   spritePackingTag: 
   userData: 
