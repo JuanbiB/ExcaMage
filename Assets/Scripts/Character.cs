@@ -53,16 +53,14 @@ public class Character : MonoBehaviour
     // Use this please
     public static Character instance = null;
 
-<<<<<<< HEAD
-	void Awake(){
-		this.health = 3;
-	}
-=======
+
+
+
     void Awake()
     {
         this.health = 5;
     }
->>>>>>> origin/master
+
 
     // Use this for initialization
     void Start()
