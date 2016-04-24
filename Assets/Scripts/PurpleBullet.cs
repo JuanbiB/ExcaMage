@@ -13,6 +13,7 @@ public class PurpleBullet : MonoBehaviour {
 	void Start () {
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		rb = GetComponent<Rigidbody2D> ();
+		speed = 100;
 
 		distance = char_ref.transform.position - transform.position;
 		rb.AddForce (distance.normalized * speed);

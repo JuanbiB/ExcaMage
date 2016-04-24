@@ -24,6 +24,7 @@ public class Character : MonoBehaviour
     public GameObject broken_tile;
 
     public int health = 5;
+	public int maxhealth;
 
     // Variables
     float time;
@@ -59,6 +60,7 @@ public class Character : MonoBehaviour
     void Awake()
     {
         this.health = 5;
+		this.maxhealth = health;
     }
 
 
@@ -851,6 +853,20 @@ public class Character : MonoBehaviour
                 Destroy(coll.gameObject);
             }
         }
+
+		if (coll.gameObject.tag == "PurpBullet") {
+			if (!hit) {
+				StartCoroutine (hit_animation ());
+				Destroy (coll.gameObject);
+			} else {
+				Destroy (coll.gameObject);
+			}
+		}
+
+
+
+
+
         if (coll.gameObject.tag == "Finish")
         {
             Vector3 curr = this.transform.position;

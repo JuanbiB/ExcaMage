@@ -6,7 +6,7 @@ public class BarScript : MonoBehaviour {
 
 	[SerializeField] private float fillAmount;
 
-	[SerializeField] private float lerpspeed = 2;
+	[SerializeField] private float lerpspeed = 10;
 
 	[SerializeField]
 	private Image content;
@@ -23,7 +23,7 @@ public class BarScript : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		numhealth = player.GetComponent<Character> ().health;
 		fillAmount = 1;
-		lerpspeed = 1;
+		lerpspeed = 4;
 
 		
 	
@@ -40,7 +40,7 @@ public class BarScript : MonoBehaviour {
 		}
 		if (numhealth > player.GetComponent<Character> ().health) {
 			print ("YEAH YEAH YEAH");
-			fillAmount = (float) player.GetComponent<Character> ().health / 3;
+			fillAmount = (float) player.GetComponent<Character> ().health / player.GetComponent<Character>().maxhealth;
 			numhealth--;
 		}
 		if (fillAmount < content.fillAmount){
