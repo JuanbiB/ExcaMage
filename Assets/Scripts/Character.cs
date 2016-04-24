@@ -52,7 +52,7 @@ public class Character : MonoBehaviour
 	public static Character instance = null;
 
 	void Awake(){
-		this.health = 5;
+		this.health = 3;
 	}
 
     // Use this for initialization
