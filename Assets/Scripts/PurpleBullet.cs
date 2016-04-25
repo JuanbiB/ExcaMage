@@ -17,6 +17,7 @@ public class PurpleBullet : MonoBehaviour {
 
 		distance = char_ref.transform.position - transform.position;
 		rb.AddForce (distance.normalized * speed);
+		this.name = "PurpBullet";
 	
 	}
 	
