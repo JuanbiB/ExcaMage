@@ -27,6 +27,8 @@ public class Character : MonoBehaviour
     public int health = 5;
 	public int maxhealth;
 
+	public int ammo;
+
     // Variables
     float time;
     float counter;
@@ -62,6 +64,7 @@ public class Character : MonoBehaviour
     {
         this.health = 5;
 		this.maxhealth = health;
+		this.ammo = 0;
     }
 
 
@@ -865,12 +868,22 @@ public class Character : MonoBehaviour
 
 		if (coll.gameObject.tag == "PurpBullet") {
 			if (!hit) {
-				StartCoroutine (hit_animation ());
-				Destroy (coll.gameObject);
+				//Need to create an instance that the bullet will not hurt if it is being absorbed
+				if (animation_happening == true) {
+					this.ammo++;
+					Destroy (coll.gameObject);
+					print (this.ammo);
+				} else {
+
+
+					StartCoroutine (hit_animation ());
+					Destroy (coll.gameObject);
+				}
 			} else {
 				Destroy (coll.gameObject);
 			}
 		}
+
 
 
 
