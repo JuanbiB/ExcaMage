@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 
@@ -8,7 +9,7 @@ public class Character : MonoBehaviour
 
     Rigidbody2D body;
     Rigidbody2D enemybody;
-    GameObject[] go;
+    List<GameObject> go;
     SpriteRenderer sp_render;
 
 
@@ -79,7 +80,9 @@ public class Character : MonoBehaviour
         sp_render = GetComponent<SpriteRenderer>();
 
         // All current enemies in scene with "Enemy" tag. Used for Push and Pull.
-        go = GameObject.FindGameObjectsWithTag("Enemy");
+        go = new List<GameObject>(); 
+        go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+        
 
         // The sprite that represents the "magnet wave". Pure aesthetics.
         Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
@@ -289,7 +292,7 @@ public class Character : MonoBehaviour
         pushArea.transform.position = transform.position;
         pushArea.transform.localScale = new Vector3(10, 9, 0);
 
-        for (int i = 0; i < go.Length; i++)
+        for (int i = 0; i < go.Count; i++)
         {
             // Checking if the enemy has been destroyed. Don't access if true.
             if (go[i] != null)
@@ -434,9 +437,9 @@ public class Character : MonoBehaviour
     void check_drag()
     {
         // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
-        for (int i = 0; i < go.Length; i++)
+        for (int i = 0; i < go.Count; i++)
         {
-            if (go[i] != null)
+            if (go[i] != null && go[i].gameObject.tag != "PurpBullet")
             {
                 enemybody = go[i].GetComponent<Rigidbody2D>();
                 enemybody.drag += Time.deltaTime * 3;
@@ -462,7 +465,13 @@ public class Character : MonoBehaviour
 
     void applyForceToEnemies(int porp)
     {
-        for (int i = 0; i < go.Length; i++)
+        GameObject[] purple_bullets = GameObject.FindGameObjectsWithTag("PurpBullet");
+        foreach (GameObject bullet in purple_bullets)
+        {
+            go.Add(bullet);
+        }
+
+        for (int i = 0; i < go.Count; i++)
         {
             // Checking if the enemy has been destroyed. Don't access if true.
             if (go[i] != null)
