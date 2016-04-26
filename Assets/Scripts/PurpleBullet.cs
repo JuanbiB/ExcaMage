@@ -16,6 +16,13 @@ public class PurpleBullet : MonoBehaviour {
 		speed = 100;
 
 		distance = char_ref.transform.position - transform.position;
+		float angle = Vector3.Angle (Vector3.up, distance);
+
+		print (angle);
+
+	
+		transform.Rotate (0, 0, -angle);
+
 		rb.AddForce (distance.normalized * speed);
 		this.name = "PurpBullet";
 	
