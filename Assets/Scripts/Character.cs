@@ -165,7 +165,6 @@ public class Character : MonoBehaviour
 
 
 
-
     void handleInput()
     {
 
@@ -456,7 +455,6 @@ public class Character : MonoBehaviour
         }
     }
 
-
     void check_drag()
     {
         // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
@@ -532,11 +530,6 @@ public class Character : MonoBehaviour
                         float angle = Vector3.Angle(transform.up, angle_dir.normalized);
 
 						int speed = 80;
-
-                        //print (angle);
-                        //print(Vector3.Distance(transform.position, target.position));
-
-                        //                        print(360 - angle);
 
                         // Find me if you need me to explain these particular mechanics, they're not that tough. 
                         if (direction_facing == "right" && facing.x > 0)
