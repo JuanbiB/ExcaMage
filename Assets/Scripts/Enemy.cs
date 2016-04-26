@@ -123,7 +123,9 @@ public class Enemy : MonoBehaviour
 		
 	}
 	void OnCollisionEnter2D(Collision2D other){
-		if (other.gameObject.tag == "Rock" && other.rigidbody.IsAwake()) {
+		
+		if (other.gameObject.tag == "Rock" && other.rigidbody.velocity.magnitude >10) {
+			print (other.rigidbody.velocity.magnitude);
 			spikeDeath();
 			BoardCreator.instance.SendMessage("kill");
 		}
@@ -143,11 +145,6 @@ public class Enemy : MonoBehaviour
             spikeDeath();
 			BoardCreator.instance.SendMessage("kill");
         }
-		else if (coll.gameObject.tag == "Rock")
-		{
-			print ("rock");
-			spikeDeath();
-			BoardCreator.instance.SendMessage("kill");
-		}
+
     }
 }

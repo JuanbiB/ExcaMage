@@ -113,7 +113,8 @@ public class FlyingEnemy : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			bounceOffPlayer ();
 		}
-		if (other.gameObject.tag == "Rock"  && other.rigidbody.IsAwake()) {
+
+		if (other.gameObject.tag == "Rock"  && other.rigidbody.velocity.magnitude >10) {
 			Instantiate (exploding_pieces, transform.position, transform.rotation);
 			BoardCreator.instance.SendMessage ("kill");
 			Destroy (this.gameObject);	
