@@ -20,7 +20,7 @@ public class BoardCreator : MonoBehaviour
 	private IntRange numRooms = new IntRange (15, 20);         
 	private int boardH = 40;
 	private int boardW = 310;
-
+	
 	// Prefabs
 	public GameObject[] floorTiles;                           // An array of floor tile prefabs.
 	public GameObject[] wallTiles;                            // An array of wall tile prefabs.

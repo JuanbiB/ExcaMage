@@ -62,7 +62,7 @@ public class Character : MonoBehaviour
 
     void Awake()
     {
-        this.health = 5;
+        this.health = 7;
 		this.maxhealth = health;
 		this.ammo = 0;
     }
@@ -102,7 +102,7 @@ public class Character : MonoBehaviour
         animation_happening = false;
 
         //How far your magnet power should be able to reach
-        allowed_radius = 6;
+        allowed_radius = 8;
 
         //Used to keep track of push animation
         direction_facing = "right";
@@ -211,7 +211,8 @@ public class Character : MonoBehaviour
                 my_animator.Play("player_left");
         }
 
-        body.MovePosition(temp);
+		if (!Input.GetKey(KeyCode.K))
+        	body.MovePosition(temp);
 
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.W))
             my_animator.Play("player_idle");
@@ -235,8 +236,10 @@ public class Character : MonoBehaviour
         // Checks the recharge rate animation.
         if (!pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
         {
+
+
             // Pull
-            if (Input.GetKeyDown(KeyCode.J))
+			if (Input.GetKeyUp(KeyCode.J))
             {
                 // This is the actual adding of force to enemies.
                 applyForceToEnemies(1);
@@ -502,7 +505,7 @@ public class Character : MonoBehaviour
                         {
                             go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
                         }
-                        enemybody.AddForce(dir * (force_size / distance) * 50);
+                        enemybody.AddForce(dir * (force_size / distance) * 70);
                     }
 
                     else {
@@ -510,6 +513,8 @@ public class Character : MonoBehaviour
                         Vector3 angle_dir = target.position - transform.position;
                         Vector3 facing = transform.InverseTransformPoint(target.position);
                         float angle = Vector3.Angle(transform.up, angle_dir.normalized);
+
+						int speed = 80;
 
                         //print (angle);
                         //print(Vector3.Distance(transform.position, target.position));
@@ -521,7 +526,7 @@ public class Character : MonoBehaviour
                         {
                             if (angle >= 45 && angle <= 135)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
                                 if (nameCheck == "FlyingMonster")
                                     go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
@@ -534,7 +539,7 @@ public class Character : MonoBehaviour
                             {   // used to be 135
 
 
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
                                 if (nameCheck == "FlyingMonster")
                                     go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
@@ -547,7 +552,7 @@ public class Character : MonoBehaviour
                             if (angle >= 45 && angle <= 135 && facing.x < 0)
                             {
 
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
                                 if (nameCheck == "FlyingMonster")
                                     go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
@@ -561,7 +566,7 @@ public class Character : MonoBehaviour
                             if (angle <= 75)
                             {
 
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
                                 if (nameCheck == "FlyingMonster")
                                     go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
@@ -575,7 +580,7 @@ public class Character : MonoBehaviour
                         {
                             if (angle >= 22.5 && angle <= 67.5)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
 
                                 if (nameCheck == "FlyingMonster")
@@ -590,7 +595,7 @@ public class Character : MonoBehaviour
 
                             if (angle >= 112.5 && angle <= 135.5)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
                                 if (nameCheck == "FlyingMonster")
                                     go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
@@ -603,7 +608,7 @@ public class Character : MonoBehaviour
                         {
                             if (angle >= 112.5 && angle <= 135.5)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
                                 if (nameCheck == "FlyingMonster")
                                     go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
@@ -616,7 +621,7 @@ public class Character : MonoBehaviour
                         {
                             if (angle >= 22.5 && angle <= 67.5)
                             {
-                                enemybody.AddForce(-dir * (force_size / distance) * 50);
+								enemybody.AddForce(-dir * (force_size / distance) * speed);
 
 
                                 if (nameCheck == "FlyingMonster")

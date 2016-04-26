@@ -50,7 +50,7 @@ public class FlyingEnemy : MonoBehaviour {
 		// From here
 		if (appliedForce) {
 			time2 += Time.deltaTime;
-			if (time2 > .5f) {
+			if (time2 > .8f) {
 				appliedForce = false;
 				rb.velocity = Vector3.zero;
 				time2 = 0.0f;
