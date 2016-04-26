@@ -157,8 +157,10 @@ public class Character : MonoBehaviour
 			print ("Bullet fired");
 			fired = true;
 
-			GameObject bullet = Instantiate(bullet_ref, this.transform.position ,this.transform.rotation) as GameObject;
-			bullet.tag = "Ammo";
+			GameObject bullet = Instantiate(bullet_ref, (transform.position+1.0f*transform.forward) ,Quaternion.identity) as GameObject;
+			//bullet.GetComponent<PurpleBullet>().
+			//bullet.tag = "Ammo";
+			//bullet.name = "Ammo"; //for some reason this doesn't work
 
 			}
 		}
