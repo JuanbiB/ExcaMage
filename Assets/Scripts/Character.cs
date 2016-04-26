@@ -151,6 +151,7 @@ public class Character : MonoBehaviour
         }
         check_drag();
     }
+
 	void fire(){
 		if (Input.GetKeyUp(KeyCode.L) && this.ammo >0){
 			print ("Bullet fired");
@@ -161,8 +162,6 @@ public class Character : MonoBehaviour
 
 			}
 		}
-
-
 
 
     void handleInput()
@@ -311,6 +310,14 @@ public class Character : MonoBehaviour
     // Character script is MY REALM >:)
     void cone_check()
     {
+		if (push_anim_controller.GetCurrentAnimatorStateInfo (0).IsName ("push_anim")) {
+			pushArea.GetComponent<SpriteRenderer> ().color = Color.red;
+		} else {
+			pushArea.GetComponent<SpriteRenderer> ().color = Color.white;
+
+		}
+
+
         pushArea.transform.position = transform.position;
         pushArea.transform.localScale = new Vector3(10, 9, 0);
 
