@@ -12,6 +12,7 @@ public class Character : MonoBehaviour
     List<GameObject> go;
     SpriteRenderer sp_render;
 
+	public GameObject bullet_ref;
 
 
     // Prefabs 
@@ -28,6 +29,7 @@ public class Character : MonoBehaviour
 	public int maxhealth;
 
 	public int ammo;
+	bool fired; //have they fired
 
     // Variables
     float time;
@@ -144,10 +146,24 @@ public class Character : MonoBehaviour
         fixConstants();
         if (health > 0)
         {
+			fire ();
             handleInput();
         }
         check_drag();
     }
+	void fire(){
+		if (Input.GetKeyUp(KeyCode.L) && this.ammo >0){
+			print ("Bullet fired");
+			fired = true;
+
+			GameObject bullet = Instantiate(bullet_ref, this.transform.position ,this.transform.rotation) as GameObject;
+			bullet.tag = "Ammo";
+
+			}
+		}
+
+
+
 
 
     void handleInput()
@@ -873,7 +889,11 @@ public class Character : MonoBehaviour
         }
 
 		if (coll.gameObject.tag == "PurpBullet") {
-			if (!hit) {
+			if (ammo > 0) {
+				print ("BONES");
+			}
+			 if (!hit) {
+
 				//Need to create an instance that the bullet will not hurt if it is being absorbed
 				if (animation_happening == true) {
 					this.ammo++;
