@@ -55,21 +55,20 @@ public class Room
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-
 				int probHole = UnityEngine.Random.Range(0, 35);
 
 				int probBasicEnemy = UnityEngine.Random.Range(0, 20);
 				int probFlyingEnemy = UnityEngine.Random.Range(0, 35);
 
-				if (probHole == 1) {
+				if (probHole == 1 && roomTiles[x][y] == TileType.Floor) {
 					roomTiles [x] [y] = TileType.Hole; 
 					numHoles++;
 				}
-				if (probBasicEnemy == 1 && enemyCount <= numEnemyMax) {
+				if (probBasicEnemy == 1 && enemyCount <= numEnemyMax && roomTiles[x][y] == TileType.Floor) {
 					roomTiles [x] [y] = TileType.BasicEnemy;
 					enemyCount++;
 				}
-				if (probFlyingEnemy == 1 && enemyCount <= numEnemyMax) {
+				if (probFlyingEnemy == 1 && enemyCount <= numEnemyMax && roomTiles[x][y] == TileType.Floor) {
 					roomTiles [x] [y] = TileType.FlyingEnemy;
 					enemyCount++;
 				}
@@ -79,6 +78,7 @@ public class Room
 			this.roomTiles [(Mathf.RoundToInt(width/2))] [(Mathf.RoundToInt(height/2))] = TileType.Hole;
 		}
 		addSpikes (30);
+		roomTiles [1] [1] = TileType.Rock;
 	}
 
 //	public void Bats(TileType[][] tiles)

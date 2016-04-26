@@ -85,6 +85,7 @@ public class Character : MonoBehaviour
         // All current enemies in scene with "Enemy" tag. Used for Push and Pull.
         go = new List<GameObject>(); 
         go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+		go.AddRange (GameObject.FindGameObjectsWithTag ("Rock"));
         
 
         // The sprite that represents the "magnet wave". Pure aesthetics.

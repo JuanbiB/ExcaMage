@@ -32,7 +32,7 @@ public class Fireball : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.tag == "Wall")
+		if (coll.gameObject.tag == "Wall" || coll.gameObject.tag == "Rock")
         {
             Destroy(this.gameObject);
         }

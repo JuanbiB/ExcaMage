@@ -56,7 +56,6 @@ public class Enemy : MonoBehaviour
 
     void spikeDeath()
     {
-        BoardCreator.instance.SendMessage("kill");
         Instantiate(exploded_pieces_prefab, transform.position, transform.rotation);
         GetComponent<SpriteRenderer>().enabled = false;
         Destroy(gameObject);
@@ -99,7 +98,6 @@ public class Enemy : MonoBehaviour
 
         } while (transform.localScale.x > 0);
 
-        BoardCreator.instance.SendMessage("kill");
         Destroy(gameObject);
 
     }
@@ -124,6 +122,12 @@ public class Enemy : MonoBehaviour
 		dead = true;
 		
 	}
+	void OnCollisionEnter2D(Collision2D other){
+		if (other.gameObject.tag == "Rock" && other.rigidbody.IsAwake()) {
+			spikeDeath();
+			BoardCreator.instance.SendMessage("kill");
+		}
+	}
 
     void OnTriggerEnter2D(Collider2D coll)
     {
@@ -131,10 +135,19 @@ public class Enemy : MonoBehaviour
         {
             dead = true;
             StartCoroutine(fall_death(coll.gameObject.transform.position));
+			BoardCreator.instance.SendMessage("kill");
+
         }
         else if (coll.gameObject.tag == "Spike")
         {
             spikeDeath();
+			BoardCreator.instance.SendMessage("kill");
         }
+		else if (coll.gameObject.tag == "Rock")
+		{
+			print ("rock");
+			spikeDeath();
+			BoardCreator.instance.SendMessage("kill");
+		}
     }
 }

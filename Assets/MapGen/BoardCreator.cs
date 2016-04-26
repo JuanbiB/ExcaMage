@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum TileType
@@ -8,6 +9,7 @@ public enum TileType
 	Floor, 
 	Hole, 
 	SpikeR, SpikeL, SpikeU, SpikeD, 
+	Rock,
 
 	//Enemies
 	BasicEnemy,
@@ -27,6 +29,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] holeTiles;    						  // An array of hole prefabs.
 	public GameObject[] Baddies;						      // An array of enemies.
 	public GameObject[] Spikes;	
+	public GameObject[] Rock;
 	public GameObject player;								  // The player prefab.
 	public GameObject portal;
 
@@ -45,7 +48,9 @@ public class BoardCreator : MonoBehaviour
 	// Check is the room done
 	private void Update()
 	{
-		if (curKills >= rooms[curLevel].enemyCount) {
+		print ("Current Kills " + curKills + ", Kills needed " + +rooms [curLevel].enemyCount);
+		print ("Current Level " + curLevel);
+		if (curKills >= rooms[curLevel].enemyCount) { 
 			spawnExit ();
 			curKills = 0;
 			curLevel++;
@@ -153,6 +158,10 @@ public class BoardCreator : MonoBehaviour
 					|| tiles[x][y] == TileType.SpikeR || tiles[x][y] == TileType.SpikeU)
 				{
 					InstantiateFromArray (Spikes, x, y);
+				}
+				if (tiles[x][y] == TileType.Rock)
+				{
+					InstantiateFromArray (Rock, x, y);
 				}
 			}
 		}
