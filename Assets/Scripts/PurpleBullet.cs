@@ -20,8 +20,14 @@ public class PurpleBullet : MonoBehaviour {
 
 		print (angle);
 
-	
-		transform.Rotate (0, 0, -angle);
+		Vector3 facing = transform.InverseTransformPoint(char_ref.transform.position);
+
+		if (facing.x > 0) {
+			transform.Rotate (0, 0, -angle);
+		}
+		else {
+			transform.Rotate (0, 0, angle);
+		}
 
 		rb.AddForce (distance.normalized * speed);
 		this.name = "PurpBullet";
