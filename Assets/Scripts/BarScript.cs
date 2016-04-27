@@ -11,7 +11,7 @@ public class BarScript : MonoBehaviour {
 	[SerializeField]
 	private Image content;
 
-	GameObject player;
+	GameObject boss;
 	[SerializeField] private int numhealth;
 
 
@@ -20,27 +20,27 @@ public class BarScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag ("Player");
-		numhealth = player.GetComponent<Character> ().health;
+		boss = GameObject.FindGameObjectWithTag ("HandgunCat");
+		numhealth = boss.GetComponent<HandgunCat> ().currHealth;
 		fillAmount = 1;
 		lerpspeed = 4;
 
 		
 	
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if (player == null) {
+		if (boss == null) {
 			//print ("CUCK");
-			player = GameObject.FindGameObjectWithTag ("Player");
+			boss = GameObject.FindGameObjectWithTag ("HandgunCat");
 			fillAmount = 1;
-			numhealth = player.GetComponent<Character> ().health;
+			numhealth = boss.GetComponent<HandgunCat> ().currHealth;
 
 		}
-		if (numhealth > player.GetComponent<Character> ().health) {
+		if (numhealth > boss.GetComponent<HandgunCat> ().currHealth) {
 			print ("YEAH YEAH YEAH");
-			fillAmount = (float) player.GetComponent<Character> ().health / player.GetComponent<Character>().maxhealth;
+			fillAmount = (float) boss.GetComponent<HandgunCat> ().currHealth / boss.GetComponent<HandgunCat>().maxHealth;
 			numhealth--;
 		}
 		if (fillAmount < content.fillAmount){

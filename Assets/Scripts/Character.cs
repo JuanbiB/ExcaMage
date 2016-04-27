@@ -14,6 +14,8 @@ public class Character : MonoBehaviour
 
 	public GameObject bullet_ref;
 
+	public bool bossfightEnabled;
+
 
     // Prefabs 
     public GameObject magnet_wave_prefab;
@@ -67,6 +69,7 @@ public class Character : MonoBehaviour
         this.health = 7;
 		this.maxhealth = health;
 		this.ammo = 0;
+		this.bossfightEnabled = false;
     }
 
 
@@ -144,12 +147,15 @@ public class Character : MonoBehaviour
     void Update()
     {
         fixConstants();
-        if (health > 0)
+		if (health > 0 && bossfightEnabled == false)
         {
-			fire ();
             handleInput();
         }
         check_drag();
+		if (health > 0 && bossfightEnabled == true) {
+			handleInput(); // we need to replace input script so that it only allows you to move left + right.
+			fire ();
+		}
     }
 
 	void fire(){

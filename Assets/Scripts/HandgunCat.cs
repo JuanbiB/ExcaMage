@@ -6,8 +6,8 @@ public class HandgunCat : MonoBehaviour {
 	Rigidbody2D body;
 	BoxCollider2D coll;
 
-	[SerializeField] private int currHealth;
-	[SerializeField] private int maxHealth;
+	public int currHealth;
+	public int maxHealth;
 
 
 	GameObject char_ref; //reference to character object
@@ -37,6 +37,7 @@ public class HandgunCat : MonoBehaviour {
 		coll = GetComponent<BoxCollider2D>();
 
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
+		char_ref.GetComponent<Character> ().bossfightEnabled = true;
 	}
 	
 	// Update is called once per frame
@@ -59,6 +60,13 @@ public class HandgunCat : MonoBehaviour {
 			time = 0.0f;
 		}
 
+	}
+
+	void OnTriggerEnter2D(Collider2D coll){
+		if (coll.gameObject.tag == "Ammo") {
+			this.currHealth--;
+			Destroy (coll.gameObject);
+		}
 	}
 
 
