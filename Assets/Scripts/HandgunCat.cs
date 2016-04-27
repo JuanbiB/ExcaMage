@@ -9,6 +9,8 @@ public class HandgunCat : MonoBehaviour {
 	public int currHealth;
 	public int maxHealth;
 
+	public bool DialogueEnabled;
+
 
 	GameObject char_ref; //reference to character object
 
@@ -25,6 +27,7 @@ public class HandgunCat : MonoBehaviour {
 	void Awake(){
 		this.currHealth = 30;
 		this.maxHealth = currHealth;
+		this.DialogueEnabled = false;
 	}
 
 
@@ -42,8 +45,12 @@ public class HandgunCat : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (DialogueEnabled == true) {
+			//do nothing
+		} else {
 
-		handleShooting ();
+			handleShooting ();
+		}
 	
 	}
 
