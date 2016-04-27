@@ -12,6 +12,8 @@ public class Character : MonoBehaviour
     List<GameObject> go;
     SpriteRenderer sp_render;
 
+	public bool DialogueEnabled;
+
 	public GameObject bullet_ref;
 
 	public bool bossfightEnabled;
@@ -70,6 +72,7 @@ public class Character : MonoBehaviour
 		this.maxhealth = health;
 		this.ammo = 0;
 		this.bossfightEnabled = false;
+		this.DialogueEnabled = false;
     }
 
 
@@ -150,15 +153,18 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fixConstants();
-		if (health > 0 && bossfightEnabled == false)
-        {
-            handleInput();
-        }
-        check_drag();
-		if (health > 0 && bossfightEnabled == true) {
-			handleInput(); // we need to replace input script so that it only allows you to move left + right.
-			fire ();
+		if (DialogueEnabled == true) {
+			//do Nothing
+		} else {
+			fixConstants ();
+			if (health > 0 && bossfightEnabled == false) {
+				handleInput ();
+			}
+			check_drag ();
+			if (health > 0 && bossfightEnabled == true) {
+				handleInput (); // we need to replace input script so that it only allows you to move left + right.
+				fire ();
+			}
 		}
     }
 

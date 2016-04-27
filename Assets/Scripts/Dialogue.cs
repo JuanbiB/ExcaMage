@@ -7,6 +7,9 @@ public class Dialogue : MonoBehaviour {
 	public TextAsset asset; //to get text from 
 	private string assetText;
 
+	public GameObject char_ref;
+	public GameObject bossref;
+
 	public bool talking; //a boolean testing whether dialogue is to occur
 	[SerializeField] private Text dialogUI; //reference to Text UI object where dialogue will be occuring
 
@@ -24,12 +27,16 @@ public class Dialogue : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		assetText = asset.text;
+		char_ref = GameObject.FindGameObjectWithTag ("Player");
+		bossref = GameObject.FindGameObjectWithTag ("HandgunCat");
 	
 	}
 	public bool Say (string dialogue) {
 		if (talking)
 			return false;
 		StartCoroutine(Saydialogue(dialogue));
+		char_ref.GetComponent<Character> ().DialogueEnabled = true;
+		bossref.GetComponent<HandgunCat> ().DialogueEnabled = true;
 		return true;
 	}
 	IEnumerator Saydialogue (string dialogue) {
@@ -39,17 +46,23 @@ public class Dialogue : MonoBehaviour {
 
 			yield return new WaitForSeconds (0.05f);
 		}
+		yield return new WaitForEndOfFrame();
+	
 //
-		while (!Input.GetMouseButton(0))
-			yield return new WaitForEndOfFrame();
-//
+//		while (!Input.GetMouseButton(0))
+//			
+////
 		talking = false;
-
-	}
+}
+//
+//	}
 
 	
 	// Update is called once per frame
 	void Update () {
+		if (talking == true) {
+			
+		}
 		print (assetText);
 		Say (assetText);
 		
