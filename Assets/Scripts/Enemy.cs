@@ -119,13 +119,18 @@ public class Enemy : MonoBehaviour
 				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
         }
-		else if (coll.gameObject.tag == "Rock")
-		{
-
-			if (BoardCreator.instance != null)
-				BoardCreator.instance.SendMessage("kill");
-			spikeDeath();
-
-		}
     }
-}
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6)
+        {
+
+            if (BoardCreator.instance != null)
+                BoardCreator.instance.SendMessage("kill");
+            spikeDeath();
+
+        }
+    }
+
+    }

@@ -94,7 +94,7 @@ public class FlyingEnemy : MonoBehaviour {
 		if (other.gameObject.tag == "Player") {
 			bounceOffPlayer ();
 		}
-		if (other.gameObject.tag == "Rock"  && other.rigidbody.IsAwake() && !moving_towards) {
+		if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6) {
 			Instantiate (exploding_pieces, transform.position, transform.rotation);
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");
@@ -109,10 +109,6 @@ public class FlyingEnemy : MonoBehaviour {
             	BoardCreator.instance.SendMessage("kill");
             Destroy(this.gameObject);
 		}
-//		if (other.gameObject.tag == "Rock") {
-//			Instantiate (exploding_pieces, transform.position, transform.rotation);
-//			BoardCreator.instance.SendMessage ("kill");
-//			Destroy (this.gameObject);
-//		}
+
 	}
 }
