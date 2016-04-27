@@ -91,7 +91,8 @@ public class Character : MonoBehaviour
         go = new List<GameObject>(); 
         go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 		go.AddRange (GameObject.FindGameObjectsWithTag ("Rock"));
-        
+        go.AddRange(GameObject.FindGameObjectsWithTag("goof"));
+
 
         // The sprite that represents the "magnet wave". Pure aesthetics.
         Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
@@ -145,7 +146,8 @@ public class Character : MonoBehaviour
 
 	public void refreshListofEnemies(){
 		go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-	}
+        go.AddRange(GameObject.FindGameObjectsWithTag("Rock"));
+    }
 
     // Update is called once per frame
     void Update()
