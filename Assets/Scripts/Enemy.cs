@@ -108,20 +108,24 @@ public class Enemy : MonoBehaviour
         if (coll.gameObject.tag == "Pitfall")
         {
             dead = true;
+			if (BoardCreator.instance != null)
+				BoardCreator.instance.SendMessage("kill");
+			
             StartCoroutine(fall_death(coll.gameObject.transform.position));
-			BoardCreator.instance.SendMessage("kill");
-
         }
         else if (coll.gameObject.tag == "Spike")
         {
+			if (BoardCreator.instance != null)
+				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
-			BoardCreator.instance.SendMessage("kill");
         }
 		else if (coll.gameObject.tag == "Rock")
 		{
-			print ("rock");
+
+			if (BoardCreator.instance != null)
+				BoardCreator.instance.SendMessage("kill");
 			spikeDeath();
-			BoardCreator.instance.SendMessage("kill");
+
 		}
     }
 }

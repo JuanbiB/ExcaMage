@@ -143,6 +143,10 @@ public class Character : MonoBehaviour
 
     }
 
+	public void refreshListofEnemies(){
+		go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+	}
+
     // Update is called once per frame
     void Update()
     {
