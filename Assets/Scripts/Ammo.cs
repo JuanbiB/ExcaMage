@@ -13,7 +13,7 @@ public class Ammo : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
-		speed = 100;
+		speed = 250;
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		dist = new Vector3 (0,10,0) - char_ref.transform.position;
 		rb.AddForce (dist.normalized * speed);
