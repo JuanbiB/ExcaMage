@@ -872,6 +872,12 @@ public class Character : MonoBehaviour
         hit = false;
     }
 
+	void addAmmo(Collider2D coll){
+		this.ammo++;
+		Destroy (coll.gameObject);
+		print (this.ammo);
+	}
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "Enemy")
@@ -905,16 +911,17 @@ public class Character : MonoBehaviour
 
 				//Need to create an instance that the bullet will not hurt if it is being absorbed
 				if (animation_happening == true) {
-					this.ammo++;
-					Destroy (coll.gameObject);
-					print (this.ammo);
+					addAmmo (coll);
+					
 				} else {
-
-
+					
 					StartCoroutine (hit_animation ());
 					Destroy (coll.gameObject);
 				}
 			} else {
+				if (animation_happening == true) {
+					addAmmo (coll);
+				}
 				Destroy (coll.gameObject);
 			}
 		}
