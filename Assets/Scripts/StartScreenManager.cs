@@ -9,29 +9,42 @@ public class StartScreenManager : MonoBehaviour {
 	[SerializeField] private Button startbutton = null;
     [SerializeField] private Button practiceButton = null;
 	public AudioSource startsound;
+       AsyncOperation async;
 
 	// Use this for initialization
 	void Start () {
 		emtitle.GetComponent<Image> ();
 		startbutton.GetComponent<Button> ();
         practiceButton.GetComponent<Button>();
-        startbutton.onClick.AddListener (() => gameStart ());
-		startsound.GetComponent<AudioSource> ();
+        startbutton.onClick.AddListener (() => gameStart (0));
+        practiceButton.onClick.AddListener(() => gameStart(1));
+
+        startsound.GetComponent<AudioSource> ();
 	
 	}
 
-	void gameStart(){
+	void gameStart(int level){
 		emtitle.gameObject.SetActive (false);
 		startbutton.gameObject.SetActive (false);
         practiceButton.gameObject.SetActive(false);
 
 		startsound.Play ();
-		StartCoroutine (LoadGame ());
+		StartCoroutine (LoadGame (level));
 	}
 
-	IEnumerator LoadGame(){
+	IEnumerator LoadGame(int level) {
+        AsyncOperation async;
 
-		AsyncOperation async = SceneManager.LoadSceneAsync ("main");
+
+        if (level == 0)
+        {
+            async = SceneManager.LoadSceneAsync("main");
+        }
+        else
+        {
+            async = SceneManager.LoadSceneAsync("practice range");
+        }
+		
 
 		while (!async.isDone) {
     		print (async.progress);
