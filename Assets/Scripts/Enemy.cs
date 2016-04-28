@@ -101,19 +101,6 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
 
     }
-		
-<<<<<<< HEAD
-	}
-	void OnCollisionEnter2D(Collision2D other){
-		
-		if (other.gameObject.tag == "Rock" && other.rigidbody.velocity.magnitude >10) {
-			print (other.rigidbody.velocity.magnitude);
-			spikeDeath();
-			BoardCreator.instance.SendMessage("kill");
-		}
-	}
-=======
->>>>>>> origin/master
 
     void OnTriggerEnter2D(Collider2D coll)
     {
@@ -131,10 +118,6 @@ public class Enemy : MonoBehaviour
 				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
     }
 
     void OnCollisionEnter2D(Collision2D other)

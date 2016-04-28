@@ -91,18 +91,15 @@ public class FlyingEnemy : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
+	
 		if (other.gameObject.tag == "Player") {
 			bounceOffPlayer ();
 		}
-<<<<<<< HEAD
 
-		if (other.gameObject.tag == "Rock"  && other.rigidbody.velocity.magnitude >10) {
-=======
-		if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6) {
->>>>>>> origin/master
+		if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D> ().velocity.magnitude > 6) {
 			Instantiate (exploding_pieces, transform.position, transform.rotation);
 			if (BoardCreator.instance != null)
-				BoardCreator.instance.SendMessage("kill");
+				BoardCreator.instance.SendMessage ("kill");
 			Destroy (this.gameObject);	
 		}
 	}
