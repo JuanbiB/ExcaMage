@@ -48,8 +48,7 @@ public class BoardCreator : MonoBehaviour
 	// Check is the room done
 	private void Update()
 	{
-		print ("Current Kills " + curKills + ", Kills needed " + +rooms [curLevel].enemyCount);
-		print ("Current Level " + curLevel);
+		print ("Current Kills " + curKills + ", Kills needed " + +rooms [curLevel].enemyCount + " Current Level " + curLevel);
 		if (curKills >= rooms[curLevel].enemyCount) { 
 			spawnExit ();
 			curKills = 0;

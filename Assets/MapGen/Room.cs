@@ -12,33 +12,7 @@ public class Room
 	public void genRoom (int level)
 	{
 		this.level = level;
-//		if (level == 5) {
-//			//Bats (level);
-//		} else {
-			Standard (level);
-//		}
-//		// First 5 are ez.
-//		if (level < 5) {
-//			Standard();
-//		}
-	}
-
-	void SetupTilesArray (int width, int height)
-	{
-		roomTiles = new TileType[width][];
-		for (int i = 0; i < roomTiles.Length; i++)
-		{
-			roomTiles[i] = new TileType[height];
-		}
-	}
-
-	void PutFloor ()
-	{
-		for (int x = 0; x < roomTiles.Length; x++) {
-			for (int y = 0; y < roomTiles[x].Length; y++) {
-				roomTiles[x][y] = TileType.Floor; 
-			}
-		}
+		Standard (level);
 	}
 		
 	public void Standard(int level)
@@ -77,44 +51,59 @@ public class Room
 		if (numHoles == 0) {
 			this.roomTiles [(Mathf.RoundToInt(width/2))] [(Mathf.RoundToInt(height/2))] = TileType.Hole;
 		}
-		addSpikes (30);
+		addSpikes (1,4);
 		roomTiles [1] [1] = TileType.Rock;
 	}
 
-//	public void Bats(TileType[][] tiles)
-//	{
-//	}
-//	public void Turrets(TileType[][] tiles)
-//	{
-//	} 
+	void SetupTilesArray (int width, int height)
+	{
+		roomTiles = new TileType[width][];
+		for (int i = 0; i < roomTiles.Length; i++)
+		{
+			roomTiles[i] = new TileType[height];
+		}
+	}
 
-	public void addSpikes(int prob){
-		int spikesAdded = 0;
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				int probSpike = UnityEngine.Random.Range (0, prob);
-				if (x == 0 && probSpike == 1) {
-				//	Debug.Log("spiker");
-					this.roomTiles [x] [y] = TileType.SpikeR;
-					spikesAdded++;
-				} else if (y == 0 && probSpike == 1) {
-				//	Debug.Log("spikeu");
-					this.roomTiles [x] [y] = TileType.SpikeU;
-					spikesAdded++;
-				} else if (x == width - 1 && probSpike == 1) {
-				//	Debug.Log("spikel");
-					this.roomTiles [x] [y] = TileType.SpikeL;
-					spikesAdded++;
-				} else if (y == height - 1 && probSpike == 1) {
-				//	Debug.Log("spiked");
-					this.roomTiles [x] [y] = TileType.SpikeD;
-					spikesAdded++;
-				}
+	void PutFloor ()
+	{
+		for (int x = 0; x < roomTiles.Length; x++) {
+			for (int y = 0; y < roomTiles[x].Length; y++) {
+				roomTiles[x][y] = TileType.Floor; 
 			}
 		}
-		if (spikesAdded == 0) {
-			int rand = UnityEngine.Random.Range (0, height);
-			this.roomTiles [0] [rand] = TileType.SpikeR;
+	}
+		
+	public void addSpikes(int min, int max)
+	{
+		int numSpikes = UnityEngine.Random.Range (min, max+1);
+		int spikesAdded = 0;
+		while (spikesAdded < min) {
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					int probSpike = UnityEngine.Random.Range (0, 50);
+					if (x == 0 && probSpike == 1 && this.roomTiles [x] [y] == TileType.Floor) {
+						this.roomTiles [x] [y] = TileType.SpikeR;
+						spikesAdded++;
+						if (spikesAdded >= numSpikes)
+							break;
+					} else if (y == 0 && probSpike == 1 && this.roomTiles [x] [y] == TileType.Floor) {
+						this.roomTiles [x] [y] = TileType.SpikeU;
+						spikesAdded++;
+						if (spikesAdded >= numSpikes)
+							break;
+					} else if (x == width - 1 && probSpike == 1 && this.roomTiles [x] [y] == TileType.Floor) {
+						this.roomTiles [x] [y] = TileType.SpikeL;
+						spikesAdded++;
+						if (spikesAdded >= numSpikes)
+							break;
+					} else if (y == height - 1 && probSpike == 1 && this.roomTiles [x] [y] == TileType.Floor) {
+						this.roomTiles [x] [y] = TileType.SpikeD;
+						spikesAdded++;
+						if (spikesAdded >= numSpikes)
+							break;
+					}
+				}
+			}
 		}
 	}
 }
