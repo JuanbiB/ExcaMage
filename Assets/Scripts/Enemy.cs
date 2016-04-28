@@ -101,26 +101,8 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
 
     }
-
-    public IEnumerator spike_death()
-    {
-        float time = 0.0f;
-        Quaternion qua = Quaternion.Euler(new Vector3(0, 0, -90));
-        while (time < 1.5)
-        {
-            time += Time.deltaTime;
-            body.velocity = Vector2.zero;
-            // This just turns the enemy 90 degrees. I guess the direciton has to do with where you the spike from, but that's TODO.
-            transform.rotation = Quaternion.Slerp(transform.rotation, qua, Time.deltaTime * 5);
-            yield return null;
-        }
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        enemy_color = gameObject.GetComponent<SpriteRenderer>().color;
-
-        body.isKinematic = true;
-        coll.isTrigger = true;
-		dead = true;
 		
+<<<<<<< HEAD
 	}
 	void OnCollisionEnter2D(Collision2D other){
 		
@@ -130,21 +112,41 @@ public class Enemy : MonoBehaviour
 			BoardCreator.instance.SendMessage("kill");
 		}
 	}
+=======
+>>>>>>> origin/master
 
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Pitfall")
         {
             dead = true;
+			if (BoardCreator.instance != null)
+				BoardCreator.instance.SendMessage("kill");
+			
             StartCoroutine(fall_death(coll.gameObject.transform.position));
-			BoardCreator.instance.SendMessage("kill");
-
         }
         else if (coll.gameObject.tag == "Spike")
         {
+			if (BoardCreator.instance != null)
+				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
-			BoardCreator.instance.SendMessage("kill");
         }
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6)
+        {
+
+            if (BoardCreator.instance != null)
+                BoardCreator.instance.SendMessage("kill");
+            spikeDeath();
+
+        }
+    }
 
     }
-}

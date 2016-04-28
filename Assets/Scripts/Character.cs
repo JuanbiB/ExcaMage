@@ -12,6 +12,11 @@ public class Character : MonoBehaviour
     List<GameObject> go;
     SpriteRenderer sp_render;
 
+	public bool DialogueEnabled;
+
+	public GameObject bullet_ref;
+
+	public bool bossfightEnabled;
 
 
     // Prefabs 
@@ -28,6 +33,7 @@ public class Character : MonoBehaviour
 	public int maxhealth;
 
 	public int ammo;
+	bool fired; //have they fired
 
     // Variables
     float time;
@@ -65,6 +71,8 @@ public class Character : MonoBehaviour
         this.health = 7;
 		this.maxhealth = health;
 		this.ammo = 0;
+		this.bossfightEnabled = false;
+		this.DialogueEnabled = false;
     }
 
 
@@ -86,7 +94,8 @@ public class Character : MonoBehaviour
         go = new List<GameObject>(); 
         go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 		go.AddRange (GameObject.FindGameObjectsWithTag ("Rock"));
-        
+        go.AddRange(GameObject.FindGameObjectsWithTag("goof"));
+
 
         // The sprite that represents the "magnet wave". Pure aesthetics.
         Instantiate(magnet_wave_prefab, transform.position, transform.rotation);
@@ -138,16 +147,42 @@ public class Character : MonoBehaviour
 
     }
 
+	public void refreshListofEnemies(){
+		go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+        go.AddRange(GameObject.FindGameObjectsWithTag("Rock"));
+    }
+
     // Update is called once per frame
     void Update()
     {
-        fixConstants();
-        if (health > 0)
-        {
-            handleInput();
-        }
-        check_drag();
+		if (DialogueEnabled == true) {
+			//do Nothing
+		} else {
+			fixConstants ();
+			if (health > 0 && bossfightEnabled == false) {
+				handleInput ();
+			}
+			check_drag ();
+			if (health > 0 && bossfightEnabled == true) {
+				handleInput (); // we need to replace input script so that it only allows you to move left + right.
+				fire ();
+			}
+		}
     }
+
+	void fire(){
+		if (Input.GetKeyUp(KeyCode.L) && this.ammo >0){
+			print ("Bullet fired");
+			fired = true;
+
+			GameObject bullet = Instantiate(bullet_ref, (transform.position+1.0f*transform.forward) ,Quaternion.identity) as GameObject;
+			ammo--;
+			//bullet.GetComponent<PurpleBullet>().
+			//bullet.tag = "Ammo";
+			//bullet.name = "Ammo"; //for some reason this doesn't work
+
+			}
+		}
 
 
     void handleInput()
@@ -296,6 +331,14 @@ public class Character : MonoBehaviour
     // Character script is MY REALM >:)
     void cone_check()
     {
+		if (push_anim_controller.GetCurrentAnimatorStateInfo (0).IsName ("push_anim")) {
+			pushArea.GetComponent<SpriteRenderer> ().color = Color.red;
+		} else {
+			pushArea.GetComponent<SpriteRenderer> ().color = Color.white;
+
+		}
+
+
         pushArea.transform.position = transform.position;
         pushArea.transform.localScale = new Vector3(10, 9, 0);
 
@@ -440,7 +483,6 @@ public class Character : MonoBehaviour
         }
     }
 
-
     void check_drag()
     {
         // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
@@ -516,11 +558,6 @@ public class Character : MonoBehaviour
                         float angle = Vector3.Angle(transform.up, angle_dir.normalized);
 
 						int speed = 80;
-
-                        //print (angle);
-                        //print(Vector3.Distance(transform.position, target.position));
-
-                        //                        print(360 - angle);
 
                         // Find me if you need me to explain these particular mechanics, they're not that tough. 
                         if (direction_facing == "right" && facing.x > 0)
@@ -847,6 +884,12 @@ public class Character : MonoBehaviour
         hit = false;
     }
 
+	void addAmmo(Collider2D coll){
+		this.ammo++;
+		Destroy (coll.gameObject);
+		print (this.ammo);
+	}
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.tag == "Enemy")
@@ -873,19 +916,24 @@ public class Character : MonoBehaviour
         }
 
 		if (coll.gameObject.tag == "PurpBullet") {
-			if (!hit) {
+			if (ammo > 0) {
+				print ("BONES");
+			}
+			 if (!hit) {
+
 				//Need to create an instance that the bullet will not hurt if it is being absorbed
 				if (animation_happening == true) {
-					this.ammo++;
-					Destroy (coll.gameObject);
-					print (this.ammo);
+					addAmmo (coll);
+					
 				} else {
-
-
+					
 					StartCoroutine (hit_animation ());
 					Destroy (coll.gameObject);
 				}
 			} else {
+				if (animation_happening == true) {
+					addAmmo (coll);
+				}
 				Destroy (coll.gameObject);
 			}
 		}

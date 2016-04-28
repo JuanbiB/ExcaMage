@@ -90,33 +90,19 @@ public class FlyingEnemy : MonoBehaviour {
 		moving_towards = false;
 	}
 
-	public IEnumerator spiked()	
-	{
-		float time = 0.0f;
-		Quaternion qua = Quaternion.Euler(new Vector3(0, 0, -90));
-		gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-		gameObject.GetComponent<BoxCollider2D> ().isTrigger = true;
-		dead = true;
-		while (time < 1.5)
-		{
-			time += Time.deltaTime;
-			// This just turns the enemy 90 degrees. I guess the direciton has to do with where you the spike from, but that's TODO.
-			transform.rotation = Quaternion.Slerp(transform.rotation, qua, Time.deltaTime * 5);
-			yield return null;
-		}
-
-		Destroy (this.gameObject);
-	}
-		
-
 	void OnCollisionEnter2D(Collision2D other){
 		if (other.gameObject.tag == "Player") {
 			bounceOffPlayer ();
 		}
+<<<<<<< HEAD
 
 		if (other.gameObject.tag == "Rock"  && other.rigidbody.velocity.magnitude >10) {
+=======
+		if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6) {
+>>>>>>> origin/master
 			Instantiate (exploding_pieces, transform.position, transform.rotation);
-			BoardCreator.instance.SendMessage ("kill");
+			if (BoardCreator.instance != null)
+				BoardCreator.instance.SendMessage("kill");
 			Destroy (this.gameObject);	
 		}
 	}
@@ -124,13 +110,10 @@ public class FlyingEnemy : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.tag == "Spike") {
             Instantiate(exploding_pieces, transform.position, transform.rotation);
-            BoardCreator.instance.SendMessage("kill");
+			if (BoardCreator.instance != null)
+            	BoardCreator.instance.SendMessage("kill");
             Destroy(this.gameObject);
 		}
-//		if (other.gameObject.tag == "Rock") {
-//			Instantiate (exploding_pieces, transform.position, transform.rotation);
-//			BoardCreator.instance.SendMessage ("kill");
-//			Destroy (this.gameObject);
-//		}
+
 	}
 }
