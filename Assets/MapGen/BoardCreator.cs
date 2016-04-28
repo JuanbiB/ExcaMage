@@ -101,7 +101,7 @@ public class BoardCreator : MonoBehaviour
 		
 	void createRooms()
 	{
-		rooms = new Room[10];
+		rooms = new Room[5];
 		for (int i = 0; i < rooms.Length; i++) {
 			rooms [i] = new Room ();
 			rooms [i].genRoom(i); 
@@ -128,36 +128,35 @@ public class BoardCreator : MonoBehaviour
 		{
 			for (int y = 0; y < tiles[x].Length; y++)
 			{
-				// Floors go everywhere.
+				// Floors
 				InstantiateFromArray (floorTiles, x, y);
 
 				// Wall
 				if (tiles[x][y] == TileType.Wall)
 				{
 					InstantiateFromArray (wallTiles, x, y);
-				}		
+				}	
+
 				// Hole
 				if (tiles[x][y] == TileType.Hole)
 				{
 					InstantiateFromArray (holeTiles, x, y);
 				}
 
-				//Basic baddie
-				if (tiles[x][y] == TileType.BasicEnemy)
+				//Baddies
+				if (tiles[x][y] == TileType.BasicEnemy || tiles[x][y] == TileType.FlyingEnemy)
 				{
 					InstantiateFromArray (Baddies, x, y);
 				}
-
-				if (tiles[x][y] == TileType.FlyingEnemy)
-				{
-					InstantiateFromArray (Baddies, x, y);
-				}
-
+					
+				// Spikes
 				if (tiles[x][y] == TileType.SpikeD || tiles[x][y] == TileType.SpikeL 
 					|| tiles[x][y] == TileType.SpikeR || tiles[x][y] == TileType.SpikeU)
 				{
 					InstantiateFromArray (Spikes, x, y);
 				}
+			
+				// Rocks
 				if (tiles[x][y] == TileType.Rock)
 				{
 					InstantiateFromArray (Rock, x, y);
@@ -170,13 +169,12 @@ public class BoardCreator : MonoBehaviour
 	{
 		Vector3 playerPos = new Vector3 (10, 10);
 		Instantiate(player, playerPos, Quaternion.identity);
-		//Character.instance.invunerable (1f);
 	}
 
 	void InstantiateFromArray (GameObject[] prefabs, float xCoord, float yCoord)
 	{
 		// Create a random index for the array.
-		int randomIndex = Random.Range(0, prefabs.Length);
+		int index = Random.Range(0, prefabs.Length);
 
 		// The position to be instantiated at is based on the coordinates.
 		Vector3 position = new Vector3(xCoord, yCoord, 0f);
@@ -188,13 +186,13 @@ public class BoardCreator : MonoBehaviour
 		// If we are a bad guy put the right one
 		if (prefabs == Baddies) {
 			if (tiles[x][y] == TileType.BasicEnemy)
-				randomIndex = 0;
+				index = 0;
 			if (tiles[x][y] == TileType.FlyingEnemy)
-				randomIndex = 1;
+				index = 1;
 		}
 
 		// Create the prefab.
-		GameObject tileInstance = Instantiate(prefabs[randomIndex], position, Quaternion.identity) as GameObject;
+		GameObject tileInstance = Instantiate(prefabs[index], position, Quaternion.identity) as GameObject;
 
 		// If it's not a floor tile we have to put it at a lower z.
 		if (prefabs != floorTiles) {

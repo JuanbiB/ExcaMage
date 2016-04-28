@@ -20,16 +20,16 @@ public class Room
 	public void Standard(int level)
 	{
 		// Pretty obvious what these do - right side is exlusive
-		width = UnityEngine.Random.Range(9, 11);
-		height = UnityEngine.Random.Range(9, 11);
+		width = UnityEngine.Random.Range(10+level, 15+level);
+		height = UnityEngine.Random.Range(10+level, 15+level);
 
 		// Need these
 		SetupTilesArray (width, height);
 		PutFloor();
 
 		// Optional
-		addBasicEnemies (1, 4);
-		addFlyingEnemies (1, 2);
+		addBasicEnemies (1+level,2+level);
+		addFlyingEnemies (1,2+level);
 		addHoles (1,4);
 		addSpikes (1,4);
 		addRocks (1, 1);

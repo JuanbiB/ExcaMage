@@ -47,7 +47,7 @@ public class StartScreenManager : MonoBehaviour {
 		
 
 		while (!async.isDone) {
-    		print (async.progress);
+    //		print (async.progress);
             emtitle.GetComponent<Text>().text = "Loading...";
             emtitle.gameObject.SetActive(true);
             yield return(0);
