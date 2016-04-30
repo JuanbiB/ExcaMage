@@ -81,7 +81,7 @@ public class Character : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+            
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
 
         // Player rigidbody management
@@ -199,6 +199,11 @@ public class Character : MonoBehaviour
     void handleInput()
     {
 
+        if (my_animator.GetCurrentAnimatorStateInfo(0).IsName("player_idle"))
+        {
+            interrupt_animation = false;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim"))
@@ -206,6 +211,7 @@ public class Character : MonoBehaviour
                 mode = "push";
                 StartCoroutine(magnet_animation(1));
                 push_anim_controller.Play("push_anim");
+                my_animator.Play("player_push_animation");
             }
              
         }
@@ -343,6 +349,7 @@ public class Character : MonoBehaviour
         magnet_wave.transform.position = transform.position;
 
         Color original = magnet_wave.GetComponent<SpriteRenderer>().color;
+        interrupt_animation = true;
         // Pull animation
         if (type == 2)
         {
@@ -356,7 +363,7 @@ public class Character : MonoBehaviour
             }
 
             //In place to fix the animations
-            interrupt_animation = false;
+           
         }
         // Push animation
         else
@@ -388,6 +395,7 @@ public class Character : MonoBehaviour
         magnet_wave.transform.localScale = new Vector3(0, 0, 1);
         magnet_wave.GetComponent<SpriteRenderer>().color = original;
         animation_happening = false;
+      
 
         push_wave.transform.eulerAngles = Vector3.zero;
         push_wave.GetComponent<SpriteRenderer>().enabled = false;

@@ -1,0 +1,475 @@
+fileFormatVersion: 2
+guid: 84c7c837a942ea94e952a7eeb9ba96f5
+timeCreated: 1462048715
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: enemy push animation_0
+    21300002: enemy push animation_1
+    21300004: enemy push animation_2
+    21300006: enemy push animation_3
+    21300008: enemy push animation_4
+    21300010: enemy push animation_5
+    21300012: enemy push animation_6
+    21300014: enemy push animation_7
+    21300016: enemy push animation_8
+    21300018: enemy push animation_9
+    21300020: enemy push animation_10
+    21300022: enemy push animation_11
+    21300024: enemy push animation_12
+    21300026: enemy push animation_13
+    21300028: enemy push animation_14
+    21300030: enemy push animation_15
+    21300032: enemy push animation_16
+    21300034: enemy push animation_17
+    21300036: enemy push animation_18
+    21300038: enemy push animation_19
+    21300040: enemy push animation_20
+    21300042: enemy push animation_21
+    21300044: enemy push animation_22
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: enemy push animation_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 4, y: 13}
+        - {x: -7, y: 13}
+        - {x: -12, y: 6}
+        - {x: -12, y: -16}
+        - {x: 12, y: -16}
+        - {x: 12, y: 8}
+    - name: enemy push animation_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 13}
+        - {x: -9, y: 13}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 7}
+    - name: enemy push animation_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 13}
+        - {x: -10, y: 11}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 12}
+        - {x: 9, y: 13}
+    - name: enemy push animation_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 13}
+        - {x: -10, y: 11}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 12}
+        - {x: 9, y: 13}
+    - name: enemy push animation_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 16}
+        - {x: -10, y: 11}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 11}
+        - {x: 4, y: 16}
+    - name: enemy push animation_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_16
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_17
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_18
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_19
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 8}
+        - {x: 4, y: 16}
+    - name: enemy push animation_20
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 16}
+        - {x: -10, y: 11}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 10, y: 12}
+        - {x: 5, y: 16}
+    - name: enemy push animation_21
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 16}
+        - {x: -3, y: 16}
+        - {x: -10, y: 7}
+        - {x: -14, y: -6}
+        - {x: -14, y: -12}
+        - {x: -9, y: -16}
+        - {x: 11, y: -16}
+        - {x: 14, y: -15}
+        - {x: 14, y: 4}
+        - {x: 13, y: 9}
+    - name: enemy push animation_22
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 16}
+        - {x: -16, y: 6}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 9}
+        - {x: 5, y: 16}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
