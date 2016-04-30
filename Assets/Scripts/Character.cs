@@ -63,8 +63,10 @@ public class Character : MonoBehaviour
     // Use this please
     public static Character instance = null;
 
+    public string mode;
+    // for pushing and pulling
 
-
+    public Texture2D cursor;
 
     void Awake()
     {
@@ -79,6 +81,8 @@ public class Character : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
@@ -145,11 +149,18 @@ public class Character : MonoBehaviour
         // For the new area stuff!
          pushArea = GameObject.Find("Push-Find");
 
+        mode = "none";
+
     }
 
 	public void refreshListofEnemies(){
 		go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         go.AddRange(GameObject.FindGameObjectsWithTag("Rock"));
+    }
+
+    void handleCursor()
+    {
+
     }
 
     // Update is called once per frame
@@ -188,8 +199,31 @@ public class Character : MonoBehaviour
     void handleInput()
     {
 
-        //Movement
-        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim"))
+            {
+                mode = "push";
+                StartCoroutine(magnet_animation(1));
+                push_anim_controller.Play("push_anim");
+            }
+             
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
+            {
+                mode = "pull";
+                StartCoroutine(magnet_animation(2));
+                pull_anim_controller.Play("pull_anim");
+                my_animator.Play("player_pull");
+            }
+
+        }
+     
+            //Movement
+            if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
         {
             temp = transform.position + new Vector3(-1, -1, 0) * Time.deltaTime * character_speed;
             direction_facing = "down-left";
@@ -247,76 +281,14 @@ public class Character : MonoBehaviour
                 my_animator.Play("player_left");
         }
 
-		if (!Input.GetKey(KeyCode.K))
         	body.MovePosition(temp);
 
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.W))
             my_animator.Play("player_idle");
 
-        push_and_pull();
 
-
-        // Breaking of tile
-        // Creates a broken tile to your right!
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(broken_tile, new Vector2(transform.position.x + 1, transform.position.y), transform.rotation);
-        }
     }
 
-    void push_and_pull()
-    {
-        if (Input.GetKey(KeyCode.J) && Input.GetKey(KeyCode.K))
-            return;
-
-        // Checks the recharge rate animation.
-        if (!pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
-        {
-
-
-            // Pull
-			if (Input.GetKeyUp(KeyCode.J))
-            {
-                // This is the actual adding of force to enemies.
-                applyForceToEnemies(1);
-
-                // This is just the magnet animation.
-                StartCoroutine(magnet_animation(2));
-
-                // In place to fix animation splitting
-                interrupt_animation = true;
-
-                //Triggers the recharge rate animation.
-                pull_anim_controller.Play("pull_anim");
-                my_animator.Play("player_pull");
-
-
-                if (addForce_BigFireball)
-                    addForceBullets("pull");
-            }
-        }
-
-        // Put in place to manage the showing of the projected push
-        if (Input.GetKey(KeyCode.K))
-            cone_check();
-
-        // Push
-        if (Input.GetKeyUp(KeyCode.K))
-        {
-            pushArea.GetComponent<SpriteRenderer>().enabled = false;
-            revertColors();
-
-            if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim"))
-            {   
-                applyForceToEnemies(2);
-                StartCoroutine(magnet_animation(1));
-                push_anim_controller.Play("push_anim");
-
-                if (addForce_BigFireball)
-                    addForceBullets("push");
-            }
-        }
-    }
 
     void revertColors()
     {
@@ -327,168 +299,12 @@ public class Character : MonoBehaviour
         }
     }
 
-    // WARNING: Lots of repeated code here, ¯\_(ツ)_/¯ so if you're sensitive to that stuff, look no further.
-    // Character script is MY REALM >:)
-    void cone_check()
-    {
-		if (push_anim_controller.GetCurrentAnimatorStateInfo (0).IsName ("push_anim")) {
-			pushArea.GetComponent<SpriteRenderer> ().color = Color.red;
-		} else {
-			pushArea.GetComponent<SpriteRenderer> ().color = Color.white;
-
-		}
-
-
-        pushArea.transform.position = transform.position;
-        pushArea.transform.localScale = new Vector3(10, 9, 0);
-
-        for (int i = 0; i < go.Count; i++)
-        {
-            // Checking if the enemy has been destroyed. Don't access if true.
-            if (go[i] != null)
-            {
-                enemybody = go[i].GetComponent<Rigidbody2D>();
-                Transform target = go[i].transform;
-
-                Vector2 dir = transform.position - target.position;  // Direction between character and enemy.
-                float distance = dir.magnitude; // Distance between two in float form, instead of Vector.
-                dir.Normalize();    // Makes the distance have a magnitude of 1.
-
-                float distance_check = Vector2.Distance(transform.position, target.position);
-
-                string nameCheck = go[i].gameObject.name;
-
-                Vector3 angle_dir = target.position - transform.position;
-                Vector3 facing = transform.InverseTransformPoint(target.position);
-                float angle = Vector3.Angle(transform.up, angle_dir.normalized);
-
-                Color changeTo = Color.blue;
-
-                pushArea.GetComponent<SpriteRenderer>().enabled = true;
-
-                // If it's within the allowed radius, then we highlight it. 
-                if (distance_check < allowed_radius)
-                {
-                    if (direction_facing == "right")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3 (0, 0, -90);
-                        if (angle >= 45 && angle <= 135 && facing.x > 0)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else if (direction_facing == "down")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, 180);
-                        if (angle >= 65)
-                        {   // used to be 135
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else if (direction_facing == "left")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, 90);
-                        if (angle >= 45 && angle <= 135 && facing.x < 0)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-
-                    }
-                    else if (direction_facing == "up")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, 0);
-                        if (angle <= 75)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else if (direction_facing == "up-right")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, -45);
-                        if (angle >= 22.5 && angle <= 67.5 && facing.x > 0)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else if (direction_facing == "down-right")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, -135);
-                        if (angle >= 112.5 && angle <= 135.5 && facing.x > 0)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else if (direction_facing == "down-left")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, 135);
-                        if (angle >= 112.5 && angle <= 135.5)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else if (direction_facing == "up-left")
-                    {
-                        pushArea.transform.localEulerAngles = new Vector3(0, 0, 45);
-                        if (angle >= 22.5 && angle <= 67.5)
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = changeTo;
-                        }
-
-                        else
-                        {
-                            go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                        }
-                    }
-
-                    else
-                    {
-                        go[i].GetComponent<SpriteRenderer>().color = Color.white;
-                    }
-                }
-            }
-        }
-    }
-
     void check_drag()
     {
         // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
         for (int i = 0; i < go.Count; i++)
         {
-            if (go[i] != null && go[i].gameObject.tag != "PurpBullet")
+            if (go[i] != null && go[i].gameObject.tag != "PurpBullet" && go[i].GetComponent<Rigidbody2D>() != null)
             {
                 enemybody = go[i].GetComponent<Rigidbody2D>();
                 enemybody.drag += Time.deltaTime * 3;
@@ -512,240 +328,6 @@ public class Character : MonoBehaviour
 
     }
 
-    void applyForceToEnemies(int porp)
-    {
-        GameObject[] purple_bullets = GameObject.FindGameObjectsWithTag("PurpBullet");
-        foreach (GameObject bullet in purple_bullets)
-        {
-            go.Add(bullet);
-        }
-
-        for (int i = 0; i < go.Count; i++)
-        {
-            // Checking if the enemy has been destroyed. Don't access if true.
-            if (go[i] != null)
-            {
-                enemybody = go[i].GetComponent<Rigidbody2D>();
-                Transform target = go[i].transform;
-
-                // Refer: http://answers.unity3d.com/questions/1167656/choosing-speed-and-direction-of-addforce.html#answer-1167720
-                Vector2 dir = transform.position - target.position;  // Direction between character and enemy.
-                float distance = dir.magnitude; // Distance between two in float form, instead of Vector.
-                float force_size = 10.0f;
-                dir.Normalize();    // Makes the distance have a magnitude of 1.
-
-                float distance_check = Vector2.Distance(transform.position, target.position);
-
-                string nameCheck = go[i].gameObject.name;
-
-                if (distance_check < allowed_radius)
-                {
-
-                    if (porp == 1)
-                    {
-                        // Inverse linear force equation.
-                        if (go[i].gameObject.name == "FlyingMonster")
-                        {
-                            go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-                        }
-                        enemybody.AddForce(dir * (force_size / distance) * 70);
-                    }
-
-                    else {
-                        // Variables we're going to need to make the calculations for the push						
-                        Vector3 angle_dir = target.position - transform.position;
-                        Vector3 facing = transform.InverseTransformPoint(target.position);
-                        float angle = Vector3.Angle(transform.up, angle_dir.normalized);
-
-						int speed = 80;
-
-                        // Find me if you need me to explain these particular mechanics, they're not that tough. 
-                        if (direction_facing == "right" && facing.x > 0)
-                        {
-                            if (angle >= 45 && angle <= 135)
-                            {
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-                            }
-
-                        }
-                        else if (direction_facing == "down")
-                        {
-                            if (angle >= 65)
-                            {   // used to be 135
-
-
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-                            }
-                        }
-
-                        else if (direction_facing == "left")
-                        {
-                            if (angle >= 45 && angle <= 135 && facing.x < 0)
-                            {
-
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-
-                            }
-
-                        }
-                        else if (direction_facing == "up")
-                        {
-                            if (angle <= 75)
-                            {
-
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-
-                            }
-
-                        }
-
-                        else if (direction_facing == "up-right" && facing.x > 0)
-                        {
-                            if (angle >= 22.5 && angle <= 67.5)
-                            {
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-
-                            }
-                        }
-
-                        else if (direction_facing == "down-right" && facing.x > 0)
-                        {
-
-                            if (angle >= 112.5 && angle <= 135.5)
-                            {
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-
-                            }
-                        }
-
-                        else if (direction_facing == "down-left")
-                        {
-                            if (angle >= 112.5 && angle <= 135.5)
-                            {
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-
-                            }
-                        }
-
-                        else if (direction_facing == "up-left")
-                        {
-                            if (angle >= 22.5 && angle <= 67.5)
-                            {
-								enemybody.AddForce(-dir * (force_size / distance) * speed);
-
-
-                                if (nameCheck == "FlyingMonster")
-                                    go[i].gameObject.GetComponent<FlyingEnemy>().appliedForce = true;
-
-
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-    }
-
-    void addForceBullets(string push_or_pull)
-    {
-        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
-        Rigidbody2D bullet_rb = enemybody;  // Just a holder variable to initialize it.
-
-        foreach (GameObject potential_bullet in bullets)
-        {
-            if (potential_bullet.name != "BigFireball")
-                continue;
-
-            bullet_rb = potential_bullet.GetComponent<Rigidbody2D>();
-
-            // Taken from applyEnemies method
-            Vector2 dir = transform.position - potential_bullet.transform.position;
-            float distance = dir.magnitude;
-            float force_size = 10.0f;
-            dir.Normalize();
-
-            if (push_or_pull == "push")
-            {
-                // Yeah, shitload of repeated code here from applyEnemies... sue me. 
-                // Nah but it's stable and works nicely so w/e.
-
-                Vector3 angle_dir = bullet_rb.transform.position - transform.position;
-                Vector3 facing = transform.InverseTransformPoint(bullet_rb.transform.position);
-                float angle = Vector3.Angle(transform.up, angle_dir.normalized);
-
-                if (direction_facing == "right" && facing.x > 0)
-                {
-                    if (angle >= 45 && angle <= 135)
-                    {
-                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
-                    }
-
-                }
-                else if (direction_facing == "down")
-                {
-                    if (angle >= 65)
-                    {   // used to be 135
-                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
-                    }
-                }
-
-                else if (direction_facing == "left")
-                {
-                    if (angle >= 45 && angle <= 135 && facing.x < 0)
-                    {
-                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
-                    }
-
-                }
-                else if (direction_facing == "up")
-                {
-                    if (angle <= 75)
-                    { //used to be 45
-                        bullet_rb.AddForce(-dir * (force_size / distance) * by_how_much);
-                    }
-                }
-
-
-            }
-
-            else if (push_or_pull == "pull")
-            {
-                bullet_rb.AddForce(dir * (force_size / distance) * by_how_much);
-            }
-
-            print("added force to bullet");
-        }
-
-    }
 
     // Strictly for the magnet wave animation
     void decreaseOpacity()
@@ -781,56 +363,15 @@ public class Character : MonoBehaviour
         {
             Vector3 change = Vector3.zero;
             float time = 0.0f;
-            //push_wave.GetComponent<SpriteRenderer>().enabled = true;
-
+        
             magnet_wave.transform.localScale = new Vector3(3, 3, 0);
 
-            if (direction_facing == "right")
-            {
-                change = new Vector3(1, 0, 0);
-                push_wave.transform.Rotate(0, 0, -90);
-            }
-                
-            else if (direction_facing == "down")
-            {
-                change = new Vector3(0, -1, 0);
-                push_wave.transform.Rotate(0, 0, 180);
-            }  
-            else if (direction_facing == "left")
-            {
-                change = new Vector3(-1, 0, 0);
-                push_wave.transform.Rotate(0, 0, 90);
-            }
-             
-            else if (direction_facing == "up")
-            {
-                change = new Vector3(0, 1, 0);
-                push_wave.transform.Rotate(0, 0, 0);
-            }
-           
-            else if (direction_facing == "up-right")
-            {
-                change = new Vector3(1, 1, 0);
-                push_wave.transform.Rotate(0, 0, -45);
-            }
-                
-            else if (direction_facing == "down-right")
-            {
-                change = new Vector3(1, -1, 0);
-                push_wave.transform.Rotate(0, 0, -135);
-            }
-               
-            else if (direction_facing == "down-left")
-            {
-                change = new Vector3(-1, -1, 0);
-                push_wave.transform.Rotate(0, 0, 135);
-            }
-                
-            else if (direction_facing == "up-left")
-            {
-                change = new Vector3(-1, 1  , 0);
-                push_wave.transform.Rotate(0, 0, 45);
-            }
+            Vector2 mouse = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            mouse = Camera.main.ScreenToWorldPoint(mouse);
+
+            mouse = transform.InverseTransformPoint(mouse);
+            change = mouse.normalized;
+         
 
             // Starting small, then increasing in size, simulating "pushing".
             while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0)
@@ -838,8 +379,8 @@ public class Character : MonoBehaviour
                 decreaseOpacity();
                 time += Time.deltaTime;
 
-                magnet_wave.transform.position += change * Time.deltaTime * 10;
-                magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 3;
+                magnet_wave.transform.position += change * Time.deltaTime * 15;
+                magnet_wave.transform.localScale += Vector3.one * Time.deltaTime * 2;
                 yield return null;
             }
         }

@@ -37,9 +37,29 @@ public class FlyingEnemy : MonoBehaviour {
 
 		min_distance = 10;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void getPushed(string mode)
+    {
+        Vector2 direction = player.transform.position - transform.position;
+        float distance = direction.magnitude;
+        float force_size = 10.0f;
+        direction.Normalize();
+
+        appliedForce = true;
+        GetComponent<Rigidbody2D>().drag = 0;
+        if (mode == "push")
+        {
+            GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+        }
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 
 		if (Vector3.Distance (player.transform.position, transform.position) > min_distance)
 			return;

@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     float time;
 	public float shooting_rate;
 
+    GameObject player;
+
     // Use this for initialization
     void Start()
     {
@@ -43,14 +45,38 @@ public class Enemy : MonoBehaviour
 
         char_ref = GameObject.FindGameObjectWithTag("Player");
 
+        player = GameObject.FindWithTag("Player");
 
         time = 0.0f;
+
+        name = "Enemy";
+    }
+
+    public void getPushed(string mode)
+    {
+        Vector2 direction = player.transform.position - transform.position;
+        float distance = direction.magnitude;
+        float force_size = 10.0f;
+        direction.Normalize();
+
+        GetComponent<Rigidbody2D>().drag = 0;
+        if (mode == "push")
+        {
+            GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+        }
+      
+
     }
 
 	// Update is called once per frame
 	void Update()
 	{
 		handleShooting();
+
 
 	}
 

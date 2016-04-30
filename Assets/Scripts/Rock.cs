@@ -5,24 +5,38 @@ public class Rock : MonoBehaviour
 {
 	Rigidbody2D body;
 	BoxCollider2D coll;
+    GameObject player;
 
 	void Start()
 	{
 		body = GetComponent<Rigidbody2D>();
 		body.freezeRotation = true;
 		coll = GetComponent<BoxCollider2D>();
-
+        player = GameObject.FindWithTag("Player");
 
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-        
-	}
+    public void getPushed(string mode)
+    {
+        Vector2 direction = player.transform.position - transform.position;
+        float distance = direction.magnitude;
+        float force_size = 10.0f;
+        direction.Normalize();
+
+        GetComponent<Rigidbody2D>().drag = 0;
+        if (mode == "push")
+        {
+            GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+        }
+
+    }
 
 
-	void OnTriggerEnter2D(Collider2D coll)
+    void OnTriggerEnter2D(Collider2D coll)
 	{
 
 	}
