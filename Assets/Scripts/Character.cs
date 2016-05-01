@@ -287,10 +287,7 @@ public class Character : MonoBehaviour
                 my_animator.Play("player_left");
         }
 
-        	body.MovePosition(temp);
-
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.W))
-            my_animator.Play("player_idle");
+        body.MovePosition(temp);
 
 
     }
