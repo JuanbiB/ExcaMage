@@ -7,6 +7,8 @@ public class Rock : MonoBehaviour
 	BoxCollider2D coll;
     GameObject player;
 
+    public GameObject pieces;
+
 	void Start()
 	{
 		body = GetComponent<Rigidbody2D>();
@@ -14,6 +16,7 @@ public class Rock : MonoBehaviour
 		coll = GetComponent<BoxCollider2D>();
         player = GameObject.FindWithTag("Player");
 
+        name = "Rock";
 	}
 
     public void getPushed(string mode)
@@ -36,7 +39,8 @@ public class Rock : MonoBehaviour
     }
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		if (coll.gameObject.tag == "Wall"){
+		if (coll.gameObject.tag == "Wall" && body.velocity.magnitude > 7){
+            Instantiate(pieces, transform.position, transform.rotation);
 			Destroy(gameObject);
 		}
 	}
