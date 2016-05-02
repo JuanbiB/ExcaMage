@@ -14,6 +14,7 @@ public class BigEnemy : MonoBehaviour {
 	bool dead;
 
 	Color enemy_color;
+	Color original;
 
 	float fade;
 	float move_speed;
@@ -21,9 +22,14 @@ public class BigEnemy : MonoBehaviour {
 	GameObject char_ref;
 	Vector3 distance;
 	public GameObject bullet_ref;
+	GameObject player;
 
 	float time;
 	public float shooting_rate;
+
+	bool hit = false;
+	int health = 2;
+	SpriteRenderer sp_render;
 
 	// Use this for initialization
 	void Start()
@@ -42,17 +48,48 @@ public class BigEnemy : MonoBehaviour {
 		move_speed = 2f;
 
 		char_ref = GameObject.FindGameObjectWithTag("Player");
-
+		player = GameObject.FindWithTag("Player");
 
 		time = 0.0f;
+
+		name = "BigEnemy";
+		sp_render = GetComponent<SpriteRenderer>();
+
+		body.constraints = RigidbodyConstraints2D.FreezeAll;
+		original = sp_render.color;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
+		if (this.health <= 0)
+			spikeDeath ();
 		handleShooting();
-
 	}
+
+
+
+
+
+//	public void getPushed(string mode)
+//	{
+//		Vector2 direction = player.transform.position - transform.position;
+//		float distance = direction.magnitude;
+//		float force_size = 10.0f;
+//		direction.Normalize();
+//
+//		GetComponent<Rigidbody2D>().drag = 0;
+//		if (mode == "push")
+//		{
+//			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+//		}
+//		else
+//		{
+//			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+//		}
+//
+//
+//	}
 
 	void spikeDeath()
 	{
@@ -68,7 +105,17 @@ public class BigEnemy : MonoBehaviour {
 
 		if (time > shooting_rate && dead == false && distance < 6)
 		{
-			Instantiate(bullet_ref, this.transform.position, transform.rotation);
+
+			Vector2 direction = player.transform.position - transform.position;
+			float dist = direction.magnitude;
+			float force_size = 10.0f;
+		
+			direction.Normalize();
+		
+			Vector3 shot = this.transform.position;
+			shot.x = shot.x + 1;
+			shot.y = shot.y + 1;
+			Instantiate(bullet_ref, direction, transform.rotation);
 			time = 0.0f;
 		}
 	}
@@ -119,16 +166,36 @@ public class BigEnemy : MonoBehaviour {
 			spikeDeath();
 		}
 	}
+		
 
-	void OnCollisionEnter2D(Collision2D other)
+	void OnCollisionEnter2D(Collision2D coll)
 	{
-		if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6)
+		if (coll.gameObject.name == "Boulder_Bullet")
 		{
-
-			if (BoardCreator.instance != null)
-				BoardCreator.instance.SendMessage("kill");
-			spikeDeath();
-
+			if (!hit)   // In place to prevent being damaged when you've already been recently damaged.
+			{
+				StartCoroutine(hit_animation());
+			}
 		}
 	}
+
+	public IEnumerator hit_animation()
+	{
+		hit = true;
+		health--;
+		float time = 0.0f;
+		while (time < 1.5f)
+		{
+			Color temp = sp_render.color;
+			temp = Color.red;
+			temp.a = .5f;
+			sp_render.color = temp;
+			time += Time.deltaTime;
+			yield return null;
+		}
+
+		sp_render.color = original;
+		hit = false;
+	}
+
 }

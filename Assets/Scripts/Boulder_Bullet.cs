@@ -7,6 +7,8 @@ public class Boulder_Bullet : MonoBehaviour {
 	Rigidbody2D rb;
 	PolygonCollider2D pgC;
 	Vector2 distance;
+	GameObject player;
+
 
 	public float speed;
 	float clock;
@@ -19,6 +21,8 @@ public class Boulder_Bullet : MonoBehaviour {
 		rb.freezeRotation = true;
 		distance = char_ref.transform.position - transform.position;
 		rb.AddForce (distance.normalized * speed);	
+		name = "Boulder_Bullet";
+		player = GameObject.FindWithTag("Player");
 
 	}
 
@@ -31,11 +35,28 @@ public class Boulder_Bullet : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter2D(Collider2D coll)
+	public void getPushed(string mode)
 	{
-		if (coll.gameObject.tag == "Rock")
+		Vector2 direction = player.transform.position - transform.position;
+		float distance = direction.magnitude;
+		float force_size = 10.0f;
+		direction.Normalize();
+
+		GetComponent<Rigidbody2D>().drag = 0;
+		if (mode == "push")
 		{
-			Destroy(this.gameObject);
+			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+		}
+		else
+		{
+			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+		}
+
+	}
+
+	void OnCollisionEnter2D(Collision2D coll) {
+		if (coll.gameObject.tag == "Wall"){
+			Destroy(gameObject);
 		}
 	}
 }
