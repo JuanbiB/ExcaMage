@@ -46,7 +46,7 @@ public class Dialogue : MonoBehaviour {
 
 			yield return new WaitForSeconds (0.05f);
 		}
-		yield return new WaitForEndOfFrame();
+		//yield return new WaitForEndOfFrame();
 	
 //
 //		while (!Input.GetMouseButton(0))
