@@ -35,6 +35,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] Rock;
 	public GameObject player;								  // The player prefab.
 	public GameObject portal;
+	public GameObject exitPortal;
 
 	public GameObject multikill;
 
@@ -59,9 +60,10 @@ public class BoardCreator : MonoBehaviour
 	{
 		//print ("Current Kills " + curKills + ", Kills needed " + +rooms [curLevel].enemyCount + " Current Level " + curLevel);
 		if (curKills >= rooms[curLevel].enemyCount) { 
-			spawnExit ();
 			curKills = 0;
-			curLevel++;
+			if(curLevel < rooms.Length)
+			//	curLevel++;
+			spawnExit ();	
 		}
 	}
 
@@ -236,11 +238,15 @@ public class BoardCreator : MonoBehaviour
 
 	private void spawnExit ()
 	{
-		
-		Vector3 portalPos = new Vector3 ((30*(curLevel)+10+4), 10+4,-5);
-		Instantiate(portal, portalPos, Quaternion.identity);	
+		if (curLevel+1 == numRooms) {
+			Vector3 portalPos = new Vector3 ((30 * (curLevel) + 10 + 4), 10 + 4, -5);
+			Instantiate (exitPortal, portalPos, Quaternion.identity);	
+		} else {
+			Vector3 portalPos = new Vector3 ((30 * (curLevel) + 10 + 4), 10 + 4, -5);
+			Instantiate (portal, portalPos, Quaternion.identity);	
+		}
 	}
-
+		
 	private void kill ()
 	{
 		curKills++;

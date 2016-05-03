@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class Character : MonoBehaviour
@@ -484,16 +485,16 @@ public class Character : MonoBehaviour
 			}
 		}
 
-
-
-
-
-
         if (coll.gameObject.tag == "Finish")
         {
             Vector3 curr = this.transform.position;
             this.transform.position = new Vector3(curr.x + 30, curr.y, curr.z);
-            //StartCoroutine ("invunerable", 1f);
         }
+
+		if (coll.gameObject.tag == "ChangeLevel")
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+		}
     }
 }
+	
