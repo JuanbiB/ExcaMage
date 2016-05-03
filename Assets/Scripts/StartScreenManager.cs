@@ -8,17 +8,26 @@ public class StartScreenManager : MonoBehaviour {
 	public Text emtitle;
 	[SerializeField] private Button startbutton = null;
     [SerializeField] private Button practiceButton = null;
-	public AudioSource startsound;
+    [SerializeField] private Button howToPlayButton = null;
+    public AudioSource startsound;
     AsyncOperation async;
 
 	public static StartScreenManager instance = null;
+    public Texture2D cursor;
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+    }
+
+    // Use this for initialization
+    void Start () {
 		instance = this;
 		emtitle.GetComponent<Image> ();
 		startbutton.GetComponent<Button> ();
         practiceButton.GetComponent<Button>();
+        howToPlayButton.GetComponent<Button>();
+
         startbutton.onClick.AddListener (() => gameStart (0));
         practiceButton.onClick.AddListener(() => gameStart(-1));
 
@@ -30,6 +39,7 @@ public class StartScreenManager : MonoBehaviour {
 		emtitle.gameObject.SetActive (false);
 		startbutton.gameObject.SetActive (false);
         practiceButton.gameObject.SetActive(false);
+        howToPlayButton.gameObject.SetActive(false);
 
 		startsound.Play ();
 		StartCoroutine (LoadGame (level));

@@ -1,30 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MultiKill : MonoBehaviour {
+public class DoubleKill : MonoBehaviour
+{
 
     float clock;
     float start_time;
     SpriteRenderer sprite;
-	GameObject player;
-    Character player_script;
+    GameObject player;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         clock = 0.0f;
         start_time = Time.time;
         sprite = GetComponent<SpriteRenderer>();
-		player = GameObject.FindWithTag ("Player");
-        player_script = player.GetComponent<Character>();
+        player = GameObject.FindWithTag("Player");
 
-        for (int i = 0; i < 2; i++)
-        {
-            if (player_script.health < player_script.maxhealth)
-            {
-                player_script.health++;
-            }
-        }
-     
+        if (player.GetComponent<Character>().health < player.GetComponent<Character>().maxhealth)
+            player.GetComponent<Character>().health++;
 
         if (player.GetComponent<Character>().running_life_message == true)
         {
@@ -32,21 +26,22 @@ public class MultiKill : MonoBehaviour {
         }
         else
         {
-            StartCoroutine(player.GetComponent<Character>().life_message(2));
+            StartCoroutine(player.GetComponent<Character>().life_message(1));
         }
-      
+
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		transform.position = (Vector2) player.transform.position + new Vector2 (0, 3);
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position = (Vector2)player.transform.position + new Vector2(0, 3);
 
         clock += Time.deltaTime;
 
         transform.position = new Vector3(transform.position.x, transform.position.y, -9);
 
-        Vector2 target_size = new Vector2(3, 3);
+        Vector2 target_size = new Vector2(2, 2);
 
         float distCovered = (Time.time - start_time) * 5f;
         float journeyLength = Vector2.Distance(Vector2.zero, target_size);
@@ -61,18 +56,18 @@ public class MultiKill : MonoBehaviour {
             sprite.color = temp;
         }
 
-        
+
         if (sprite.color.a < 0)
         {
             Destroy(gameObject);
         }
 
-        if (transform.localScale.x == 3)
+        if (transform.localScale.x == 2)
         {
             transform.eulerAngles = Vector3.zero;
             return;
         }
-            
+
         transform.eulerAngles = new Vector3(0, 0, 360 * clock * 4.5f);
     }
 

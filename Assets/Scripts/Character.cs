@@ -30,7 +30,7 @@ public class Character : MonoBehaviour
 
     public GameObject broken_tile;
 
-    public int health = 5;
+    public int health;
 	public int maxhealth;
 
 	public int ammo;
@@ -69,6 +69,7 @@ public class Character : MonoBehaviour
 
     // cute cursor
     public Texture2D cursor;
+    public bool presentation;
 
     // Sound Management
     AudioSource source;
@@ -77,6 +78,8 @@ public class Character : MonoBehaviour
     AudioClip pull_sound;
     AudioClip death_sound;
 
+    public bool running_life_message;
+
     void Awake()
     {
         this.health = 7;
@@ -84,6 +87,7 @@ public class Character : MonoBehaviour
 		this.ammo = 0;
 		this.bossfightEnabled = false;
 		this.DialogueEnabled = false;
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
     }
 
 
@@ -91,12 +95,13 @@ public class Character : MonoBehaviour
     void Start()
     {
 
-        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+       
         source = gameObject.AddComponent<AudioSource>();
         hit_sound = Resources.Load("Sound/bullet hit") as AudioClip;
         push_sound = Resources.Load("Sound/push") as AudioClip;
         pull_sound = Resources.Load("Sound/pull") as AudioClip;
         death_sound = Resources.Load("Sound/you died") as AudioClip;
+        running_life_message = false;
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
@@ -139,8 +144,11 @@ public class Character : MonoBehaviour
         temp = transform.position;
 
         // Getting the UI's animators
-        push_anim_controller = GameObject.Find("Canvas/Push Cooldown").GetComponent<Animator>();
-        pull_anim_controller = GameObject.Find("Canvas/Pull Cooldown").GetComponent<Animator>();
+        if (GameObject.Find("Canvas/Push Cooldown") != null)
+            push_anim_controller = GameObject.Find("Canvas/Push Cooldown").GetComponent<Animator>();
+
+        if (GameObject.Find("Canvas/Pull Cooldown") != null)
+            pull_anim_controller = GameObject.Find("Canvas/Pull Cooldown").GetComponent<Animator>();
 
 
         // Getting the push animator
@@ -165,6 +173,8 @@ public class Character : MonoBehaviour
 
         mode = "none";
 
+       
+
     }
 
 	public void refreshListofEnemies(){
@@ -180,6 +190,12 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (presentation == true)
+        {
+            my_animator.Play("player_idle");
+            return;
+        }
+
         // Death sound
         if (health <= 0)
             source.PlayOneShot(death_sound, .1f);
@@ -212,6 +228,39 @@ public class Character : MonoBehaviour
 
 			}
 		}
+
+    public IEnumerator life_message(int howMany)
+    {
+        running_life_message = true;
+        Text manipulated = GameObject.Find("Canvas/Life Message").GetComponent<Text>();
+        GameObject stuff = GameObject.Find("Canvas/Life Message");
+
+        
+        Color temp_col = manipulated.color;
+        stuff.transform.position = (Vector2) transform.position + new Vector2(2.5f, .8f);
+        
+        if (howMany == 2)
+        {
+            manipulated.text = "+2 Life";
+        }
+        else
+        {
+            manipulated.text = "+1 Life!";
+        }
+ 
+        Color temp = manipulated.color;
+        while (temp.a > 0)
+        {
+            stuff.transform.position = (Vector2)stuff.transform.position - new Vector2(0, 0.01f);
+            temp.a -= 0.005f;
+            manipulated.color = temp;
+            yield return null;
+        }
+        manipulated.color = temp_col;
+        GameObject.Find("Canvas/Life Message").GetComponent<Text>().text = "";
+      
+        running_life_message = false;
+    }
 
 
     void handleInput()
