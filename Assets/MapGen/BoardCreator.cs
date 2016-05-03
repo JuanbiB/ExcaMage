@@ -19,7 +19,10 @@ public enum TileType
 public class BoardCreator : MonoBehaviour
 {
 	// Basic board stuff
-	private IntRange numRooms = new IntRange (15, 20);         
+	public int numRooms = 5;
+	public IntRange roomWidth = new IntRange(10,10);
+	public IntRange roomHeight = new IntRange(10,10);
+
 	private int boardH = 40;
 	private int boardW = 310;
 	
@@ -101,10 +104,10 @@ public class BoardCreator : MonoBehaviour
 		
 	void createRooms()
 	{
-		rooms = new Room[5];
+		rooms = new Room[numRooms];
 		for (int i = 0; i < rooms.Length; i++) {
 			rooms [i] = new Room ();
-			rooms [i].genRoom(i); 
+			rooms [i].genRoom(i,roomHeight.Random,roomWidth.Random); 
 		}
 	}
 
