@@ -63,10 +63,10 @@ public class Character : MonoBehaviour
 
     // Use this please
     public static Character instance = null;
-    
+
     // for pushing and pulling
     public string mode;
-    
+
     // cute cursor
     public Texture2D cursor;
 
@@ -466,6 +466,13 @@ public class Character : MonoBehaviour
                 StartCoroutine(hit_animation());
             }
         }
+        if (coll.gameObject.name == "Boulder_Bullet")
+        {
+          if (!hit)   // In place to prevent being damaged when you've already been recently damaged.
+          {
+            StartCoroutine(hit_animation());
+          }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -517,4 +524,3 @@ public class Character : MonoBehaviour
 		}
     }
 }
-	
