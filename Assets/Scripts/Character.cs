@@ -63,11 +63,19 @@ public class Character : MonoBehaviour
 
     // Use this please
     public static Character instance = null;
-
-    public string mode;
+    
     // for pushing and pulling
-
+    public string mode;
+    
+    // cute cursor
     public Texture2D cursor;
+
+    // Sound Management
+    AudioSource source;
+    AudioClip hit_sound;
+    AudioClip push_sound;
+    AudioClip pull_sound;
+    AudioClip death_sound;
 
     void Awake()
     {
@@ -84,6 +92,11 @@ public class Character : MonoBehaviour
     {
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+        source = gameObject.AddComponent<AudioSource>();
+        hit_sound = Resources.Load("Sound/bullet hit") as AudioClip;
+        push_sound = Resources.Load("Sound/push") as AudioClip;
+        pull_sound = Resources.Load("Sound/pull") as AudioClip;
+        death_sound = Resources.Load("Sound/you died") as AudioClip;
 
         // Player rigidbody management
         body = GetComponent<Rigidbody2D>();
@@ -167,6 +180,10 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Death sound
+        if (health <= 0)
+            source.PlayOneShot(death_sound, .1f);
+
 		if (DialogueEnabled == true) {
 			//do Nothing
 		} else {
@@ -211,6 +228,7 @@ public class Character : MonoBehaviour
             {
                 mode = "push";
                 StartCoroutine(magnet_animation(1));
+                source.PlayOneShot(push_sound, 1f);
                 push_anim_controller.Play("push_anim");
                 my_animator.Play("player_push_animation");
             }
@@ -223,6 +241,7 @@ public class Character : MonoBehaviour
             {
                 mode = "pull";
                 StartCoroutine(magnet_animation(2));
+                source.PlayOneShot(pull_sound, 1f);
                 pull_anim_controller.Play("pull_anim");
                 my_animator.Play("player_pull");
             }
@@ -402,6 +421,7 @@ public class Character : MonoBehaviour
 
     public IEnumerator hit_animation()
     {
+        source.PlayOneShot(hit_sound, .7f);
         hit = true;
         health--;
         float time = 0.0f;
