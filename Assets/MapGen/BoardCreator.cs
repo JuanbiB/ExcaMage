@@ -64,11 +64,12 @@ public class BoardCreator : MonoBehaviour
 	private void Update()
 	{
 		//print ("Current Kills " + curKills + ", Kills needed " + +rooms [curLevel].enemyCount + " Current Level " + curLevel);
-		if (curKills >= rooms[curLevel].enemyCount) { 
-			curKills = 0;
-			if(curLevel < rooms.Length)
-			//	curLevel++;
+		if (rooms[curLevel].enemyCount == 0) { 
 			spawnExit ();	
+			if (curLevel < rooms.Length) {
+				curLevel++;
+			}
+			print ("test");
 		}
 	}
 
@@ -260,7 +261,8 @@ public class BoardCreator : MonoBehaviour
 		
 	private void kill ()
 	{
-		curKills++;
+		rooms [curLevel].enemyCount--;
+		//curKills++;
 		if (!killstreak) {
 			StartCoroutine(killcounter());
 		} else {
