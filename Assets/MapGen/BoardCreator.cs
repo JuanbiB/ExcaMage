@@ -282,6 +282,7 @@ public class BoardCreator : MonoBehaviour
 				Vector3 pos = new Vector3 (player.transform.position.x, player.transform.position.y, -4);
 				GameObject text = Instantiate(multikill,pos,player.transform.rotation) as GameObject;
 				curStreak = 0;
+				player.GetComponent<Character>().health++;
 			}
 			yield return null;
 		}
