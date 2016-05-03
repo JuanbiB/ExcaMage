@@ -31,6 +31,8 @@ public class pushManager : MonoBehaviour {
 				other.gameObject.GetComponent<Rock> ().getPushed (player.GetComponent<Character> ().mode);
 			if (other.name == "Boulder_Bullet")
 				other.gameObject.GetComponent<Boulder_Bullet> ().getPushed (player.GetComponent<Character> ().mode);
+		} else if (other.gameObject.tag == "PurpBullet") {
+			other.gameObject.GetComponent<PurpleBullet> ().getPushed (player.GetComponent<Character> ().mode);
 		}
 
         
