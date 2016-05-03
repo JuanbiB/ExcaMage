@@ -13,11 +13,15 @@ public enum TileType
 
 	//Enemies
 	BasicEnemy,
-	FlyingEnemy
+	FlyingEnemy,
+	Boss
 }
 	
 public class BoardCreator : MonoBehaviour
 {
+	public bool boss = false;
+	public bool floorTwo = false;
+
 	// Basic board stuff
 	public int numRooms = 5;
 	public IntRange roomWidth = new IntRange(10,10);
@@ -33,6 +37,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] Baddies;						      // An array of enemies.
 	public GameObject[] Spikes;	
 	public GameObject[] Rock;
+	public GameObject Boss;
 	public GameObject player;								  // The player prefab.
 	public GameObject portal;
 	public GameObject exitPortal;
@@ -115,7 +120,13 @@ public class BoardCreator : MonoBehaviour
 		rooms = new Room[numRooms];
 		for (int i = 0; i < rooms.Length; i++) {
 			rooms [i] = new Room ();
-			rooms [i].genRoom(i,roomHeight.Random,roomWidth.Random); 
+			if (boss) {
+				rooms [i].genBossRoom (roomHeight.Random, roomWidth.Random);
+			} if (floorTwo) {
+				rooms [i].genSecondFloorRoom (i, roomHeight.Random, roomWidth.Random);
+			}else {
+				rooms [i].genRoom (i, roomHeight.Random, roomWidth.Random);
+			}
 		}
 	}
 

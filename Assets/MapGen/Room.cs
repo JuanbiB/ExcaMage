@@ -17,9 +17,45 @@ public class Room
 		this.level = level;
 		Standard (level);
 	}
-		
+
+	public void genSecondFloorRoom(int level, int height, int width)
+	{
+		this.height = height;
+		this.width = width;
+		this.level = level;
+		StandardFloorTwo (level);
+	}
+
+	public void genBossRoom (int height, int width)
+	{
+		this.height = height;
+		this.width = width;
+		Boss();
+	}
+
+	public void Boss()
+	{
+		SetupTilesArray (width, height);
+		PutFloor();
+		roomTiles[width/2][height/2] = TileType.Boss; 
+	}
+
 	// Example level
 	public void Standard(int level)
+	{
+		// Need these
+		SetupTilesArray (width, height);
+		PutFloor();
+
+		// Optional
+		addBasicEnemies (1+level,2+level);
+		addFlyingEnemies (1,2+level);
+		addHoles (1,4);
+		addSpikes (1,4);
+		addRocks (1, 1);
+	}
+
+	public void StandardFloorTwo(int level)
 	{
 		// Need these
 		SetupTilesArray (width, height);
