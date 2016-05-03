@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
 	public bool bossfightEnabled;
 
 
-    // Prefabs 
+    // Prefabs
     public GameObject magnet_wave_prefab;
     GameObject magnet_wave;
     public GameObject push_wave_prefab;
@@ -81,7 +81,7 @@ public class Character : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-            
+
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
 
         // Player rigidbody management
@@ -95,7 +95,7 @@ public class Character : MonoBehaviour
         sp_render = GetComponent<SpriteRenderer>();
 
         // All current enemies in scene with "Enemy" tag. Used for Push and Pull.
-        go = new List<GameObject>(); 
+        go = new List<GameObject>();
         go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 		go.AddRange (GameObject.FindGameObjectsWithTag ("Rock"));
         go.AddRange(GameObject.FindGameObjectsWithTag("goof"));
@@ -136,7 +136,7 @@ public class Character : MonoBehaviour
         // Getting the player's animator
         my_animator = GetComponent<Animator>();
 
-        //Quick fix 
+        //Quick fix
         transform.position += new Vector3(0, 0, -3);
 
         original = sp_render.color;
@@ -213,7 +213,7 @@ public class Character : MonoBehaviour
                 push_anim_controller.Play("push_anim");
                 my_animator.Play("player_push_animation");
             }
-             
+
         }
 
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -227,7 +227,7 @@ public class Character : MonoBehaviour
             }
 
         }
-     
+
             //Movement
             if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
         {
@@ -304,7 +304,7 @@ public class Character : MonoBehaviour
 
     void check_drag()
     {
-        // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity. 
+        // This loop increases drag of enemies, so that they slow down and not fly off with a constant velocity.
         for (int i = 0; i < go.Count; i++)
         {
             if (go[i] != null && go[i].gameObject.tag != "PurpBullet" && go[i].GetComponent<Rigidbody2D>() != null)
@@ -325,7 +325,7 @@ public class Character : MonoBehaviour
 
     void fixConstants()
     {
-        // Put in place to prevent enemies from transmitting velocity to character if they hit him. 
+        // Put in place to prevent enemies from transmitting velocity to character if they hit him.
         body.velocity = Vector3.zero;
         push_wave.transform.position = transform.position;
 
@@ -360,14 +360,14 @@ public class Character : MonoBehaviour
             }
 
             //In place to fix the animations
-           
+
         }
         // Push animation
         else
         {
             Vector3 change = Vector3.zero;
             float time = 0.0f;
-        
+
             magnet_wave.transform.localScale = new Vector3(3, 3, 0);
 
             Vector2 mouse = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -375,7 +375,7 @@ public class Character : MonoBehaviour
 
             mouse = transform.InverseTransformPoint(mouse);
             change = mouse.normalized;
-         
+
 
             // Starting small, then increasing in size, simulating "pushing".
             while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0)
@@ -392,7 +392,7 @@ public class Character : MonoBehaviour
         magnet_wave.transform.localScale = new Vector3(0, 0, 1);
         magnet_wave.GetComponent<SpriteRenderer>().color = original;
         animation_happening = false;
-      
+
 
         push_wave.transform.eulerAngles = Vector3.zero;
         push_wave.GetComponent<SpriteRenderer>().enabled = false;
@@ -470,9 +470,9 @@ public class Character : MonoBehaviour
 				//Need to create an instance that the bullet will not hurt if it is being absorbed
 				if (animation_happening == true) {
 					addAmmo (coll);
-					
+
 				} else {
-					
+
 					StartCoroutine (hit_animation ());
 					Destroy (coll.gameObject);
 				}

@@ -7,6 +7,7 @@ public class BigEnemy : MonoBehaviour {
 	public GameObject exploded_pieces_prefab;
 	GameObject exploded_pieces;
 
+	Animator Big_Boy_Anim;
 	Rigidbody2D body;
 	BoxCollider2D coll;
 
@@ -34,6 +35,7 @@ public class BigEnemy : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
+		Big_Boy_Anim = GetComponent<Animator>();
 		body = GetComponent<Rigidbody2D>();
 		body.freezeRotation = true;
 		dead = false;
@@ -64,7 +66,9 @@ public class BigEnemy : MonoBehaviour {
 	{
 		if (this.health <= 0)
 			spikeDeath ();
-		handleShooting();
+			handleShooting();
+
+
 	}
 
 
@@ -91,10 +95,16 @@ public class BigEnemy : MonoBehaviour {
 //
 //	}
 
+IEnumerator throw_boulder(){
+		yield return new WaitForSeconds(.3f);
+
+		Instantiate(bullet_ref, transform.position, transform.rotation);
+	}
+
 	void spikeDeath()
 	{
 		Instantiate(exploded_pieces_prefab, transform.position, transform.rotation);
-		GetComponent<SpriteRenderer>().enabled = false;
+		//GetComponent<SpriteRenderer>().enabled = false;
 		Destroy(gameObject);
 	}
 
@@ -106,16 +116,17 @@ public class BigEnemy : MonoBehaviour {
 		if (time > shooting_rate && dead == false && distance < 6)
 		{
 
-			Vector2 direction = player.transform.position - transform.position;
-			float dist = direction.magnitude;
-			float force_size = 10.0f;
-		
-			direction.Normalize();
-		
+			//Vector2 direction = player.transform.position - transform.position;
+			//float dist = direction.magnitude;
+			//float force_size = 10.0f;
+
+			//direction.Normalize();
+
 			Vector3 shot = this.transform.position;
 			shot.x = shot.x + 1;
 			shot.y = shot.y + 1;
-			Instantiate(bullet_ref, direction, transform.rotation);
+			Big_Boy_Anim.Play("big_enemy_shooting");
+			StartCoroutine(throw_boulder());
 			time = 0.0f;
 		}
 	}
@@ -166,7 +177,7 @@ public class BigEnemy : MonoBehaviour {
 			spikeDeath();
 		}
 	}
-		
+
 
 	void OnCollisionEnter2D(Collision2D coll)
 	{
@@ -183,6 +194,7 @@ public class BigEnemy : MonoBehaviour {
 	{
 		hit = true;
 		health--;
+		print(health);
 		float time = 0.0f;
 		while (time < 1.5f)
 		{
