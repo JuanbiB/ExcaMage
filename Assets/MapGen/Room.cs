@@ -62,8 +62,8 @@ public class Room
 		PutFloor();
 
 		// Optional
-		addBasicEnemies (1+level,2+level);
-		addFlyingEnemies (1,2+level);
+		addBasicEnemies (1+level,1+level);
+		addFlyingEnemies (1+level,1+level);
 		addHoles (1,4);
 		addSpikes (1,4);
 		addRocks (1, 1);
