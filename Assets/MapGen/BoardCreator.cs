@@ -55,7 +55,7 @@ public class BoardCreator : MonoBehaviour
 	private int curStreak = 0;
 
 	private bool killstreak = false;
-	private float killstreakTimer = 3.0f;
+	private float killstreakTimer = 3.5f;
 
 	// So other scipts can see this
 	public static BoardCreator instance = null;
