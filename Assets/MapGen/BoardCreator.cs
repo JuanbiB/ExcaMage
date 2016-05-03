@@ -69,7 +69,6 @@ public class BoardCreator : MonoBehaviour
 			if (curLevel < rooms.Length) {
 				curLevel++;
 			}
-			print ("test");
 		}
 	}
 
@@ -123,9 +122,9 @@ public class BoardCreator : MonoBehaviour
 			rooms [i] = new Room ();
 			if (boss) {
 				rooms [i].genBossRoom (roomHeight.Random, roomWidth.Random);
-			} if (floorTwo) {
+			} else if (floorTwo) {
 				rooms [i].genSecondFloorRoom (i, roomHeight.Random, roomWidth.Random);
-			}else {
+			} else {
 				rooms [i].genRoom (i, roomHeight.Random, roomWidth.Random);
 			}
 		}

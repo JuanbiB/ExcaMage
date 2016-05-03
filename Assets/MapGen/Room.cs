@@ -31,6 +31,7 @@ public class Room
 		this.height = height;
 		this.width = width;
 		Boss();
+		enemyCount++;
 	}
 
 	public void Boss()
