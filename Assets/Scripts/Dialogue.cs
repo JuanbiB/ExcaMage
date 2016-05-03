@@ -29,8 +29,10 @@ public class Dialogue : MonoBehaviour {
 		assetText = asset.text;
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		bossref = GameObject.FindGameObjectWithTag ("HandgunCat");
-	
-	}
+
+        Say(assetText);
+
+    }
 	public bool Say (string dialogue) {
 		if (talking)
 			return false;
@@ -41,12 +43,11 @@ public class Dialogue : MonoBehaviour {
 	}
 	IEnumerator Saydialogue (string dialogue) {
 		for (int i = 0; i <= dialogue.Length; i ++) {
-			print ("yech");
 			dialogUI.text = dialogue.Substring(0, i);
 
 			yield return new WaitForSeconds (0.05f);
 		}
-		yield return new WaitForEndOfFrame();
+		//yield return new WaitForEndOfFrame();
 	
 //
 //		while (!Input.GetMouseButton(0))
@@ -63,9 +64,6 @@ public class Dialogue : MonoBehaviour {
 		if (talking == true) {
 			
 		}
-		print (assetText);
-		Say (assetText);
-		
-	
+
 	}
 }

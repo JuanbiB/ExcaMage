@@ -16,8 +16,11 @@ public class ExplodingPieces : MonoBehaviour {
         Instantiate(piece_2, transform.position, transform.rotation);
         Instantiate(piece_3, transform.position, transform.rotation);
         Instantiate(piece_4, transform.position, transform.rotation);
-        Instantiate(piece_5, transform.position, transform.rotation);
-        Instantiate(piece_6, transform.position, transform.rotation);
+        if (piece_5 != null)
+            Instantiate(piece_5, transform.position, transform.rotation);
+
+        if (piece_6 != null)
+            Instantiate(piece_6, transform.position, transform.rotation);
     }
 	
 	// Update is called once per frame
