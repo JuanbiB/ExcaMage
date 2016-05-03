@@ -67,7 +67,7 @@ public class Room
 		addFlyingEnemies (1,2+level);
 		addHoles (1,4);
 		addSpikes (1,4);
-		addRocks (1, 1);
+		//addRocks (1, 1);
 	}
 
 	// Build the array of tiles
