@@ -104,6 +104,9 @@ IEnumerator throw_boulder(){
 	void spikeDeath()
 	{
 		Instantiate(exploded_pieces_prefab, transform.position, transform.rotation);
+		if (BoardCreator.instance != null)
+			BoardCreator.instance.SendMessage ("kill");
+		
 		//GetComponent<SpriteRenderer>().enabled = false;
 		Destroy(gameObject);
 	}
@@ -194,7 +197,6 @@ IEnumerator throw_boulder(){
 	{
 		hit = true;
 		health--;
-		print(health);
 		float time = 0.0f;
 		while (time < 1.5f)
 		{

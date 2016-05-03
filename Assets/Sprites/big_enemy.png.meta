@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 61d3ad324129c4cd0b4c0f1ecaff528e
-timeCreated: 1462235798
+timeCreated: 1462244855
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -60,18 +60,18 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -11, y: 2}
-        - {x: -18, y: -1}
-        - {x: -18, y: -31}
-        - {x: -16, y: -32}
-        - {x: 16, y: -32}
-        - {x: 18, y: -29}
-        - {x: 18, y: -9}
-        - {x: 15, y: 2}
+      - - {x: -11, y: 21.2}
+        - {x: -18, y: 18.2}
+        - {x: -18, y: -11.799999}
+        - {x: -16, y: -12.799999}
+        - {x: 16, y: -12.799999}
+        - {x: 18, y: -9.799999}
+        - {x: 18, y: 10.200001}
+        - {x: 15, y: 21.2}
     - name: big_enemy_1
       rect:
         serializedVersion: 2
@@ -79,17 +79,17 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: 26}
-        - {x: -19, y: 22}
-        - {x: -19, y: -15}
-        - {x: -15, y: -32}
-        - {x: 18, y: -32}
-        - {x: 18, y: 23}
-        - {x: 17, y: 26}
+      - - {x: -15, y: 45.2}
+        - {x: -19, y: 41.2}
+        - {x: -19, y: 4.200001}
+        - {x: -15, y: -12.799999}
+        - {x: 18, y: -12.799999}
+        - {x: 18, y: 42.2}
+        - {x: 17, y: 45.2}
     - name: big_enemy_2
       rect:
         serializedVersion: 2
@@ -97,17 +97,17 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: 26}
-        - {x: -19, y: 22}
-        - {x: -19, y: -15}
-        - {x: -15, y: -32}
-        - {x: 18, y: -32}
-        - {x: 18, y: 23}
-        - {x: 17, y: 26}
+      - - {x: -15, y: 45.2}
+        - {x: -19, y: 41.2}
+        - {x: -19, y: 4.200001}
+        - {x: -15, y: -12.799999}
+        - {x: 18, y: -12.799999}
+        - {x: 18, y: 42.2}
+        - {x: 17, y: 45.2}
     outline: []
   spritePackingTag: 
   userData: 

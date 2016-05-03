@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 014b038a725eb4472b2f0e6dd0ccb6db
-timeCreated: 1462240029
+timeCreated: 1462244801
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -61,18 +61,18 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -11, y: 2}
-        - {x: -18, y: -1}
-        - {x: -18, y: -31}
-        - {x: -16, y: -32}
-        - {x: 16, y: -32}
-        - {x: 18, y: -29}
-        - {x: 18, y: -9}
-        - {x: 15, y: 2}
+      - - {x: -11, y: 21.2}
+        - {x: -18, y: 18.2}
+        - {x: -18, y: -11.799999}
+        - {x: -16, y: -12.799999}
+        - {x: 16, y: -12.799999}
+        - {x: 18, y: -9.799999}
+        - {x: 18, y: 10.200001}
+        - {x: 15, y: 21.2}
     - name: big_enemy2_1
       rect:
         serializedVersion: 2
@@ -81,7 +81,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -15, y: 26}
@@ -99,7 +99,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -15, y: 26}
@@ -116,17 +116,17 @@ TextureImporter:
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9, y: 1}
-        - {x: -18, y: -2}
-        - {x: -18, y: -23}
-        - {x: -14, y: -32}
-        - {x: 18, y: -32}
-        - {x: 18, y: 0}
-        - {x: 16, y: 1}
+      - - {x: -9, y: 20.2}
+        - {x: -18, y: 17.2}
+        - {x: -18, y: -3.7999992}
+        - {x: -14, y: -12.799999}
+        - {x: 18, y: -12.799999}
+        - {x: 18, y: 19.2}
+        - {x: 16, y: 20.2}
     outline: []
   spritePackingTag: 
   userData: 
