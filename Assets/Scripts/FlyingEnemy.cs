@@ -61,6 +61,9 @@ public class FlyingEnemy : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+		float distance = Vector2.Distance(transform.position, player.transform.position);
+
+
 		if (Vector3.Distance (player.transform.position, transform.position) > min_distance)
 			return;
 

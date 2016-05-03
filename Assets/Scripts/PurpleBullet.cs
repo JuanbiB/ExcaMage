@@ -39,6 +39,25 @@ public class PurpleBullet : MonoBehaviour {
 	
 	}
 
+	public void getPushed(string mode)
+	{
+		Vector2 direction = char_ref.transform.position - transform.position;
+		float distance = direction.magnitude;
+		float force_size = 10.0f;
+		direction.Normalize();
+
+		GetComponent<Rigidbody2D>().drag = 0;
+		if (mode == "push")
+		{
+			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+		}
+		else
+		{
+			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+		}
+
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		if (coll.gameObject.tag == "Wall")

@@ -13,13 +13,20 @@ public enum TileType
 
 	//Enemies
 	BasicEnemy,
-	FlyingEnemy
+	FlyingEnemy,
+	Boss
 }
 	
 public class BoardCreator : MonoBehaviour
 {
+	public bool boss = false;
+	public bool floorTwo = false;
+
 	// Basic board stuff
-	private IntRange numRooms = new IntRange (15, 20);         
+	public int numRooms = 5;
+	public IntRange roomWidth = new IntRange(10,10);
+	public IntRange roomHeight = new IntRange(10,10);
+
 	private int boardH = 40;
 	private int boardW = 310;
 	
@@ -30,8 +37,12 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] Baddies;						      // An array of enemies.
 	public GameObject[] Spikes;	
 	public GameObject[] Rock;
+	public GameObject Boss;
 	public GameObject player;								  // The player prefab.
 	public GameObject portal;
+	public GameObject exitPortal;
+
+	public GameObject multikill;
 
 	// Where we hold things
 	private TileType[][] tiles;                               // A jagged array of tile types representing the board, like a grid.
@@ -41,6 +52,10 @@ public class BoardCreator : MonoBehaviour
 	// How we keep track of progress
 	private int curLevel = 0;
 	private int curKills = 0;
+	private int curStreak = 0;
+
+	private bool killstreak = false;
+	private float killstreakTimer = 3.0f;
 
 	// So other scipts can see this
 	public static BoardCreator instance = null;
@@ -50,9 +65,10 @@ public class BoardCreator : MonoBehaviour
 	{
 		//print ("Current Kills " + curKills + ", Kills needed " + +rooms [curLevel].enemyCount + " Current Level " + curLevel);
 		if (curKills >= rooms[curLevel].enemyCount) { 
-			spawnExit ();
 			curKills = 0;
-			curLevel++;
+			if(curLevel < rooms.Length)
+			//	curLevel++;
+			spawnExit ();	
 		}
 	}
 
@@ -101,10 +117,16 @@ public class BoardCreator : MonoBehaviour
 		
 	void createRooms()
 	{
-		rooms = new Room[5];
+		rooms = new Room[numRooms];
 		for (int i = 0; i < rooms.Length; i++) {
 			rooms [i] = new Room ();
-			rooms [i].genRoom(i); 
+			if (boss) {
+				rooms [i].genBossRoom (roomHeight.Random, roomWidth.Random);
+			} if (floorTwo) {
+				rooms [i].genSecondFloorRoom (i, roomHeight.Random, roomWidth.Random);
+			}else {
+				rooms [i].genRoom (i, roomHeight.Random, roomWidth.Random);
+			}
 		}
 	}
 
@@ -177,7 +199,7 @@ public class BoardCreator : MonoBehaviour
 		int index = Random.Range(0, prefabs.Length);
 
 		// The position to be instantiated at is based on the coordinates.
-		Vector3 position = new Vector3(xCoord, yCoord, 0f);
+		Vector3 position = new Vector3(xCoord, yCoord, -3);
 
 		// Board x and y of prefab
 		int x = (int)Mathf.Round(position.x);
@@ -194,14 +216,13 @@ public class BoardCreator : MonoBehaviour
 		// Create the prefab.
 		GameObject tileInstance = Instantiate(prefabs[index], position, Quaternion.identity) as GameObject;
 
-		// If it's not a floor tile we have to put it at a lower z.
-		if (prefabs != floorTiles) {
-			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -2);
+		if (prefabs == floorTiles) {
+			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, 1);
 			tileInstance.transform.position = pos;
 		}
 
-		if (prefabs == Baddies) {
-			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, -3);
+		if (prefabs == holeTiles || prefabs == wallTiles  || prefabs == Spikes) {
+			Vector3 pos = new Vector3 (tileInstance.transform.position.x, tileInstance.transform.position.y, 0);
 			tileInstance.transform.position = pos;
 		}
 
@@ -228,13 +249,40 @@ public class BoardCreator : MonoBehaviour
 
 	private void spawnExit ()
 	{
-		
-		Vector3 portalPos = new Vector3 ((30*(curLevel)+10+4), 10+4,-5);
-		Instantiate(portal, portalPos, Quaternion.identity);	
+		if (curLevel+1 == numRooms) {
+			Vector3 portalPos = new Vector3 ((30 * (curLevel) + 10 + 4), 10 + 4, -5);
+			Instantiate (exitPortal, portalPos, Quaternion.identity);	
+		} else {
+			Vector3 portalPos = new Vector3 ((30 * (curLevel) + 10 + 4), 10 + 4, -5);
+			Instantiate (portal, portalPos, Quaternion.identity);	
+		}
 	}
-
+		
 	private void kill ()
 	{
 		curKills++;
+		if (!killstreak) {
+			StartCoroutine(killcounter());
+		} else {
+			curStreak++;
+		}
+	}
+
+	public IEnumerator killcounter()
+	{
+		killstreak = true;
+		curStreak = 1;
+		float start = 0.0f;
+		while (start < killstreakTimer)
+		{
+			start += Time.deltaTime;
+			if (curStreak >= 3) {
+				Vector3 pos = new Vector3 (player.transform.position.x, player.transform.position.y, -4);
+				GameObject text = Instantiate(multikill,pos,player.transform.rotation) as GameObject;
+				curStreak = 0;
+			}
+			yield return null;
+		}
+		killstreak = false;
 	}
 }

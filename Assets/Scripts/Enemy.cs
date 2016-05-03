@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 	public float shooting_rate;
 
     GameObject player;
+    public GameObject multikill;
 
     // Use this for initialization
     void Start()
@@ -52,32 +53,29 @@ public class Enemy : MonoBehaviour
         name = "Enemy";
     }
 
-    public void getPushed(string mode)
-    {
-        Vector2 direction = player.transform.position - transform.position;
-        float distance = direction.magnitude;
-        float force_size = 10.0f;
-        direction.Normalize();
+	public void getPushed(string mode)
+	{
+		Vector2 direction = player.transform.position - transform.position;
+		float distance = direction.magnitude;
+		float force_size = 10.0f;
+		direction.Normalize();
 
-        GetComponent<Rigidbody2D>().drag = 0;
-        if (mode == "push")
-        {
-            GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
-        }
-        else
-        {
-            GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
-        }
-      
+		GetComponent<Rigidbody2D>().drag = 0;
+		if (mode == "push")
+		{
+			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+		}
+		else
+		{
+			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+		}
 
-    }
+	}
 
 	// Update is called once per frame
 	void Update()
 	{
 		handleShooting();
-
-
 	}
 
     void spikeDeath()
@@ -143,6 +141,7 @@ public class Enemy : MonoBehaviour
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
+            //Instantiate(multikill, (Vector2) player.transform.position + new Vector2(0, 3), player.transform.rotation);
         }
     }
 
@@ -150,12 +149,9 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6)
         {
-
             if (BoardCreator.instance != null)
                 BoardCreator.instance.SendMessage("kill");
             spikeDeath();
-
         }
     }
-
-    }
+}
