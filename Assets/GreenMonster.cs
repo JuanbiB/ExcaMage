@@ -106,7 +106,7 @@ public class GreenMonster : MonoBehaviour {
 		if (!moving_towards)
 			time += Time.deltaTime;
 
-		if (time > .5f) {
+		if (time > .8f) {
 			time = 0.0f;
 			moving_towards = true;
 		}
