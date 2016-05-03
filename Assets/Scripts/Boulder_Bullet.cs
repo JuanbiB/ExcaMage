@@ -10,6 +10,8 @@ public class Boulder_Bullet : MonoBehaviour {
 	GameObject player;
 
 
+	public GameObject pieces;
+
 	public float speed;
 	float clock;
 
@@ -40,7 +42,7 @@ public class Boulder_Bullet : MonoBehaviour {
 		}
 		//
 
-		transform.eulerAngles = new Vector3(0,0,360*clock * 2);
+		transform.eulerAngles = new Vector3(0,0, 360*clock * .5f);
 
 	}
 
@@ -67,6 +69,7 @@ public class Boulder_Bullet : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "Wall"){
+			Instantiate (pieces, transform.position, transform.rotation);
 			Destroy(gameObject);
 		}
 	}
