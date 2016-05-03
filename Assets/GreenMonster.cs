@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlyingEnemy : MonoBehaviour {
+public class GreenMonster : MonoBehaviour {
 
 	GameObject player;
 	Rigidbody2D rb;
@@ -15,10 +15,15 @@ public class FlyingEnemy : MonoBehaviour {
 
 	float time;
 	float time2;
+	float time3;
 	int min_distance;
 
-    // Exploding death
-    public GameObject exploding_pieces;
+	// Exploding death
+	public GameObject exploding_pieces;
+
+	public GameObject bullet_ref;
+
+	public float shooting_rate;
 
 	// Use this for initialization
 	void Start () {
@@ -29,8 +34,9 @@ public class FlyingEnemy : MonoBehaviour {
 		moving_towards = true;
 		time = 0.0f;
 		time2 = 0.0f;
+		time3 = 0.0f;
 
-		name = "FlyingMonster";
+		name = "GreenMonster";
 
 		appliedForce = false;
 		dead = false;
@@ -38,37 +44,49 @@ public class FlyingEnemy : MonoBehaviour {
 		min_distance = 10;
 	}
 
-    public void getPushed(string mode)
-    {
-        Vector2 direction = player.transform.position - transform.position;
-        float distance = direction.magnitude;
-        float force_size = 10.0f;
-        direction.Normalize();
+	public void getPushed(string mode)
+	{
+		Vector2 direction = player.transform.position - transform.position;
+		float distance = direction.magnitude;
+		float force_size = 10.0f;
+		direction.Normalize();
 
-        appliedForce = true;
-        GetComponent<Rigidbody2D>().drag = 0;
-        if (mode == "push")
-        {
-            GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
-        }
-        else
-        {
-            GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
-        }
+		appliedForce = true;
+		GetComponent<Rigidbody2D>().drag = 0;
+		if (mode == "push")
+		{
+			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+		}
+		else
+		{
+			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
+		}
 
-    }
+	}
 
-    // Update is called once per frame
-    void Update () {
-
+	void handleShooting()
+	{
+		time3 += Time.deltaTime;
 		float distance = Vector2.Distance(transform.position, player.transform.position);
 
+		if (time3 > shooting_rate && dead == false && distance < 6)
+		{
+			Instantiate(bullet_ref, this.transform.position, transform.rotation);
+			time3 = 0.0f;
+		}
+	}
+
+	// Update is called once per frame
+	void Update () {
+		handleShooting ();
 
 		if (Vector3.Distance (player.transform.position, transform.position) > min_distance)
 			return;
 
 		if (dead)
 			return;
+
+	
 
 		// From here
 		if (appliedForce) {
@@ -114,7 +132,7 @@ public class FlyingEnemy : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
-	
+
 		if (other.gameObject.tag == "Player") {
 			bounceOffPlayer ();
 		}
@@ -129,10 +147,10 @@ public class FlyingEnemy : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.tag == "Spike") {
-            Instantiate(exploding_pieces, transform.position, transform.rotation);
+			Instantiate(exploding_pieces, transform.position, transform.rotation);
 			if (BoardCreator.instance != null)
-            	BoardCreator.instance.SendMessage("kill");
-            Destroy(this.gameObject);
+				BoardCreator.instance.SendMessage("kill");
+			Destroy(this.gameObject);
 		}
 
 	}

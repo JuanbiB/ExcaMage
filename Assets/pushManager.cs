@@ -21,9 +21,12 @@ public class pushManager : MonoBehaviour {
 		if (other.gameObject.tag == "Enemy") {
 			if (other.name == "Enemy")
 				other.gameObject.GetComponent<Enemy> ().getPushed (player.GetComponent<Character> ().mode);
-
-			if (other.name == "FlyingMonster")
+			else if (other.name == "FlyingMonster")
 				other.gameObject.GetComponent<FlyingEnemy> ().getPushed (player.GetComponent<Character> ().mode);
+
+			else if (other.name == "GreenMonster") {
+				other.gameObject.GetComponent<GreenMonster> ().getPushed (player.GetComponent<Character> ().mode);
+			}
 //			if (other.name == "BigEnemy")
 //				other.gameObject.GetComponent<BigEnemy>().getPushed(player.GetComponent<Character>().mode);
 		} else if (other.gameObject.tag == "Rock") {
