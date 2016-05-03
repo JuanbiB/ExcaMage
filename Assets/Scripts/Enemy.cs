@@ -77,8 +77,6 @@ public class Enemy : MonoBehaviour
 	void Update()
 	{
 		handleShooting();
-
-
 	}
 
     void spikeDeath()
@@ -152,12 +150,9 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Rock" && other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 6)
         {
-
             if (BoardCreator.instance != null)
                 BoardCreator.instance.SendMessage("kill");
             spikeDeath();
-
         }
     }
-
-    }
+}

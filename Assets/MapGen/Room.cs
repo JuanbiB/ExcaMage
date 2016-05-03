@@ -10,8 +10,10 @@ public class Room
 	public int enemyCount = 0;								  // How many guys in the room - to be replaced by Baddies
 
 	// What is called by BoardCreator
-	public void genRoom (int level)
+	public void genRoom (int level, int height, int width)
 	{
+		this.height = height;
+		this.width = width;
 		this.level = level;
 		Standard (level);
 	}
@@ -19,10 +21,6 @@ public class Room
 	// Example level
 	public void Standard(int level)
 	{
-		// Pretty obvious what these do - right side is exlusive
-		width = UnityEngine.Random.Range(10+level, 15+level);
-		height = UnityEngine.Random.Range(10+level, 15+level);
-
 		// Need these
 		SetupTilesArray (width, height);
 		PutFloor();

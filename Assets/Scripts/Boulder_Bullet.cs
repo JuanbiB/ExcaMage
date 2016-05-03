@@ -17,23 +17,34 @@ public class Boulder_Bullet : MonoBehaviour {
 	void Start () {
 		pgC = GetComponent<PolygonCollider2D> ();
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
+
 		rb = GetComponent<Rigidbody2D> ();
 		rb.freezeRotation = true;
-		distance = char_ref.transform.position - transform.position;
-		rb.AddForce (distance.normalized * speed);	
-		name = "Boulder_Bullet";
-		player = GameObject.FindWithTag("Player");
 
+		distance = char_ref.transform.position - transform.position;
+		rb.AddForce (distance.normalized * speed);
+		name = "Boulder_Bullet";
+
+		player = GameObject.FindWithTag("Player");
+		pgC.isTrigger = true;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		pgC.isTrigger = false;
+	//	pgC.isTrigger = false;
 		// Continual spinning
-		//clock += Time.deltaTime;
-		//this.transform.eulerAngles = new Vector3(0,0,360*clock * 3);
+		clock += Time.deltaTime;
+
+		if (clock > .8f){
+			pgC.isTrigger = false;
+		}
+		//
+
+		transform.eulerAngles = new Vector3(0,0,360*clock * 2);
 
 	}
+
+
 
 	public void getPushed(string mode)
 	{
@@ -45,7 +56,7 @@ public class Boulder_Bullet : MonoBehaviour {
 		GetComponent<Rigidbody2D>().drag = 0;
 		if (mode == "push")
 		{
-			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+				GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
 		}
 		else
 		{

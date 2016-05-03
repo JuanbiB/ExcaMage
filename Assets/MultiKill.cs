@@ -22,7 +22,7 @@ public class MultiKill : MonoBehaviour {
 
         clock += Time.deltaTime;
 
-        Vector3 target_size = new Vector3(3, 3, 0);
+        Vector3 target_size = new Vector3(3, 3, -5);
 
         float distCovered = (Time.time - start_time) * 5f;
         float journeyLength = Vector3.Distance(Vector3.zero, target_size);
