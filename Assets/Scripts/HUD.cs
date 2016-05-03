@@ -73,6 +73,7 @@ public class HUD : MonoBehaviour {
 			
 		}
 		if (player.GetComponent<Character>().health <= 0) {
+			print ("gogo ninja boreo");
 			Time.timeScale = 0;
 			deathText.gameObject.SetActive (true);
 			if (Input.anyKey) {

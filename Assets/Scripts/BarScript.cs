@@ -6,7 +6,7 @@ public class BarScript : MonoBehaviour {
 
 	[SerializeField] private float fillAmount;
 
-	[SerializeField] private float lerpspeed = 10;
+	[SerializeField] private float lerpspeed;
 
 	[SerializeField]
 	private Image content;
@@ -18,40 +18,65 @@ public class BarScript : MonoBehaviour {
 	GameObject boss;
 	[SerializeField] private int numhealth;
 
+	private bool inAnim;
+
 
 
 
 
 	// Use this for initialization
 	void Start () {
-		boss = GameObject.FindGameObjectWithTag ("HandgunCat");
+		boss = GameObject.FindGameObjectWithTag ("boss");
 		player = GameObject.FindGameObjectWithTag ("Player");
 		numhealth = boss.GetComponent<HandgunCat> ().currHealth;
+		content = GameObject.Find ("bossHealth").gameObject.GetComponent<Image>();
+		content.fillAmount = 0;
 		fillAmount = 1;
-		lerpspeed = 4;
+		lerpspeed = 1;
+		//HealthFillAnim ();
+
+
 
 		
 	
 	}
 
+//	void HealthFillAnim(){
+//		inAnim = true;
+//		for (int i = 0; i < 10; i++) {
+//			fillAmount = (float) i;
+//			handleBar ();
+//		}
+//	}
+
+
+
+
 	// Update is called once per frame
 	void Update () {
 		if (boss == null) {
 			//print ("CUCK");
-			boss = GameObject.FindGameObjectWithTag ("HandgunCat");
+			boss = GameObject.FindGameObjectWithTag ("boss");
 			player = GameObject.FindGameObjectWithTag ("Player");
-			fillAmount = 1;
+			//fillAmount = 0;
 			numhealth = boss.GetComponent<HandgunCat> ().currHealth;
 
 		}
-		AmmoCount.text = "Ammo :" + player.GetComponent<Character> ().ammo;
+
+		content.fillAmount = Mathf.Lerp (content.fillAmount, fillAmount, Time.deltaTime * lerpspeed);
+
+
+
+		if (AmmoCount != null) {
+			AmmoCount.text = "Ammo :" + player.GetComponent<Character> ().ammo;
+		}
 		if (numhealth > boss.GetComponent<HandgunCat> ().currHealth) {
 			print ("YEAH YEAH YEAH");
-			fillAmount = (float) boss.GetComponent<HandgunCat> ().currHealth / boss.GetComponent<HandgunCat>().maxHealth;
+			//fillAmount = (float) boss.GetComponent<HandgunCat> ().currHealth / boss.GetComponent<HandgunCat>().maxHealth;
 			numhealth--;
 		}
 		if (fillAmount < content.fillAmount){
-			handleBar ();
+			//handleBar ();
 
 		}
 	

@@ -4,16 +4,24 @@ using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour {
 
-	public TextAsset asset; //to get text from 
 	private string assetText;
+
 
 	public GameObject char_ref;
 	public GameObject bossref;
 
 	public bool talking; //a boolean testing whether dialogue is to occur
-	[SerializeField] private Text dialogUI; //reference to Text UI object where dialogue will be occuring
 
-	string dialog; //String where we will add to dialogUI. Holds all of the actual dialogue.
+	public bool dialogdone;
+
+
+	private bool inSay;
+
+	int counter;
+
+	//[SerializeField] private Image DialogBox; // reference to DialogBox object.
+	public Text dialogUI; //reference to Text UI object where dialogue will be occuring
+
 
 	//text is wrapping properly thanks to Unity UI (ty Unity). What we need now
 	//TODO
@@ -22,48 +30,100 @@ public class Dialogue : MonoBehaviour {
 	//(TBH) Should probably make method dialogueWipe()
 	//3. Noises after every character is printed
 
+	void Awake(){
+		counter = 0;
+		dialogdone = false;
+		inSay = false;
+		char_ref = GameObject.FindGameObjectWithTag ("Player");
+		bossref = GameObject.Find("HandgunCat"); //from handgunCat
+		dialogUI = GameObject.Find("Dialog").gameObject.GetComponent<Text>();
+
+	}
+
 
 
 	// Use this for initialization
 	void Start () {
-		assetText = asset.text;
-		char_ref = GameObject.FindGameObjectWithTag ("Player");
-		bossref = GameObject.FindGameObjectWithTag ("HandgunCat");
+		assetText = bossref.GetComponent<HandgunCat> ().lines [0];
+	
 
-        Say(assetText);
+
+		if (assetText != null) {
+		print("assetText is not Null");
+			Say (assetText);
+		}
+
 
     }
 	public bool Say (string dialogue) {
+		//print (assetText);
 		if (talking)
 			return false;
 		StartCoroutine(Saydialogue(dialogue));
-		char_ref.GetComponent<Character> ().DialogueEnabled = true;
-		bossref.GetComponent<HandgunCat> ().DialogueEnabled = true;
 		return true;
 	}
-	IEnumerator Saydialogue (string dialogue) {
-		for (int i = 0; i <= dialogue.Length; i ++) {
-			dialogUI.text = dialogue.Substring(0, i);
 
-			yield return new WaitForSeconds (0.05f);
+	public IEnumerator Saydialogue (string dialogue) {
+		for (int i = 0; i <= dialogue.Length; i++) {
+			inSay = true;
+			dialogUI.text= dialogue.Substring (0, i);
+		
+			yield return new WaitForSeconds (0.01f);
 		}
+			
+		inSay = false;
+
+		while (!Input.anyKey) {
+			yield return null;
+
+		}
+		counter++;
+		dialogUI.text = "";
+		if (counter > bossref.GetComponent<HandgunCat>().lines.Count-1) {
+			dialogdone = true;
+			yield break;
+		} 
+		string nextDia = bossref.GetComponent<HandgunCat>().lines [counter];
+		yield return StartCoroutine (Saydialogue (nextDia));
+		}
+				
+
+
 		//yield return new WaitForEndOfFrame();
 	
 //
 //		while (!Input.GetMouseButton(0))
 //			
 ////
-		talking = false;
-}
+//		talking = false;
+
+
+//public IEnumerator WipeDialogue(){
+//	while (inSay) {
+//		yield return new WaitForSeconds(0.01f);
+//	}
+//		bool isPrompt = Input.anyKeyDown;
+//		yield return new WaitWhile (() => isPrompt == false);
+//
+//		dialogUI.text = "";
+//	
+//}
+//	}
+
 //
 //	}
 
 	
 	// Update is called once per frame
 	void Update () {
-		if (talking == true) {
+		
+		}
 			
+
 		}
 
-	}
-}
+			
+
+
+
+

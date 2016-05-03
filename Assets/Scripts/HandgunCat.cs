@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HandgunCat : MonoBehaviour {
 
@@ -10,6 +12,17 @@ public class HandgunCat : MonoBehaviour {
 	public int maxHealth;
 
 	public bool DialogueEnabled;
+
+	public Dialogue dialog;
+
+	public GameObject dialogBox;
+
+	public TextAsset script1;
+	public TextAsset script2;
+	public TextAsset script3;
+
+
+	public List<string>  lines;
 
 
 	GameObject char_ref; //reference to character object
@@ -28,11 +41,22 @@ public class HandgunCat : MonoBehaviour {
 		this.currHealth = 30;
 		this.maxHealth = currHealth;
 		this.DialogueEnabled = false;
+		//this.dialog.enabled = false;
+		lines.Add(script1.text);  
+		lines.Add(script2.text);
+		lines.Add(script3.text);
 	}
 
 
 
 	void Start () {
+
+		for (int i = 0; i < lines.Count; i++) {
+			print (lines [i]);
+		}
+		
+
+		dialogBox = GameObject.Find ("DialogBox").gameObject ;
 	
 		body = GetComponent<Rigidbody2D>();
 		body.freezeRotation = true;
@@ -41,7 +65,22 @@ public class HandgunCat : MonoBehaviour {
 
 		char_ref = GameObject.FindGameObjectWithTag ("Player");
 		char_ref.GetComponent<Character> ().bossfightEnabled = true;
+
+		this.name = "HandgunCat";
+		this.tag = "boss";
+		Destroy (dialogBox.GetComponent<Dialogue> ());
+
+
 	}
+
+//	public void Script(){
+//		Destroy (dialogBox.GetComponent<Dialogue> ());
+//		dialog = dialogBox.gameObject.AddComponent<Dialogue> ();
+//
+//	}
+
+
+//	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -53,6 +92,8 @@ public class HandgunCat : MonoBehaviour {
 		}
 	
 	}
+
+	//void 
 
 	void handleShooting(){
 		time += Time.deltaTime;
