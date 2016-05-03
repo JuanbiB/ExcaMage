@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 	public float shooting_rate;
 
     GameObject player;
+    public GameObject multikill;
 
     // Use this for initialization
     void Start()
@@ -143,6 +144,7 @@ public class Enemy : MonoBehaviour
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
+            //Instantiate(multikill, (Vector2) player.transform.position + new Vector2(0, 3), player.transform.rotation);
         }
     }
 
