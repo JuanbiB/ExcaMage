@@ -284,7 +284,7 @@ public class Character : MonoBehaviour
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (!pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
             {
