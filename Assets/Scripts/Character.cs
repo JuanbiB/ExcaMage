@@ -245,7 +245,7 @@ public class Character : MonoBehaviour
         }
         else
         {
-            manipulated.text = "+1 Life!";
+            manipulated.text = "+1 Life !";
         }
  
         Color temp = manipulated.color;
