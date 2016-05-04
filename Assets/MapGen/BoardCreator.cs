@@ -42,6 +42,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject portal;
 	public GameObject exitPortal;
 
+	public GameObject doublekill;
 	public GameObject multikill;
 
 	// Where we hold things
@@ -272,12 +273,22 @@ public class BoardCreator : MonoBehaviour
 	public IEnumerator killcounter()
 	{
 		killstreak = true;
+		bool dkill = false;
 		curStreak = 1;
 		float start = 0.0f;
+
 		while (start < killstreakTimer)
 		{
+			GameObject dtext = null;
 			start += Time.deltaTime;
+			if (curStreak == 2 && dkill == false) {
+				Vector3 pos = new Vector3 (player.transform.position.x, player.transform.position.y, -4);
+				dtext = Instantiate(doublekill,pos,player.transform.rotation) as GameObject;
+				player.GetComponent<Character>().health++;
+				dkill = true;
+			}
 			if (curStreak >= 3) {
+				Destroy (dtext);
 				Vector3 pos = new Vector3 (player.transform.position.x, player.transform.position.y, -4);
 				GameObject text = Instantiate(multikill,pos,player.transform.rotation) as GameObject;
 				curStreak = 0;
@@ -285,6 +296,7 @@ public class BoardCreator : MonoBehaviour
 			}
 			yield return null;
 		}
+		dkill = false;
 		killstreak = false;
 	}
 }
