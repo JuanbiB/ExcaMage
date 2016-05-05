@@ -197,7 +197,6 @@ IEnumerator throw_boulder(){
 	{
 		hit = true;
 		health--;
-		print(health);
 		float time = 0.0f;
 		while (time < 1.5f)
 		{
