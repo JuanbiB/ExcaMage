@@ -64,8 +64,11 @@ public class BigEnemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
-		if (this.health <= 0)
+		if (this.health <= 0) {
 			spikeDeath ();
+			BoardCreator.instance.SendMessage ("kill");
+
+		}
 			handleShooting();
 
 

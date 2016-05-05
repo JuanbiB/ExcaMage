@@ -65,8 +65,8 @@ public class Room
 		// Optional
 		addBasicEnemies (1+level,2+level);
 		addFlyingEnemies (1,2+level);
-		addHoles (1,4);
-		addSpikes (1,4);
+		addHoles (3,6);
+		addSpikes (4,7);
 		//addRocks (1, 1);
 	}
 
