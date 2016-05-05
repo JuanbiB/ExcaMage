@@ -141,7 +141,7 @@ public class Enemy : MonoBehaviour
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
-            Instantiate(multikill, (Vector2) player.transform.position + new Vector2(0, 3), player.transform.rotation);
+            //Instantiate(multikill, (Vector2) player.transform.position + new Vector2(0, 3), player.transform.rotation);
         }
     }
 

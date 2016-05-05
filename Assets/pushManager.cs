@@ -20,7 +20,10 @@ public class pushManager : MonoBehaviour {
     {
 		if (other.gameObject.tag == "Enemy") {
 			if (other.name == "Enemy")
-				other.gameObject.GetComponent<Enemy> ().getPushed (player.GetComponent<Character> ().mode);
+            {
+                other.gameObject.GetComponent<Enemy>().getPushed(player.GetComponent<Character>().mode);
+            }
+				
 			else if (other.name == "FlyingMonster") {
 				other.gameObject.GetComponent<FlyingEnemy> ().getPushed (player.GetComponent<Character> ().mode);
 			}

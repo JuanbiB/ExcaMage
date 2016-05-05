@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 public class Character : MonoBehaviour
@@ -271,9 +272,11 @@ public class Character : MonoBehaviour
             interrupt_animation = false;
         }
 
+
         if (Input.GetMouseButtonDown(0))
         {
-            if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim"))
+
+            if (!push_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("push_anim") && EventSystem.current.currentSelectedGameObject == null)
             {
                 mode = "push";
                 StartCoroutine(magnet_animation(1));
@@ -283,6 +286,7 @@ public class Character : MonoBehaviour
             }
 
         }
+
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -398,6 +402,9 @@ public class Character : MonoBehaviour
         body.velocity = Vector3.zero;
         push_wave.transform.position = transform.position;
 
+        if (animation_happening == false)
+            magnet_wave.transform.position = transform.position;
+
     }
 
 
@@ -424,6 +431,7 @@ public class Character : MonoBehaviour
             while (magnet_wave.transform.localScale.x > .01f)
             {
                 decreaseOpacity();
+                magnet_wave.transform.position = transform.position;
                 magnet_wave.transform.localScale -= Vector3.one * Time.deltaTime * 20;
                 yield return null;
             }
