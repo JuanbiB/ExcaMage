@@ -17,6 +17,13 @@ public class MultiKill : MonoBehaviour {
 		player = GameObject.FindWithTag ("Player");
         player_script = player.GetComponent<Character>();
 
+        GameObject double_kill = GameObject.Find("Double Kill");
+
+        if (double_kill != null)
+        {
+            Destroy(double_kill);
+        }
+
         for (int i = 0; i < 2; i++)
         {
             if (player_script.health < player_script.maxhealth)

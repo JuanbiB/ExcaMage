@@ -16,9 +16,10 @@ public class DoubleKill : MonoBehaviour
         start_time = Time.time;
         sprite = GetComponent<SpriteRenderer>();
         player = GameObject.FindWithTag("Player");
+        name = "Double Kill";
 
-        if (player.GetComponent<Character>().health < player.GetComponent<Character>().maxhealth)
-            player.GetComponent<Character>().health++;
+    //    if (player.GetComponent<Character>().health < player.GetComponent<Character>().maxhealth)
+           // player.GetComponent<Character>().health++;
 
         if (player.GetComponent<Character>().running_life_message == true)
         {
@@ -26,7 +27,7 @@ public class DoubleKill : MonoBehaviour
         }
         else
         {
-            StartCoroutine(player.GetComponent<Character>().life_message(1));
+            //StartCoroutine(player.GetComponent<Character>().life_message(1));
         }
 
 
