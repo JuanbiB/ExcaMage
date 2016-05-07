@@ -221,11 +221,11 @@ public class Character : MonoBehaviour
     }
 
 	void fire(){
-		if (Input.GetKeyUp(KeyCode.L) && this.ammo >0){
+		if (Input.GetMouseButtonDown(1) && this.ammo >0){
 			print ("Bullet fired");
 			fired = true;
 
-			GameObject bullet = Instantiate(bullet_ref, (transform.position+1.0f*transform.forward) ,Quaternion.identity) as GameObject;
+			GameObject bullet = Instantiate(bullet_ref, transform.position, transform.rotation) as GameObject;
 			ammo--;
 			//bullet.GetComponent<PurpleBullet>().
 			//bullet.tag = "Ammo";
@@ -443,7 +443,7 @@ public class Character : MonoBehaviour
             //In place to fix the animations
 
         }
-        // Push animation
+        // - animation
         else
         {
             Vector3 change = Vector3.zero;

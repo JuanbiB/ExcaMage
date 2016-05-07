@@ -20,6 +20,7 @@ public class BarScript : MonoBehaviour {
 
 	private bool inAnim;
 
+	public Camera mc_ref;
 
 
 
@@ -33,6 +34,8 @@ public class BarScript : MonoBehaviour {
 		content.fillAmount = 0;
 		fillAmount = 1;
 		lerpspeed = 1;
+
+		mc_ref = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 		//HealthFillAnim ();
 
 
@@ -62,7 +65,7 @@ public class BarScript : MonoBehaviour {
 			numhealth = boss.GetComponent<HandgunCat> ().currHealth;
 
 		}
-
+		//if (mc_ref.GetComponent<Cutscene>().fighting=
 		content.fillAmount = Mathf.Lerp (content.fillAmount, fillAmount, Time.deltaTime * lerpspeed);
 
 

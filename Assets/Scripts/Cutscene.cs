@@ -41,6 +41,8 @@ public class Cutscene : MonoBehaviour {
 	bool flipanim = false;
 
 	void Start () {
+
+		fighting = true;
 		showdialogbox = false;
 		dialogadded = false;
 

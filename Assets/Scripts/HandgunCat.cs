@@ -123,8 +123,6 @@ public class HandgunCat : MonoBehaviour {
 //		
 //	}
 
-
-
 	void Start () {
 
 //		for (int i = 0; i < lines.Count; i++) {
@@ -146,9 +144,6 @@ public class HandgunCat : MonoBehaviour {
 
 		this.name = "HandgunCat";
 		this.tag = "boss";
-
-
-
 	}
 
 
@@ -162,8 +157,8 @@ public class HandgunCat : MonoBehaviour {
 //				int randomWave = Random.Range (0, 3);
 //				warmWave (randomWave);
 //			}
-			fastBull();
-			//handleShooting ();
+			//fastBull();
+			handleShooting ();
 		}
 	
 	}
@@ -192,7 +187,6 @@ public class HandgunCat : MonoBehaviour {
 			GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
 			//bullet.transform.rotation = new Quaternion( Vector3.Angle (this.transform.position, char_ref.transform.position));
 			//bullet.transform.forward = transform.forward;
-
 			time = 0.0f;
 		}
 
