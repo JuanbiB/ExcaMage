@@ -21,11 +21,15 @@ public class Sound : MonoBehaviour {
 
         player = GameObject.FindWithTag("Player").GetComponent<Character>();
 
-		source.PlayOneShot (MainTheme, 1f);
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (source.isPlaying == false)
+            source.PlayOneShot(MainTheme, .7f);
+
         if (player.health <= 0)
         {
             source.Stop();

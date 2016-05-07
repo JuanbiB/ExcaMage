@@ -19,7 +19,7 @@ public class PracticeRange : MonoBehaviour {
         myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
     }
 
-	void makeFlyingEnemy(){
+	public void makeFlyingEnemy(){
 		GameObject player = GameObject.Find ("Character");
 		Instantiate (flyingEnemy, player.transform.position + new Vector3(1, 2, 0), player.transform.rotation);
         player.GetComponent<Character> ().refreshListofEnemies ();
@@ -28,7 +28,7 @@ public class PracticeRange : MonoBehaviour {
         myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
     }
 
-    void makeRock()
+    public void makeRock()
     {
         GameObject player = GameObject.Find("Character");
         Instantiate(rock, player.transform.position + new Vector3(2, 0, 0), player.transform.rotation);

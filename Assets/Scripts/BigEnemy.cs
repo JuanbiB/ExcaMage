@@ -76,28 +76,6 @@ public class BigEnemy : MonoBehaviour {
 
 
 
-
-
-//	public void getPushed(string mode)
-//	{
-//		Vector2 direction = player.transform.position - transform.position;
-//		float distance = direction.magnitude;
-//		float force_size = 10.0f;
-//		direction.Normalize();
-//
-//		GetComponent<Rigidbody2D>().drag = 0;
-//		if (mode == "push")
-//		{
-//			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
-//		}
-//		else
-//		{
-//			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
-//		}
-//
-//
-//	}
-
 IEnumerator throw_boulder(){
 		yield return new WaitForSeconds(.3f);
 
@@ -118,12 +96,6 @@ IEnumerator throw_boulder(){
 
 		if (time > shooting_rate && dead == false && distance < 6)
 		{
-
-			//Vector2 direction = player.transform.position - transform.position;
-			//float dist = direction.magnitude;
-			//float force_size = 10.0f;
-
-			//direction.Normalize();
 
 			Vector3 shot = this.transform.position;
 			shot.x = shot.x + 1;

@@ -46,6 +46,11 @@ public class pushManager : MonoBehaviour {
 			other.gameObject.GetComponent<PurpleBullet> ().getPushed (player.GetComponent<Character> ().mode);
 		}
 
+        else if (other.gameObject.tag == "goof")
+        {
+            other.gameObject.GetComponent<GoofMachine>().getPushed(player.GetComponent<Character>().mode);
+        }
+
 
     }
 }

@@ -87,7 +87,9 @@ public class HUD : MonoBehaviour {
 		if (player.GetComponent<Character>().health <= 0) {
 			Time.timeScale = 0;
 			deathText.gameObject.SetActive (true);
-			if (Input.anyKey) {
+            player.GetComponent<SpriteRenderer>().enabled = false;
+            GameObject.Find("Canvas/Death").GetComponent<Image>().enabled = true;
+            if (Input.anyKey) {
                 int scene = SceneManager.GetActiveScene().buildIndex;
                 SceneManager.LoadScene(scene, LoadSceneMode.Single);
             }
@@ -95,4 +97,16 @@ public class HUD : MonoBehaviour {
 		}
 
 	}
+
+    public void getRekt()
+    {
+        //Time.timeScale = 0;
+        deathText.gameObject.SetActive(true);
+        deathText.text = "You cannot kill a God.";
+        if (Input.GetKey(KeyCode.Z) && Input.GetKey(KeyCode.C)) 
+        {
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        }
+    }
 }

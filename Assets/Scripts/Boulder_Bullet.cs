@@ -37,7 +37,7 @@ public class Boulder_Bullet : MonoBehaviour {
 		// Continual spinning
 		clock += Time.deltaTime;
 
-		if (clock > .8f){
+		if (clock > .3f){
 			pgC.isTrigger = false;
 		}
 		//
