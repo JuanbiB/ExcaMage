@@ -79,7 +79,7 @@ public class BarScript : MonoBehaviour {
 			numhealth--;
 		}
 		if (fillAmount < content.fillAmount){
-			//handleBar ();
+			handleBar ();
 
 		}
 	

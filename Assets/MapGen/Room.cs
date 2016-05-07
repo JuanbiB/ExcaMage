@@ -38,7 +38,7 @@ public class Room
 	{
 		SetupTilesArray (width, height);
 		PutFloor();
-		roomTiles[width/2][height/2] = TileType.Boss; 
+		roomTiles[width/2][height-1] = TileType.Boss; 
 	}
 
 	// Example level
