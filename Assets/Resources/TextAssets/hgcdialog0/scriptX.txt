@@ -1,1 +1,1 @@
-HandgunCat
+<color=orange>Handgun Cat…</color>

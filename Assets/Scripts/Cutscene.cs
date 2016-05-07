@@ -33,6 +33,7 @@ public class Cutscene : MonoBehaviour {
 	GameObject [] UIlist;
 
 	public GameObject dialogbox;
+	public GameObject Directions;
 
 	bool showdialogbox;
 	bool dialogadded;
@@ -71,6 +72,9 @@ public class Cutscene : MonoBehaviour {
 			if (go.gameObject.name == "DialogBox") {
 				dialogbox = go;
 			}
+			if (go.gameObject.name == "Directions") {
+				Directions = go;
+			}
 		}
 		prefight = true;
 		initDialog = false;
@@ -101,11 +105,12 @@ public class Cutscene : MonoBehaviour {
 	}
 
 	IEnumerator hand2player(){
-		yield return new WaitForSeconds (3.6f);
-		mc_ref.GetComponent<BossCC> ().enabled = false;
-		mc_ref.GetComponent<CameraController> ().enabled = true;
+		Directions.SetActive (true);
+		yield return new WaitForSeconds (5.0f);
+		//mc_ref.GetComponent<BossCC> ().enabled = false;
 		char_ref.GetComponent<Character> ().DialogueEnabled = false;
 		boss_ref.GetComponent<HandgunCat> ().DialogueEnabled = false;
+		Directions.SetActive (false);
 
 	}
 
@@ -174,7 +179,9 @@ public class Cutscene : MonoBehaviour {
 					else{
 
 
-					mc_ref.GetComponent<BossCC> ().setTarget (char_ref); //lerp the camera back to the player
+					//mc_ref.GetComponent<BossCC> ().setTarget (char_ref); //lerp the camera back to the player
+					mc_ref.gameObject.AddComponent<hgcCC> ();
+					mc_ref.GetComponent<hgcCC> ().enabled = true;
 					StartCoroutine (hand2player ()); //Waitforseconds + return original camera script to player
 					print("We are almost there!");
 					CutsceneEnd (); //
