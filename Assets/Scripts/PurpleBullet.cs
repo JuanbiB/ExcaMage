@@ -18,8 +18,6 @@ public class PurpleBullet : MonoBehaviour {
 		distance = char_ref.transform.position - transform.position;
 		float angle = Vector3.Angle (Vector3.up, distance);
 
-		print (angle);
-
 		Vector3 facing = transform.InverseTransformPoint(char_ref.transform.position);
 
 		if (facing.x > 0) {

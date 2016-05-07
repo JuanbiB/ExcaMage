@@ -132,7 +132,6 @@ public class Cutscene : MonoBehaviour {
 			if (initDialog == false) {
 				//char_ref.GetComponent<Character>().Cutscenemovement(); // this would have to be scripted as to when the character reaches boss room, he moves to middle of room
 				//camera moves towards boss
-				print ("yeah");
 				mc_ref.GetComponent<CameraController> ().enabled = false;
 				mc_ref.GetComponent<BossCC> ().findBoss ();
 				StartCoroutine (wait4lerp2end ());

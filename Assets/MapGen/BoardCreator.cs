@@ -174,7 +174,6 @@ public class BoardCreator : MonoBehaviour
 
 				if (tiles[x][y] == TileType.Boss)
 				{
-					print ("yes");
 					InstantiateFromArray (Boss, x, y);
 				}
 					

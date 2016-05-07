@@ -80,8 +80,6 @@ public class HandgunCat : MonoBehaviour {
 					//print (file.Name); // returning proper file name
 					string contents = File.ReadAllText (file.FullName); 
 					//print (contents); //printing the proper contents
-					print (i);
-					print (j);
 
 					//lines2add [i].Insert (j, contents);
 					//print ("cuck me");
@@ -181,7 +179,7 @@ public class HandgunCat : MonoBehaviour {
 		time += Time.deltaTime;
 		float distance = Vector2.Distance (transform.position, char_ref.transform.position);
 
-		GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
+		//GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
 	}
 
 

@@ -21,7 +21,6 @@ public class BossCC : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (islerp == true) {
-			print ("reaching lerpCamera");
 			transform.position = Vector3.Lerp (boss.transform.position, transform.position , 0.9799f) + new Vector3 (0, 0, -10);
 
 		}

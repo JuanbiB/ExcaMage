@@ -306,31 +306,31 @@ public class Character : MonoBehaviour
         }
 
             //Movement
-            if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+		if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A) && bossfightEnabled == false)
         {
             temp = transform.position + new Vector3(-1, -1, 0) * Time.deltaTime * character_speed;
             direction_facing = "down-left";
         }
 
-        else if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W))
+		else if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W) && bossfightEnabled == false)
         {
             temp = transform.position + new Vector3(-1, 1, 0) * Time.deltaTime * character_speed;
             direction_facing = "up-left";
         }
 
-        else if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S))
+		else if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S) && bossfightEnabled == false)
         {
             temp = transform.position + new Vector3(1, -1, 0) * Time.deltaTime * character_speed;
             direction_facing = "down-right";
         }
 
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+		else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D) && bossfightEnabled == false)
         {
             temp = transform.position + new Vector3(1, 1, 0) * Time.deltaTime * character_speed;
             direction_facing = "up-right";
         }
 
-        else if (Input.GetKey(KeyCode.W))
+		else if (Input.GetKey(KeyCode.W) && bossfightEnabled == false)
         {
             temp = transform.position + Vector3.up * Time.deltaTime * character_speed;
             direction_facing = "up";
@@ -339,7 +339,7 @@ public class Character : MonoBehaviour
                 my_animator.Play("player_up");
         }
 
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) )
         {
             temp = transform.position + Vector3.right * Time.deltaTime * character_speed;
             direction_facing = "right";
@@ -349,13 +349,13 @@ public class Character : MonoBehaviour
 
         }
 
-        else if (Input.GetKey(KeyCode.S))
+		else if (Input.GetKey(KeyCode.S) && bossfightEnabled == false)
         {
             temp = transform.position + -Vector3.up * Time.deltaTime * character_speed;
             direction_facing = "down";
         }
 
-        else if (Input.GetKey(KeyCode.A))
+		else if (Input.GetKey(KeyCode.A))
         {
             temp = transform.position + -Vector3.right * Time.deltaTime * character_speed;
             direction_facing = "left";
