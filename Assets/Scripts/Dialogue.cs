@@ -17,6 +17,8 @@ public class Dialogue : MonoBehaviour {
 
 	private bool inSay;
 
+	bool hasSpoken;
+
 	int counter;
 
 	//[SerializeField] private Image DialogBox; // reference to DialogBox object.
@@ -31,12 +33,7 @@ public class Dialogue : MonoBehaviour {
 	//3. Noises after every character is printed
 
 	void Awake(){
-		counter = 0;
-		dialogdone = false;
-		inSay = false;
-		char_ref = GameObject.FindGameObjectWithTag ("Player");
-		bossref = GameObject.Find("HandgunCat"); //from handgunCat
-		dialogUI = GameObject.Find("Dialog").gameObject.GetComponent<Text>();
+		
 
 	}
 
@@ -44,14 +41,27 @@ public class Dialogue : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		assetText = bossref.GetComponent<HandgunCat> ().lines [0];
-	
+		
+		hasSpoken = false;
+		counter = 0;
+		dialogdone = false;
+		inSay = false;
+		char_ref = GameObject.FindGameObjectWithTag ("Player");
+		bossref = GameObject.Find("HandgunCat"); //from handgunCat
+		dialogUI = GameObject.Find("Dialog").gameObject.GetComponent<Text>();
 
 
-		if (assetText != null) {
-		print("assetText is not Null");
-			Say (assetText);
-		}
+//		assetText = bossref.GetComponent<HandgunCat> ().lines [0];
+//
+//
+//
+//	
+//
+//
+//		if (assetText != null) {
+//		print("assetText is not Null");
+//			Say (assetText);
+//		}
 
 
     }
@@ -64,11 +74,12 @@ public class Dialogue : MonoBehaviour {
 	}
 
 	public IEnumerator Saydialogue (string dialogue) {
-		for (int i = 0; i <= dialogue.Length; i++) {
+
+	for (int i = 0; i <= dialogue.Length; i++) {
+
 			inSay = true;
 			dialogUI.text= dialogue.Substring (0, i);
-		
-			yield return new WaitForSeconds (0.01f);
+			yield return new WaitForSeconds (0.001f);
 		}
 			
 		inSay = false;
@@ -79,12 +90,22 @@ public class Dialogue : MonoBehaviour {
 		}
 		counter++;
 		dialogUI.text = "";
-		if (counter > bossref.GetComponent<HandgunCat>().lines.Count-1) {
+
+		//If theres no more dialog, break
+
+		print (counter);
+		print (bossref.GetComponent<HandgunCat> ().lines2 [bossref.GetComponent<HandgunCat> ().diacounter].Count - 1);
+		if (counter > bossref.GetComponent<HandgunCat> ().lines2 [bossref.GetComponent<HandgunCat> ().diacounter].Count - 1) {
 			dialogdone = true;
+			print ("reaching dialogdone");
 			yield break;
-		} 
-		string nextDia = bossref.GetComponent<HandgunCat>().lines [counter];
-		yield return StartCoroutine (Saydialogue (nextDia));
+		} else {
+
+			string nextDia = bossref.GetComponent<HandgunCat> ().lines2 [bossref.GetComponent<HandgunCat> ().diacounter] [counter];
+			print (nextDia);
+			print ("nextdia should happen now");
+			yield return StartCoroutine (Saydialogue (nextDia));
+		}
 		}
 				
 
@@ -116,6 +137,21 @@ public class Dialogue : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (hasSpoken == true) {
+			//break;
+		
+		}
+
+
+		if (assetText == null && hasSpoken==false){
+			if (bossref == null) {
+				bossref = GameObject.Find("HandgunCat");
+			}
+			//assetText = bossref.GetComponent<HandgunCat> ().lines [counter];
+			assetText = bossref.GetComponent<HandgunCat> ().lines2 [bossref.GetComponent<HandgunCat>().diacounter][0];
+			Say (assetText);
+			hasSpoken = true;
+		}
 		
 		}
 			

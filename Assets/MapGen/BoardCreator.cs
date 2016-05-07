@@ -37,7 +37,7 @@ public class BoardCreator : MonoBehaviour
 	public GameObject[] Baddies;						      // An array of enemies.
 	public GameObject[] Spikes;	
 	public GameObject[] Rock;
-	public GameObject Boss;
+	public GameObject [] Boss;
 	public GameObject player;								  // The player prefab.
 	public GameObject portal;
 	public GameObject exitPortal;
@@ -170,6 +170,12 @@ public class BoardCreator : MonoBehaviour
 				if (tiles[x][y] == TileType.BasicEnemy || tiles[x][y] == TileType.FlyingEnemy)
 				{
 					InstantiateFromArray (Baddies, x, y);
+				}
+
+				if (tiles[x][y] == TileType.Boss)
+				{
+					print ("yes");
+					InstantiateFromArray (Boss, x, y);
 				}
 					
 				// Spikes

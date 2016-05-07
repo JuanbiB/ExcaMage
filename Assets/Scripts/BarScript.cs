@@ -26,9 +26,9 @@ public class BarScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		boss = GameObject.FindGameObjectWithTag ("boss");
-		player = GameObject.FindGameObjectWithTag ("Player");
-		numhealth = boss.GetComponent<HandgunCat> ().currHealth;
+//		boss = GameObject.FindGameObjectWithTag ("boss");
+//		player = GameObject.FindGameObjectWithTag ("Player");
+//		numhealth = boss.GetComponent<HandgunCat> ().currHealth;
 		content = GameObject.Find ("bossHealth").gameObject.GetComponent<Image>();
 		content.fillAmount = 0;
 		fillAmount = 1;
