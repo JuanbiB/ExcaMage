@@ -43,7 +43,7 @@ public class Cutscene : MonoBehaviour {
 
 	void Start () {
 
-		fighting = true;
+		//fighting = true;
 		showdialogbox = false;
 		dialogadded = false;
 
