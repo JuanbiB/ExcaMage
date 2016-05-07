@@ -19,6 +19,8 @@ public class CameraController : MonoBehaviour {
 		if (player == null) {
 			player = GameObject.FindGameObjectWithTag ("Player");
 		}
-		transform.position = new Vector3 (player.transform.position.x, player.transform.position.y, -10);
-	}
+
+
+			transform.position = new Vector3 (player.transform.position.x, player.transform.position.y, -10);
+		}
 }
