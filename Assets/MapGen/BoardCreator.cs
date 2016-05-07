@@ -255,7 +255,8 @@ public class BoardCreator : MonoBehaviour
 			Instantiate (exitPortal, portalPos, Quaternion.identity);	
 		} else {
 			Vector3 portalPos = new Vector3 ((30 * (curLevel) + 10 + 4), 10 + 4, -5);
-			Instantiate (portal, portalPos, Quaternion.identity);	
+			Instantiate (portal, portalPos, Quaternion.identity);
+            player.GetComponent<Character>().playPortal();
 		}
 	}
 		

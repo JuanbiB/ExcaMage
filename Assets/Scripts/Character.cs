@@ -78,6 +78,7 @@ public class Character : MonoBehaviour
     AudioClip push_sound;
     AudioClip pull_sound;
     AudioClip death_sound;
+    AudioClip portal_sound;
 
     public bool running_life_message;
 
@@ -95,13 +96,12 @@ public class Character : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-       
         source = gameObject.AddComponent<AudioSource>();
-        hit_sound = Resources.Load("Sound/bullet hit") as AudioClip;
+        hit_sound = Resources.Load("Sound/fx") as AudioClip;
         push_sound = Resources.Load("Sound/push") as AudioClip;
         pull_sound = Resources.Load("Sound/pull") as AudioClip;
         death_sound = Resources.Load("Sound/you died") as AudioClip;
+        portal_sound = Resources.Load("Sound/fx") as AudioClip;
         running_life_message = false;
 
         // Player rigidbody management
@@ -174,11 +174,15 @@ public class Character : MonoBehaviour
 
         mode = "none";
 
-       
-
     }
 
-	public void refreshListofEnemies(){
+
+    public void playPortal()
+    {
+        source.PlayOneShot(push_sound, .7f);
+    }
+
+    public void refreshListofEnemies(){
 		go.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         go.AddRange(GameObject.FindGameObjectsWithTag("Rock"));
     }

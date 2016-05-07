@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sound : MonoBehaviour {
+public class Sound2 : MonoBehaviour {
 
 	AudioSource source;
 	AudioClip MainTheme;
@@ -14,7 +14,7 @@ public class Sound : MonoBehaviour {
 	void Start () {
 		source = gameObject.AddComponent<AudioSource> ();
 
-		MainTheme = Resources.Load ("Sound/main theme NEW") as AudioClip;
+		MainTheme = Resources.Load ("Sound/all enemies dead") as AudioClip;
 		MenuTheme = Resources.Load ("Sound/open menu") as AudioClip;
 		fx1 = Resources.Load ("Sound/fx") as AudioClip;
 		fx2 = Resources.Load ("Sound/fx 1") as AudioClip;
@@ -28,12 +28,11 @@ public class Sound : MonoBehaviour {
 	void Update () {
 
         if (source.isPlaying == false)
-            source.PlayOneShot(MainTheme, .7f);
+            source.PlayOneShot(MainTheme, .4f);
 
         if (player.health <= 0)
         {
             source.Stop();
         }
 	}
-
 }
