@@ -9,6 +9,20 @@ public class DoubleKill : MonoBehaviour
     SpriteRenderer sprite;
     GameObject player;
 
+
+    void Awake()
+    {
+        GameObject[] double_kills = GameObject.FindGameObjectsWithTag("DoubleKills");
+
+        foreach (GameObject db in double_kills)
+        {
+            if (db != null)
+            {
+                db.GetComponent<SpriteRenderer>().enabled = false;
+            }
+        }
+    }
+
     // Use this for initialization
     void Start()
     {

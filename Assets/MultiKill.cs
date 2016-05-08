@@ -9,6 +9,9 @@ public class MultiKill : MonoBehaviour {
 	GameObject player;
     Character player_script;
 
+    AudioSource source;
+    AudioClip sound;
+
 	// Use this for initialization
 	void Start () {
         clock = 0.0f;
@@ -17,11 +20,19 @@ public class MultiKill : MonoBehaviour {
 		player = GameObject.FindWithTag ("Player");
         player_script = player.GetComponent<Character>();
 
-        GameObject double_kill = GameObject.Find("Double Kill");
+        source = gameObject.AddComponent<AudioSource>();
+        sound = Resources.Load("Sound/multi-kill") as AudioClip;
 
-        if (double_kill != null)
+        source.PlayOneShot(sound, 1f);
+
+        GameObject[] double_kills = GameObject.FindGameObjectsWithTag("DoubleKills");
+
+        foreach (GameObject db in double_kills)
         {
-            Destroy(double_kill);
+            if (db != null)
+            {
+                db.GetComponent<SpriteRenderer>().enabled = false;
+            }
         }
 
         for (int i = 0; i < 2; i++)

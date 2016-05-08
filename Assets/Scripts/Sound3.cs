@@ -14,7 +14,7 @@ public class Sound3 : MonoBehaviour {
 	void Start () {
 		source = gameObject.AddComponent<AudioSource> ();
 
-		MainTheme = Resources.Load ("Sound/boss battle rough") as AudioClip;
+		MainTheme = Resources.Load ("Sound/boss fight rough") as AudioClip;
 		MenuTheme = Resources.Load ("Sound/open menu") as AudioClip;
 		fx1 = Resources.Load ("Sound/fx") as AudioClip;
 		fx2 = Resources.Load ("Sound/fx 1") as AudioClip;

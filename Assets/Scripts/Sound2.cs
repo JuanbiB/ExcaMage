@@ -28,7 +28,7 @@ public class Sound2 : MonoBehaviour {
 	void Update () {
 
         if (source.isPlaying == false)
-            source.PlayOneShot(MainTheme, .4f);
+            source.PlayOneShot(MainTheme, .3f);
 
         if (player.health <= 0)
         {

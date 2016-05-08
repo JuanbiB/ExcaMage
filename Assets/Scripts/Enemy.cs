@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
 
     GameObject player;
     public GameObject multikill;
+    public GameObject doublekill;
 
     // Use this for initialization
     void Start()
@@ -75,7 +76,14 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		handleShooting();
+        handleShooting();
+
+        return;
+        if (Input.GetKeyDown(KeyCode.M))
+            Instantiate(multikill, (Vector2)player.transform.position + new Vector2(0, 3), player.transform.rotation);
+        if (Input.GetKeyDown(KeyCode.N))
+            Instantiate(doublekill, (Vector2)player.transform.position + new Vector2(0, 3), player.transform.rotation);
+
 	}
 
     void spikeDeath()
@@ -141,7 +149,6 @@ public class Enemy : MonoBehaviour
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");
             spikeDeath();
-            //Instantiate(multikill, (Vector2) player.transform.position + new Vector2(0, 3), player.transform.rotation);
         }
     }
 
