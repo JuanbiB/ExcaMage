@@ -230,7 +230,6 @@ public class Character : MonoBehaviour
 
 	void fire(){
 		if (Input.GetMouseButtonDown(1) && this.ammo >0){
-			print ("Bullet fired");
 			fired = true;
 
 			GameObject bullet = Instantiate(bullet_ref, transform.position, transform.rotation) as GameObject;
