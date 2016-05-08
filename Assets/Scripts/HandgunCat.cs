@@ -160,8 +160,8 @@ public class HandgunCat : MonoBehaviour {
 //				int randomWave = Random.Range (0, 3);
 //				warmWave (randomWave);
 //			}
-			fastBull();
-			//handleShooting ();
+			//fastBull();
+			handleShooting ();
 		}
 
 		if (currHealth <= 0) {
