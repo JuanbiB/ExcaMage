@@ -42,7 +42,7 @@ public class HandgunCat : MonoBehaviour {
 	[SerializeField] private bool dead;
 
 	int waveCounter;
-   
+
 	public int diacounter;
 
     bool switch_dash;
@@ -60,7 +60,7 @@ public class HandgunCat : MonoBehaviour {
 
 		 diacounter = 0;
 
-		lines.Add(script1.text);  
+		lines.Add(script1.text);
 		lines.Add(script2.text);
 		lines.Add(script3.text);
 		waveCounter = 0;
@@ -71,7 +71,7 @@ public class HandgunCat : MonoBehaviour {
 	void initLines( List<List<string>> lines2add){
 		var info = new DirectoryInfo ("Assets/Resources/TextAssets");
 		var folders = info.GetDirectories ();
-		int i = 0; 
+		int i = 0;
 		foreach (DirectoryInfo folder in folders) {//now going to iterate through each folder
 			//List <string> dialogbranch = new List<string>(
 			//we need to add to each list within the list of lists if it's index is the same
@@ -87,7 +87,7 @@ public class HandgunCat : MonoBehaviour {
 
 				foreach (FileInfo file in files) {
 					//print (file.Name); // returning proper file name
-					string contents = File.ReadAllText (file.FullName); 
+					string contents = File.ReadAllText (file.FullName);
 					//print (contents); //printing the proper contents
 
 					//lines2add [i].Insert (j, contents);
@@ -95,7 +95,7 @@ public class HandgunCat : MonoBehaviour {
 					templist.Insert (j, contents);
 					//print (templist [j]);
 					j++;
-				
+
 				}
 				lines2add.Add(templist);
 			}
@@ -107,7 +107,7 @@ public class HandgunCat : MonoBehaviour {
 			}
 		}
 	}
-		
+
 
 	void Start () {
 
@@ -116,10 +116,10 @@ public class HandgunCat : MonoBehaviour {
 //		}
 		lines2 = new List<List<string>>();
 		initLines(lines2);
-		
+
 		time2 = 0.0f;
 		//dialogBox = GameObject.Find ("DialogBox").gameObject ;
-	
+
 		body = GetComponent<Rigidbody2D>();
 		body.freezeRotation = true;
 		dead = false;
@@ -137,20 +137,10 @@ public class HandgunCat : MonoBehaviour {
 	}
 
 
-	
+
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
-		if (DialogueEnabled == true) {
-			//do nothing
-		} else {
-//			if (currHealth > maxHealth / 2) {
-//				int randomWave = Random.Range (0, 3);
-//				warmWave (randomWave);
-//			}
-			//fastBull();
-			handleShooting ();
-=======
+
         if (DialogueEnabled == true) {
             //do nothing
         } else {
@@ -160,15 +150,15 @@ public class HandgunCat : MonoBehaviour {
             //			}
             //fastBull();
             dashState();
-			
-			
->>>>>>> origin/master
+
+
+
 		}
 
 		if (currHealth <= 0) {
 			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);
 		}
-	
+
 	}
 
 	//selects a random animation and then begins coroutine
@@ -185,9 +175,9 @@ public class HandgunCat : MonoBehaviour {
 
             if (!stay_still)
             {
-                my_animator.Play("idle");
+
                 time2 = 0.0f;
- 
+
                 int random = Random.Range(180, 250);
 
                 if (switch_dash == true)
@@ -200,6 +190,7 @@ public class HandgunCat : MonoBehaviour {
 
                 else
                 {
+										my_animator.Play("handguncat_right_dash");
                     body.AddForce(new Vector2(1, 0) * random);
                     switch_dash = !switch_dash;
                     stay_still = true;
@@ -213,10 +204,10 @@ public class HandgunCat : MonoBehaviour {
                 if (time2 > 5)
                     stay_still = false;
             }
-			
+
 		}
 	}
-    
+
 
 	void fastBull(){
 		time += Time.deltaTime;
@@ -258,4 +249,3 @@ public class HandgunCat : MonoBehaviour {
 
 
 }
-
