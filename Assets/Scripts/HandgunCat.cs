@@ -182,7 +182,7 @@ public class HandgunCat : MonoBehaviour {
 
                 if (switch_dash == true)
                 {
-
+										my_animator.Play("handguncat_left_dash");
                     body.AddForce(new Vector2(-1, 0) * random);
                     switch_dash = !switch_dash;
                     stay_still = true;
