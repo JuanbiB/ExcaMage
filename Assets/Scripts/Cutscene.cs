@@ -43,7 +43,7 @@ public class Cutscene : MonoBehaviour {
 
 	void Start () {
 
-		fighting = true;
+		//fighting = true;
 		showdialogbox = false;
 		dialogadded = false;
 
@@ -149,9 +149,9 @@ public class Cutscene : MonoBehaviour {
 		if (SceneManager.GetActiveScene().name=="boss" && initDialog==false && fighting!=true) {
 		CutsceneStart ();
 	}
-		if (fighting == true) {
-			hideUIelements ();
-		}
+//		if (fighting == true) {
+//			hideUIelements ();
+//		}
 
 		//before fight happens
 		if (prefight) {
