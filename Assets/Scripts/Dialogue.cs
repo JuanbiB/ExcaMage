@@ -75,35 +75,13 @@ public class Dialogue : MonoBehaviour {
 
 	public IEnumerator Saydialogue (string dialogue) {
 
-	int counter = 0;
-	string flavtext = "";
-	bool isflavtext = false;
 
 	for (int i = 0; i <= dialogue.Length; i++) {
 
 			inSay = true;
 
 
-//			if (dialogue [i] == "<") {
-//				isflavtext = true;
-//				flavtext += dialogue [i];
-//			}
-//			if (isflavtext) {
-//				if (counter == 2) {
-//					
-//				}
-//				if (dialogue [i] == ">") {
-//					counter++;
-//				}
-//				 
-//				flavtext += dialogue [i];
-//			}
-//
-//
-//
-//
-//
-//			}
+
 			dialogUI.text= dialogue.Substring (0, i);
 			yield return new WaitForSeconds (0.001f);
 		}
