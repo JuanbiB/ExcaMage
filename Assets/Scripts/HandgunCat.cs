@@ -182,7 +182,7 @@ public class HandgunCat : MonoBehaviour {
 		time += Time.deltaTime;
 		float distance = Vector2.Distance(transform.position, char_ref.transform.position);
 
-		if (time > shooting_rate && dead == false && distance < 6)
+		if (time > shooting_rate && dead == false)
 		{
 			GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
 			//bullet.transform.rotation = new Quaternion( Vector3.Angle (this.transform.position, char_ref.transform.position));
