@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BigBullet : MonoBehaviour {
+public class bigBullet : MonoBehaviour {
 
 	GameObject char_ref;
 	Rigidbody2D rb;
