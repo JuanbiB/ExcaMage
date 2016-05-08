@@ -48,11 +48,18 @@ public class PurpleBullet : MonoBehaviour {
 		if (mode == "push")
 		{
 			GetComponent<Rigidbody2D>().AddForce(-direction * (force_size / distance) * 60);
+			StartCoroutine(wait2die());
 		}
 		else
 		{
 			GetComponent<Rigidbody2D>().AddForce(direction * (force_size / distance) * 60);
 		}
+
+	}
+
+	IEnumerator wait2die(){
+		yield return new WaitForSeconds(1.5f);
+		DestroyObject(this.gameObject);
 
 	}
 

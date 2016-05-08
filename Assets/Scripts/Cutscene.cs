@@ -43,7 +43,7 @@ public class Cutscene : MonoBehaviour {
 
 	void Start () {
 
-		//fighting = true;
+		fighting = true;
 		showdialogbox = false;
 		dialogadded = false;
 
@@ -54,6 +54,23 @@ public class Cutscene : MonoBehaviour {
 		//works
 	
 	}
+	void hideUIelements(){
+		foreach (GameObject go in UIlist) {
+			if (go.gameObject.name == "HeartPanel" || go.gameObject.name == "Push Cooldown" || go.gameObject.name == "Pull Cooldown" || go.gameObject.name=="Empty Health Bar" || go.gameObject.name =="Text (1)" || go.gameObject.name=="Text" ) {
+			//Do nothing
+			}
+			else{
+				go.gameObject.SetActive(false);
+			}
+		}
+		mc_ref.gameObject.AddComponent<hgcCC> ();
+		mc_ref.GetComponent<hgcCC> ().enabled = true;
+
+
+
+	}
+
+
 	//Hides all UI and starts 'Prefight' scenario
 	void CutsceneStart(){
 		
@@ -131,6 +148,9 @@ public class Cutscene : MonoBehaviour {
 		if (SceneManager.GetActiveScene().name=="boss" && initDialog==false && fighting!=true) {
 		CutsceneStart ();
 	}
+		if (fighting == true) {
+			hideUIelements ();
+		}
 
 		//before fight happens
 		if (prefight) {

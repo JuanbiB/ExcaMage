@@ -32,6 +32,8 @@ public class HandgunCat : MonoBehaviour {
 	Vector3 distance;
 	public GameObject bullet_ref; //reference to bullet prefab
 
+	public GameObject big_bullet_ref; //reference to big bullet prefab
+
 	float time; //time since last bullet was fired
 	public float shooting_rate; //rate at which bullets will be fired
 
@@ -173,6 +175,11 @@ public class HandgunCat : MonoBehaviour {
 	void fastBull(){
 		time += Time.deltaTime;
 		float distance = Vector2.Distance (transform.position, char_ref.transform.position);
+
+		if (time > shooting_rate && dead == false) {
+			GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
+
+		}
 
 		//GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
 	}
