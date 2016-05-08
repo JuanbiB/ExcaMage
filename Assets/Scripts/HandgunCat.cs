@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
@@ -161,6 +162,10 @@ public class HandgunCat : MonoBehaviour {
 //			}
 			//fastBull();
 			handleShooting ();
+		}
+
+		if (currHealth <= 0) {
+			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);
 		}
 	
 	}

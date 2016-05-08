@@ -56,7 +56,8 @@ public class Cutscene : MonoBehaviour {
 	}
 	void hideUIelements(){
 		foreach (GameObject go in UIlist) {
-			if (go.gameObject.name == "HeartPanel" || go.gameObject.name == "Push Cooldown" || go.gameObject.name == "Pull Cooldown" || go.gameObject.name=="Empty Health Bar" || go.gameObject.name =="Text (1)" || go.gameObject.name=="Text" ) {
+			if (go.gameObject.name == "HeartPanel" || go.gameObject.name == "Push Cooldown" || go.gameObject.name == "Pull Cooldown" || go.gameObject.name=="Empty Health Bar" 
+				|| go.gameObject.name =="Text (1)" || go.gameObject.name=="Text" || go.gameObject.name=="tip") {
 			//Do nothing
 			}
 			else{

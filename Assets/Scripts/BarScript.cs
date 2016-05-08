@@ -84,7 +84,6 @@ public class BarScript : MonoBehaviour {
 			AmmoCount.text = "Ammo :" + player.GetComponent<Character> ().ammo;
 		}
 		if (numhealth > boss.GetComponent<HandgunCat> ().currHealth) {
-			print ("YEAH YEAH YEAH");
 			fillAmount = (float) boss.GetComponent<HandgunCat> ().currHealth / boss.GetComponent<HandgunCat>().maxHealth;
 			numhealth--;
 		}

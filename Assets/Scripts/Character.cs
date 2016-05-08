@@ -560,7 +560,6 @@ public class Character : MonoBehaviour
 
 		if (coll.gameObject.tag == "PurpBullet") {
 			if (ammo > 0) {
-				print ("BONES");
 			}
 			 if (!hit) {
 
