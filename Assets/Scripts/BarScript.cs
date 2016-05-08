@@ -20,7 +20,7 @@ public class BarScript : MonoBehaviour {
 
 	private bool inAnim;
 
-	public Camera mc_ref;
+	bool hasLoaded;
 
 
 
@@ -33,9 +33,11 @@ public class BarScript : MonoBehaviour {
 		content = GameObject.Find ("bossHealth").gameObject.GetComponent<Image>();
 		content.fillAmount = 0;
 		fillAmount = 1;
-		lerpspeed = 1;
+		lerpspeed = 3;
 
-		mc_ref = GameObject.Find ("Main Camera").GetComponent<Camera> ();
+		hasLoaded = false;
+
+		//mc_ref = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 		//HealthFillAnim ();
 
 
@@ -66,7 +68,15 @@ public class BarScript : MonoBehaviour {
 
 		}
 		//if (mc_ref.GetComponent<Cutscene>().fighting=
-		content.fillAmount = Mathf.Lerp (content.fillAmount, fillAmount, Time.deltaTime * lerpspeed);
+		if (hasLoaded == false) { //if it hasn't loaded yet
+			if (content.fillAmount > fillAmount -0.01f) {
+				print ("hasloaded = true");
+				hasLoaded = true;
+				//boss.GetComponent<HandgunCat> ().currHealth = boss.GetComponent<HandgunCat> ().currHealth - 10;
+			} else {
+				content.fillAmount = Mathf.Lerp (content.fillAmount, fillAmount, Time.deltaTime * lerpspeed);
+			}
+		}
 
 
 
@@ -75,7 +85,7 @@ public class BarScript : MonoBehaviour {
 		}
 		if (numhealth > boss.GetComponent<HandgunCat> ().currHealth) {
 			print ("YEAH YEAH YEAH");
-			//fillAmount = (float) boss.GetComponent<HandgunCat> ().currHealth / boss.GetComponent<HandgunCat>().maxHealth;
+			fillAmount = (float) boss.GetComponent<HandgunCat> ().currHealth / boss.GetComponent<HandgunCat>().maxHealth;
 			numhealth--;
 		}
 		if (fillAmount < content.fillAmount){
