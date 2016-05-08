@@ -25,11 +25,14 @@ public class MultiKill : MonoBehaviour {
 
         source.PlayOneShot(sound, 1f);
 
-        GameObject double_kill = GameObject.Find("Double Kill");
+        GameObject[] double_kills = GameObject.FindGameObjectsWithTag("DoubleKills");
 
-        if (double_kill != null)
+        foreach (GameObject db in double_kills)
         {
-            Destroy(double_kill);
+            if (db != null)
+            {
+                db.GetComponent<SpriteRenderer>().enabled = false;
+            }
         }
 
         for (int i = 0; i < 2; i++)
