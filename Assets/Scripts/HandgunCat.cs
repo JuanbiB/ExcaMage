@@ -160,8 +160,8 @@ public class HandgunCat : MonoBehaviour {
 //				int randomWave = Random.Range (0, 3);
 //				warmWave (randomWave);
 //			}
-			//fastBull();
-			handleShooting ();
+			fastBull();
+			//handleShooting ();
 		}
 
 		if (currHealth <= 0) {
@@ -183,6 +183,7 @@ public class HandgunCat : MonoBehaviour {
 
 		if (time > shooting_rate && dead == false) {
 			GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
+			time = 0.0f;
 
 		}
 

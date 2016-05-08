@@ -545,23 +545,20 @@ public class Character : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D coll)
-    {
-        if (coll.gameObject.tag == "Bullet")
-        {
-            if (!hit)
-            {
-                StartCoroutine(hit_animation());
-                Destroy(coll.gameObject);
-            }
-            else {
-                Destroy(coll.gameObject);
-            }
-        }
+	{
+		if (coll.gameObject.tag == "Bullet") {
+			if (!hit) {
+				StartCoroutine (hit_animation ());
+				Destroy (coll.gameObject);
+			} else {
+				Destroy (coll.gameObject);
+			}
+		}
 
 		if (coll.gameObject.tag == "PurpBullet") {
 			if (ammo > 0) {
 			}
-			 if (!hit) {
+			if (!hit) {
 
 				//Need to create an instance that the bullet will not hurt if it is being absorbed
 				if (animation_happening == true) {
@@ -579,6 +576,24 @@ public class Character : MonoBehaviour
 				Destroy (coll.gameObject);
 			}
 		}
+
+		if (coll.gameObject.tag == "bigBullet") {
+			if (!hit) {
+
+				//Need to create an instance that the bullet will not hurt if it is being absorbed
+
+				StartCoroutine (hit_animation ());
+				Destroy (coll.gameObject);
+			} else {
+
+				Destroy (coll.gameObject);
+			}
+		}
+	
+
+
+
+
 
         if (coll.gameObject.tag == "Finish")
         {
