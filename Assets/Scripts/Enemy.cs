@@ -76,12 +76,14 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+        handleShooting();
+
+        return;
         if (Input.GetKeyDown(KeyCode.M))
             Instantiate(multikill, (Vector2)player.transform.position + new Vector2(0, 3), player.transform.rotation);
         if (Input.GetKeyDown(KeyCode.N))
             Instantiate(doublekill, (Vector2)player.transform.position + new Vector2(0, 3), player.transform.rotation);
 
-        handleShooting();
 	}
 
     void spikeDeath()
