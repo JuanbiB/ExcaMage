@@ -36,17 +36,23 @@ public class HandgunCat : MonoBehaviour {
 	public GameObject big_bullet_ref; //reference to big bullet prefab
 
 	float time; //time since last bullet was fired
+	float time2;
 	public float shooting_rate; //rate at which bullets will be fired
 
 	[SerializeField] private bool dead;
 
 	int waveCounter;
-
+   
 	public int diacounter;
 
-	// Use this for initialization
+    bool switch_dash;
+    bool stay_still;
 
-	void Awake(){
+    Animator my_animator;
+
+    // Use this for initialization
+
+    void Awake(){
 		this.currHealth = 30;
 		this.maxHealth = currHealth;
 		this.DialogueEnabled = false;
@@ -101,30 +107,7 @@ public class HandgunCat : MonoBehaviour {
 			}
 		}
 	}
-
-
-
-
 		
-//		FileInfo[] info = dir.GetFiles("*.txt");
-//		print ("Hahahaha");
-//
-//
-//	foreach (FileInfo f in info) 
-//	{ 
-//			print (f.FullName);
-////			int counter = 0; //initialize counter to add to list properly
-////			int countcounter = 0;
-////			if (f.FullName == "HandgunCatDia" + counter + countcounter) {
-////				TextAsset dia2add = (TextAsset) f;
-////				lines[counter] = f.text
-////				
-//		}
-//
-//
-//
-//		
-//	}
 
 	void Start () {
 
@@ -134,7 +117,7 @@ public class HandgunCat : MonoBehaviour {
 		lines2 = new List<List<string>>();
 		initLines(lines2);
 		
-
+		time2 = 0.0f;
 		//dialogBox = GameObject.Find ("DialogBox").gameObject ;
 	
 		body = GetComponent<Rigidbody2D>();
@@ -147,21 +130,27 @@ public class HandgunCat : MonoBehaviour {
 
 		this.name = "HandgunCat";
 		this.tag = "boss";
+        switch_dash = false;
+        stay_still = false;
+
+        my_animator = GetComponent<Animator>();
 	}
 
 
 	
 	// Update is called once per frame
 	void Update () {
-		if (DialogueEnabled == true) {
-			//do nothing
-		} else {
-//			if (currHealth > maxHealth / 2) {
-//				int randomWave = Random.Range (0, 3);
-//				warmWave (randomWave);
-//			}
-			fastBull();
-			//handleShooting ();
+        if (DialogueEnabled == true) {
+            //do nothing
+        } else {
+            //			if (currHealth > maxHealth / 2) {
+            //				int randomWave = Random.Range (0, 3);
+            //				warmWave (randomWave);
+            //			}
+            //fastBull();
+            dashState();
+			
+			
 		}
 
 		if (currHealth <= 0) {
@@ -177,12 +166,52 @@ public class HandgunCat : MonoBehaviour {
 //		}
 //	}
 
+	void dashState(){
+		time2 += Time.deltaTime;
+
+		if (time2 > 2f) {
+
+            if (!stay_still)
+            {
+                my_animator.Play("idle");
+                time2 = 0.0f;
+ 
+                int random = Random.Range(180, 250);
+
+                if (switch_dash == true)
+                {
+
+                    body.AddForce(new Vector2(-1, 0) * random);
+                    switch_dash = !switch_dash;
+                    stay_still = true;
+                }
+
+                else
+                {
+                    body.AddForce(new Vector2(1, 0) * random);
+                    switch_dash = !switch_dash;
+                    stay_still = true;
+                }
+            }
+            else
+            {
+                my_animator.Play("cat_shoot");
+                body.velocity = Vector2.zero;
+                handleShooting();
+                if (time2 > 5)
+                    stay_still = false;
+            }
+			
+		}
+	}
+    
+
 	void fastBull(){
 		time += Time.deltaTime;
 		float distance = Vector2.Distance (transform.position, char_ref.transform.position);
 
 		if (time > shooting_rate && dead == false) {
-			GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
+				GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
 			time = 0.0f;
 
 		}
@@ -197,7 +226,7 @@ public class HandgunCat : MonoBehaviour {
 
 		if (time > shooting_rate && dead == false)
 		{
-			GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
+			GameObject bullet = Instantiate(bullet_ref, this.transform.position - new Vector3(0, 1, 0), char_ref.transform.rotation) as GameObject;
 			//bullet.transform.rotation = new Quaternion( Vector3.Angle (this.transform.position, char_ref.transform.position));
 			//bullet.transform.forward = transform.forward;
 			time = 0.0f;
