@@ -70,6 +70,8 @@ public class Character : MonoBehaviour
 
     // cute cursor
     public Texture2D cursor;
+	public Texture2D cursor2;
+
     public bool presentation;
 
     // Sound Management
@@ -189,7 +191,11 @@ public class Character : MonoBehaviour
 
     void handleCursor()
     {
-
+		if (ammo > 0) {
+			Cursor.SetCursor (cursor2, Vector2.zero, CursorMode.Auto);
+		} else {
+			Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+		}
     }
 
     // Update is called once per frame
@@ -204,6 +210,8 @@ public class Character : MonoBehaviour
         // Death sound
         if (health <= 0)
             source.PlayOneShot(death_sound, .1f);
+
+		handleCursor ();
 
 		if (DialogueEnabled == true) {
 			//do Nothing
