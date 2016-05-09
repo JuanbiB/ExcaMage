@@ -181,7 +181,7 @@ public class Character : MonoBehaviour
 
     public void playPortal()
     {
-        source.PlayOneShot(push_sound, .7f);
+       // source.PlayOneShot(push_sound, .7f);
     }
 
     public void refreshListofEnemies(){
@@ -209,7 +209,11 @@ public class Character : MonoBehaviour
 
         // Death sound
         if (health <= 0)
-            source.PlayOneShot(death_sound, .1f);
+        {
+            print("playing");
+            source.PlayOneShot(death_sound, .3f);
+        }
+            
 
 		handleCursor ();
 
@@ -264,7 +268,6 @@ public class Character : MonoBehaviour
         Color temp = manipulated.color;
         while (temp.a > 0)
         {
-			print ("looping");
             stuff.transform.position = (Vector2)stuff.transform.position - new Vector2(0, 0.01f);
             temp.a -= 0.005f;
             manipulated.color = temp;
