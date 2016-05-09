@@ -211,6 +211,10 @@ public class Cutscene : MonoBehaviour {
 					fighting = true;
 				}
 			}
+				if (fighting == true) {
+					GameObject.Find ("SoundManager").GetComponent<Sound3> ().balls = true;
+				}
+
 			}
 
 

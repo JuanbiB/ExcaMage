@@ -11,6 +11,8 @@ public class Sound3 : MonoBehaviour {
 
 	Character player;
 
+	public bool balls;
+
 	void Start () {
 		source = gameObject.AddComponent<AudioSource> ();
 
@@ -18,15 +20,17 @@ public class Sound3 : MonoBehaviour {
 		MenuTheme = Resources.Load ("Sound/open menu") as AudioClip;
 		fx1 = Resources.Load ("Sound/fx") as AudioClip;
 		fx2 = Resources.Load ("Sound/fx 1") as AudioClip;
-	
+		balls = false;
 		player = GameObject.FindWithTag ("Player").GetComponent<Character> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (source.isPlaying == false)
-            source.PlayOneShot(MainTheme, .8f);
+		if (balls) {
+			if (source.isPlaying == false)
+				source.PlayOneShot (MainTheme, .8f);
+		}
 
         if (player.health <= 0)
         {

@@ -14,6 +14,10 @@ public class Dialogue : MonoBehaviour {
 
 	public bool dialogdone;
 
+	AudioSource source;
+	AudioClip speech1;
+	AudioClip speech2;
+	AudioClip speech3;
 
 	private bool inSay;
 
@@ -50,10 +54,15 @@ public class Dialogue : MonoBehaviour {
 		bossref = GameObject.Find("HandgunCat"); //from handgunCat
 		dialogUI = GameObject.Find("Dialog").gameObject.GetComponent<Text>();
 
+		speech1 = Resources.Load ("Sound/speech 1") as AudioClip;
+		speech2 = Resources.Load ("Sound/speech 2") as AudioClip;
+		speech3 = Resources.Load ("Sound/speech 3") as AudioClip;
+
+		source = gameObject.AddComponent<AudioSource> ();
 
 //		assetText = bossref.GetComponent<HandgunCat> ().lines [0];
 //
-//
+//	
 //
 //	
 //
@@ -74,6 +83,19 @@ public class Dialogue : MonoBehaviour {
 	}
 
 	public IEnumerator Saydialogue (string dialogue) {
+
+		int rand = Random.Range (1, 3);
+
+		if (rand == 1) {
+			source.Stop ();
+			source.PlayOneShot (speech1, .5f);
+		} else if (rand == 2) {
+			source.Stop ();
+			source.PlayOneShot (speech2, .5f);
+		} else {
+			source.Stop ();
+			source.PlayOneShot (speech3, .5f);
+		}
 
 
 	for (int i = 0; i <= dialogue.Length; i++) {
@@ -110,7 +132,7 @@ public class Dialogue : MonoBehaviour {
 			print ("nextdia should happen now");
 			yield return StartCoroutine (Saydialogue (nextDia));
 		}
-		}
+	}
 				
 
 
@@ -160,9 +182,7 @@ public class Dialogue : MonoBehaviour {
 		}
 			
 
-		}
-
-			
+		}	
 
 
 
