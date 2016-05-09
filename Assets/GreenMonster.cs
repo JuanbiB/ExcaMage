@@ -146,7 +146,7 @@ public class GreenMonster : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Spike") {
+		if (other.gameObject.tag == "Spike" && this.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 1) {
 			Instantiate(exploding_pieces, transform.position, transform.rotation);
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");

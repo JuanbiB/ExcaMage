@@ -144,7 +144,7 @@ public class Enemy : MonoBehaviour
 			
             StartCoroutine(fall_death(coll.gameObject.transform.position));
         }
-        else if (coll.gameObject.tag == "Spike")
+		else if (coll.gameObject.tag == "Spike" && this.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude > 1)
         {
 			if (BoardCreator.instance != null)
 				BoardCreator.instance.SendMessage("kill");
