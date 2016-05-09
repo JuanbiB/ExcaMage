@@ -180,7 +180,7 @@ public class HandgunCat : MonoBehaviour {
 	void dashState(){
 		time2 += Time.deltaTime;
 
-		if (time2 > 2f) {
+		if (time2 > 1.5f) {
 
             if (!stay_still)
             {
@@ -191,7 +191,7 @@ public class HandgunCat : MonoBehaviour {
 
                 if (switch_dash == true)
                 {
-
+                    my_animator.Play("handguncat_left_dash");
                     body.AddForce(new Vector2(-1, 0) * random);
                     switch_dash = !switch_dash;
                     stay_still = true;
@@ -199,6 +199,7 @@ public class HandgunCat : MonoBehaviour {
 
                 else
                 {
+                    my_animator.Play("handguncat_right_dash");
                     body.AddForce(new Vector2(1, 0) * random);
                     switch_dash = !switch_dash;
                     stay_still = true;
