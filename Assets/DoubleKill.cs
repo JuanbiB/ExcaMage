@@ -10,19 +10,6 @@ public class DoubleKill : MonoBehaviour
     GameObject player;
 
 
-    void Awake()
-    {
-        GameObject[] double_kills = GameObject.FindGameObjectsWithTag("DoubleKills");
-
-        foreach (GameObject db in double_kills)
-        {
-            if (db != null)
-            {
-                db.GetComponent<SpriteRenderer>().enabled = false;
-            }
-        }
-    }
-
     // Use this for initialization
     void Start()
     {
@@ -37,7 +24,7 @@ public class DoubleKill : MonoBehaviour
 
         if (player.GetComponent<Character>().running_life_message == true)
         {
-            // do nothing;
+			
         }
         else
         {
@@ -74,8 +61,11 @@ public class DoubleKill : MonoBehaviour
 
         if (sprite.color.a < 0)
         {
-            Destroy(gameObject);
+			GetComponent<SpriteRenderer>().enabled = false;
         }
+
+		if (clock > 7f)
+			Destroy (gameObject);
 
         if (transform.localScale.x == 2)
         {

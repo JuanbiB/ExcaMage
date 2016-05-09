@@ -80,10 +80,14 @@ public class MultiKill : MonoBehaviour {
         }
 
         
-        if (sprite.color.a < 0)
-        {
-            Destroy(gameObject);
-        }
+		if (sprite.color.a < 0)
+		{
+			GetComponent<SpriteRenderer>().enabled = false;
+		}
+
+		if (clock > 7f)
+			Destroy (gameObject);
+		
 
         if (transform.localScale.x == 3)
         {

@@ -244,7 +244,8 @@ public class Character : MonoBehaviour
     public IEnumerator life_message(int howMany)
     {
         running_life_message = true;
-        Text manipulated = GameObject.Find("Canvas/Life Message").GetComponent<Text>();
+        
+		Text manipulated = GameObject.Find("Canvas/Life Message").GetComponent<Text>();
         GameObject stuff = GameObject.Find("Canvas/Life Message");
 
         
@@ -263,15 +264,22 @@ public class Character : MonoBehaviour
         Color temp = manipulated.color;
         while (temp.a > 0)
         {
+			print ("looping");
             stuff.transform.position = (Vector2)stuff.transform.position - new Vector2(0, 0.01f);
             temp.a -= 0.005f;
             manipulated.color = temp;
             yield return null;
         }
+
+		
+
         manipulated.color = temp_col;
-        GameObject.Find("Canvas/Life Message").GetComponent<Text>().text = "";
+		manipulated.text = "";
+
+		print ("done looping");
+
+		running_life_message = false;
       
-        running_life_message = false;
     }
 
 
