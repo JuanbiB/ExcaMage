@@ -148,7 +148,7 @@ public class HandgunCat : MonoBehaviour {
             //				warmWave (randomWave);
             //			}
             //fastBull();
-<<<<<<< HEAD
+
 			if (transform.position.x == 15 && waveCounter > 5) {
 				wave ();
 				waveCounter = 0;
@@ -156,14 +156,8 @@ public class HandgunCat : MonoBehaviour {
 				waveCounter++;
 				dashState ();
 			}
-
-
-
-=======
-            dashState();
 			
-			
->>>>>>> origin/master
+
 		}
 
 		if (currHealth <= 0) {
@@ -221,7 +215,6 @@ public class HandgunCat : MonoBehaviour {
 			
 		}
 	}
-<<<<<<< HEAD
 
 	void randWave(){
 		int randint = Random.Range (0, 2);
@@ -233,9 +226,7 @@ public class HandgunCat : MonoBehaviour {
 		}
 	}
 
-=======
-    
->>>>>>> origin/master
+
 
 	void fastBull(){
 		time += Time.deltaTime;
