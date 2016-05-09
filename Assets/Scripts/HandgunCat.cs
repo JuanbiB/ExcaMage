@@ -149,7 +149,13 @@ public class HandgunCat : MonoBehaviour {
             //				warmWave (randomWave);
             //			}
             //fastBull();
-            dashState();
+			if (transform.position.x == 15 && waveCounter > 5) {
+				wave ();
+				waveCounter = 0;
+			} else {
+				waveCounter++;
+				dashState ();
+			}
 
 
 
@@ -167,6 +173,10 @@ public class HandgunCat : MonoBehaviour {
 //			StartCoroutine(fastBull)
 //		}
 //	}
+	void wave(){
+	}
+
+
 
 	void dashState(){
 		time2 += Time.deltaTime;
@@ -200,11 +210,21 @@ public class HandgunCat : MonoBehaviour {
             {
                 my_animator.Play("cat_shoot");
                 body.velocity = Vector2.zero;
-                handleShooting();
+				randWave ();
                 if (time2 > 5)
                     stay_still = false;
             }
 
+		}
+	}
+
+	void randWave(){
+		int randint = Random.Range (0, 2);
+		if (randint == 0) {
+			fastBull ();
+		}
+		if (randint == 1) {
+			handleShooting ();
 		}
 	}
 
@@ -214,7 +234,7 @@ public class HandgunCat : MonoBehaviour {
 		float distance = Vector2.Distance (transform.position, char_ref.transform.position);
 
 		if (time > shooting_rate && dead == false) {
-				GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
+			GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position - new Vector3(0,1,0), char_ref.transform.rotation) as GameObject;
 			time = 0.0f;
 
 		}

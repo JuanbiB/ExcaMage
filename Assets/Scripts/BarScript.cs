@@ -65,6 +65,7 @@ public class BarScript : MonoBehaviour {
 			player = GameObject.FindGameObjectWithTag ("Player");
 			//fillAmount = 0;
 			numhealth = boss.GetComponent<HandgunCat> ().currHealth;
+			AmmoCount.text = "Ammo :" + player.GetComponent<Character> ().ammo;
 
 		}
 		//if (mc_ref.GetComponent<Cutscene>().fighting=
