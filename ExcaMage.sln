@@ -1,7 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{A8529345-E441-15C6-AEC2-83175EA0EE05}") = "ExcaMage", "Assembly-CSharp.csproj", "{9531C921-1518-8397-0F1B-44D3D2904F6C}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcaMage", "Assembly-CSharp.csproj", "{9531C921-1518-8397-0F1B-44D3D2904F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

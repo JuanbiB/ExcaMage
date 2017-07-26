@@ -29,7 +29,7 @@ public class BigEnemy : MonoBehaviour {
 	public float shooting_rate;
 
 	bool hit = false;
-	int health = 2;
+	public int health = 2;
 	SpriteRenderer sp_render;
 
 	// Use this for initialization
@@ -67,11 +67,8 @@ public class BigEnemy : MonoBehaviour {
 		if (this.health <= 0) {
 			spikeDeath ();
 			BoardCreator.instance.SendMessage ("kill");
-
 		}
 			handleShooting();
-
-
 	}
 
 
@@ -85,7 +82,6 @@ IEnumerator throw_boulder(){
 	void spikeDeath()
 	{
 		Instantiate(exploded_pieces_prefab, transform.position, transform.rotation);
-		//GetComponent<SpriteRenderer>().enabled = false;
 		Destroy(gameObject);
 	}
 
@@ -111,13 +107,9 @@ IEnumerator throw_boulder(){
 	{
 		body.constraints = RigidbodyConstraints2D.FreezeAll;
 		coll.isTrigger = true;
-		//dead = true;
-
 		float clock = 0.0f;
 		do
 		{
-			// This basically does 3 things:
-
 			// Moves the enemy towards the middle of the pit.
 			this.transform.position = Vector2.MoveTowards(transform.position, pos, 3 * Time.deltaTime);
 			// Diminishes size.

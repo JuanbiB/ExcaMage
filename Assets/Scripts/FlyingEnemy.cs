@@ -6,7 +6,7 @@ public class FlyingEnemy : MonoBehaviour {
 	GameObject player;
 	Rigidbody2D rb;
 	Vector3 temp;
-	public int speed;
+	public float speed;
 
 	public bool moving_towards;
 	public bool appliedForce;
@@ -81,7 +81,6 @@ public class FlyingEnemy : MonoBehaviour {
 			return;
 		}
 		// To here - it's to handle when the player uses his power on our creature
-
 		chasingPlayer ();
 
 		//From here

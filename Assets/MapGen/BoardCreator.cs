@@ -261,14 +261,13 @@ public class BoardCreator : MonoBehaviour
 		} else {
 			Vector3 portalPos = new Vector3 ((30 * (curLevel) + 10 + 4), 10 + 4, -5);
 			Instantiate (portal, portalPos, Quaternion.identity);
-            player.GetComponent<Character>().playPortal();
+            //player.GetComponent<Character>().playPortal();
 		}
 	}
 		
 	private void kill ()
 	{
 		rooms [curLevel].enemyCount--;
-		//curKills++;
 		if (!killstreak) {
 			StartCoroutine(killcounter());
 		} else {

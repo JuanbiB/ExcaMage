@@ -12,6 +12,8 @@ public class HUD : MonoBehaviour {
 
 	public Text deathText;
 
+	public Button retry;
+
 	int numhearts;
 
 	GameObject player;
@@ -80,8 +82,6 @@ public class HUD : MonoBehaviour {
 			heartSprites.RemoveAt (heartSprites.Count - 1);
 			numhearts--;
 			//heart_to_destroy.SetActive (false);
-			//print ("yeeyeyeyeyeyeye");
-
 			
 		}
 		if (player.GetComponent<Character>().health <= 0) {
@@ -90,10 +90,10 @@ public class HUD : MonoBehaviour {
             player.GetComponent<SpriteRenderer>().enabled = false;
             GameObject.Find("Canvas/Death").GetComponent<Image>().enabled = true;
             if (Input.anyKey) {
-                int scene = SceneManager.GetActiveScene().buildIndex;
-                SceneManager.LoadScene(scene, LoadSceneMode.Single);
+               // int scene = SceneManager.GetActiveScene().buildIndex;
+                //SceneManager.LoadScene(scene, LoadSceneMode.Single);
             }
-
+			retry.gameObject.SetActive (true);
 		}
 
 	}

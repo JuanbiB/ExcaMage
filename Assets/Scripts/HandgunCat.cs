@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using System.IO;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.IO;
+
 
 public class HandgunCat : MonoBehaviour {
 
@@ -56,8 +57,6 @@ public class HandgunCat : MonoBehaviour {
 		this.currHealth = 30;
 		this.maxHealth = currHealth;
 		this.DialogueEnabled = false;
-		//this.dialog.enabled = false;
-
 		 diacounter = 0;
 
 		lines.Add(script1.text);  
@@ -67,33 +66,22 @@ public class HandgunCat : MonoBehaviour {
 
 	}
 
-	//THIS WORKS.
 	void initLines( List<List<string>> lines2add){
 		var info = new DirectoryInfo ("Assets/Resources/TextAssets");
 		var folders = info.GetDirectories ();
 		int i = 0; 
 		foreach (DirectoryInfo folder in folders) {//now going to iterate through each folder
-			//List <string> dialogbranch = new List<string>(
 			//we need to add to each list within the list of lists if it's index is the same
-			//print(files.Name); //files.Name returns the name of the .txt file
 			if (folder.Name == "hgcdialog" + i) { //if folder is in the right
 				//We need to enter the folder
-
-				//print (folder.Name); //returning proper folder name
 				var files = folder.GetFiles ("*.txt"); //returns the list of files in that folder
 				int j = 0;
 
 				List<string> templist = new List<string> ();
 
 				foreach (FileInfo file in files) {
-					//print (file.Name); // returning proper file name
 					string contents = File.ReadAllText (file.FullName); 
-					//print (contents); //printing the proper contents
-
-					//lines2add [i].Insert (j, contents);
-					//print ("cuck me");
 					templist.Insert (j, contents);
-					//print (templist [j]);
 					j++;
 				
 				}
@@ -103,22 +91,15 @@ public class HandgunCat : MonoBehaviour {
 		}
 		for (int q = 0; q < lines2add.Count; q++) {
 			for (int r = 0; r < lines2add [q].Count; r++) {
-				print (lines2add [q] [r]);
 			}
 		}
 	}
 		
-
 	void Start () {
-
-//		for (int i = 0; i < lines.Count; i++) {
-//			print (lines [i]);
-//		}
 		lines2 = new List<List<string>>();
 		initLines(lines2);
 		
 		time2 = 0.0f;
-		//dialogBox = GameObject.Find ("DialogBox").gameObject ;
 	
 		body = GetComponent<Rigidbody2D>();
 		body.freezeRotation = true;
@@ -130,57 +111,34 @@ public class HandgunCat : MonoBehaviour {
 
 		this.name = "HandgunCat";
 		this.tag = "boss";
-        switch_dash = false;
-        stay_still = false;
+        switch_dash = true;
+        stay_still = true;
 
         my_animator = GetComponent<Animator>();
 	}
 
 
-	
 	// Update is called once per frame
 	void Update () {
         if (DialogueEnabled == true) {
             //do nothing
         } else {
-            //			if (currHealth > maxHealth / 2) {
-            //				int randomWave = Random.Range (0, 3);
-            //				warmWave (randomWave);
-            //			}
-            //fastBull();
-
 			if (transform.position.x == 15 && waveCounter > 5) {
-				wave ();
 				waveCounter = 0;
 			} else {
 				waveCounter++;
 				dashState ();
 			}
-			
-
 		}
 
 		if (currHealth <= 0) {
 			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);
 		}
-	
 	}
-
-	//selects a random animation and then begins coroutine
-//	void warmWave(int waveNum){
-//		if (waveNum == 0) {
-//			StartCoroutine(fastBull)
-//		}
-//	}
-	void wave(){
-	}
-
-
-
 	void dashState(){
 		time2 += Time.deltaTime;
 
-		if (time2 > 1.5f) {
+		if (time2 > 1) {
 
             if (!stay_still)
             {
@@ -210,7 +168,7 @@ public class HandgunCat : MonoBehaviour {
                 my_animator.Play("cat_shoot");
                 body.velocity = Vector2.zero;
 				randWave ();
-                if (time2 > 5)
+                if (time2 > 4.5f)
                     stay_still = false;
             }
 			
@@ -227,8 +185,6 @@ public class HandgunCat : MonoBehaviour {
 		}
 	}
 
-
-
 	void fastBull(){
 		time += Time.deltaTime;
 		float distance = Vector2.Distance (transform.position, char_ref.transform.position);
@@ -236,10 +192,7 @@ public class HandgunCat : MonoBehaviour {
 		if (time > shooting_rate && dead == false) {
 			GameObject big_bullet = Instantiate (big_bullet_ref, this.transform.position - new Vector3(0,1,0), char_ref.transform.rotation) as GameObject;
 			time = 0.0f;
-
 		}
-
-		//GameObject bullet = Instantiate(bullet_ref, this.transform.position, char_ref.transform.rotation) as GameObject;
 	}
 
 
@@ -250,8 +203,6 @@ public class HandgunCat : MonoBehaviour {
 		if (time > shooting_rate && dead == false)
 		{
 			GameObject bullet = Instantiate(bullet_ref, this.transform.position - new Vector3(0, 1, 0), char_ref.transform.rotation) as GameObject;
-			//bullet.transform.rotation = new Quaternion( Vector3.Angle (this.transform.position, char_ref.transform.position));
-			//bullet.transform.forward = transform.forward;
 			time = 0.0f;
 		}
 
@@ -263,10 +214,5 @@ public class HandgunCat : MonoBehaviour {
 			Destroy (coll.gameObject);
 		}
 	}
-
-
-
-
-
 }
 

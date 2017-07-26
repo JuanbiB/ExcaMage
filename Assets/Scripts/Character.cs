@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 
 public class Character : MonoBehaviour
 {
-
     Rigidbody2D body;
     Rigidbody2D enemybody;
     List<GameObject> go;
@@ -175,13 +174,6 @@ public class Character : MonoBehaviour
          pushArea = GameObject.Find("Push-Find");
 
         mode = "none";
-
-    }
-
-
-    public void playPortal()
-    {
-       // source.PlayOneShot(push_sound, .7f);
     }
 
     public void refreshListofEnemies(){
@@ -210,8 +202,12 @@ public class Character : MonoBehaviour
         // Death sound
         if (health <= 0)
         {
-            print("playing");
             source.PlayOneShot(death_sound, .3f);
+        }
+
+        if (SceneManager.GetActiveScene().name == "boss")
+        {
+            GameObject.Find("Canvas/ammo").GetComponent<Text>().text = "Ammo: " + ammo;
         }
             
 
@@ -234,14 +230,9 @@ public class Character : MonoBehaviour
 
 	void fire(){
 		if (Input.GetMouseButtonDown(1) && this.ammo >0){
-			fired = true;
-
-			GameObject bullet = Instantiate(bullet_ref, transform.position, transform.rotation) as GameObject;
-			ammo--;
-			//bullet.GetComponent<PurpleBullet>().
-			//bullet.tag = "Ammo";
-			//bullet.name = "Ammo"; //for some reason this doesn't work
-
+				fired = true;
+				GameObject bullet = Instantiate(bullet_ref, transform.position, transform.rotation) as GameObject;
+				ammo--;
 			}
 		}
 
@@ -273,16 +264,10 @@ public class Character : MonoBehaviour
             manipulated.color = temp;
             yield return null;
         }
-
-		
-
         manipulated.color = temp_col;
 		manipulated.text = "";
 
-		print ("done looping");
-
 		running_life_message = false;
-      
     }
 
 
@@ -323,7 +308,7 @@ public class Character : MonoBehaviour
 
         }
 
-            //Movement
+        //Movement
 		if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A) && bossfightEnabled == false)
         {
             temp = transform.position + new Vector3(-1, -1, 0) * Time.deltaTime * character_speed;
@@ -364,7 +349,6 @@ public class Character : MonoBehaviour
 
             if (interrupt_animation == false)
                 my_animator.Play("player_right");
-
         }
 
 		else if (Input.GetKey(KeyCode.S) && bossfightEnabled == false)
@@ -381,10 +365,7 @@ public class Character : MonoBehaviour
             if (interrupt_animation == false)
                 my_animator.Play("player_left");
         }
-
         body.MovePosition(temp);
-
-
     }
 
 
@@ -406,7 +387,6 @@ public class Character : MonoBehaviour
             {
                 enemybody = go[i].GetComponent<Rigidbody2D>();
                 enemybody.drag += Time.deltaTime * 3;
-
                 // When they reach a certain point the drag will make them stand still, so you want to reset it for the next time you AddForce.
                 if (enemybody.IsSleeping() ||
                     (Input.GetKeyUp(KeyCode.J) && !pull_anim_controller.GetCurrentAnimatorStateInfo(0).IsName("pull_anim"))
@@ -461,9 +441,7 @@ public class Character : MonoBehaviour
             //In place to fix the animations
 
         }
-        // - animation
-        else
-        {
+        else {
             Vector3 change = Vector3.zero;
             float time = 0.0f;
 
@@ -477,8 +455,7 @@ public class Character : MonoBehaviour
 
 
             // Starting small, then increasing in size, simulating "pushing".
-            while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0)
-            {
+            while (magnet_wave.GetComponent<SpriteRenderer>().color.a > 0) {
                 decreaseOpacity();
                 time += Time.deltaTime;
 
@@ -522,9 +499,12 @@ public class Character : MonoBehaviour
     {
         hit = true;
         float start = 0.0f;
+
+		Instantiate (Resources.Load ("Shield"));
+
         while (start < time)
         {
-            time += Time.deltaTime;
+			start += Time.deltaTime;
             yield return null;
         }
         hit = false;
@@ -533,7 +513,6 @@ public class Character : MonoBehaviour
 	void addAmmo(Collider2D coll){
 		this.ammo++;
 		Destroy (coll.gameObject);
-		print (this.ammo);
 	}
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -575,7 +554,6 @@ public class Character : MonoBehaviour
 					addAmmo (coll);
 
 				} else {
-
 					StartCoroutine (hit_animation ());
 					Destroy (coll.gameObject);
 				}
@@ -599,16 +577,13 @@ public class Character : MonoBehaviour
 				Destroy (coll.gameObject);
 			}
 		}
-	
-
-
-
 
 
         if (coll.gameObject.tag == "Finish")
         {
             Vector3 curr = this.transform.position;
             this.transform.position = new Vector3(curr.x + 30, curr.y, curr.z);
+			StartCoroutine (invunerable (2.0f));
         }
 
 		if (coll.gameObject.tag == "ChangeLevel")

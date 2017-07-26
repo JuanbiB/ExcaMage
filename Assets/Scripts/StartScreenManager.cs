@@ -29,6 +29,7 @@ public class StartScreenManager : MonoBehaviour {
         howToPlayButton.GetComponent<Button>();
 
         startbutton.onClick.AddListener (() => gameStart (0));
+		howToPlayButton.onClick.AddListener(() => gameStart(2));
         practiceButton.onClick.AddListener(() => gameStart(-1));
 
         startsound.GetComponent<AudioSource> ();
@@ -54,9 +55,12 @@ public class StartScreenManager : MonoBehaviour {
         AsyncOperation async;
 
 		if (level == 0) {
-			async = SceneManager.LoadSceneAsync ("main");
+			async = SceneManager.LoadSceneAsync ("difficulty");
 		} else if (level == 1) {
 			async = SceneManager.LoadSceneAsync ("level2");
+		}
+		else if (level == 2){
+			async = SceneManager.LoadSceneAsync ("How To Play");
 		}
         else
         {
@@ -64,17 +68,9 @@ public class StartScreenManager : MonoBehaviour {
         }
 	
 		while (!async.isDone) {
-    //		print (async.progress);
             emtitle.GetComponent<Text>().text = "Loading...";
             emtitle.gameObject.SetActive(true);
             yield return(0);
 		}
-		//yield return new WaitForSeconds (4);
-		//SceneManager.LoadScene ("main");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }

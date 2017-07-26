@@ -93,6 +93,10 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+	public void SetBulletSpeed(float speed){
+		bullet_ref.GetComponent<Fireball> ().speed = speed;
+	}
+
     void handleShooting()
     {
         time += Time.deltaTime;
